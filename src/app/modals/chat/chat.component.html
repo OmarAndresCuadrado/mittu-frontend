@@ -1,0 +1,73 @@
+<!-- Modal -->
+<div *ngIf="idStudent && idTeacher" class="modal fade" id="chatModal" tabindex="-1" role="dialog"
+    aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="text-center">
+                    <img src="../../../assets/images/mittu.png" class="logo-size">
+                </div>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="closeModal()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-12 text-center">
+                        <h2 class="text-info space-bottom space-over"> Sala de chat</h2>
+                    </div>
+                </div>
+
+
+
+                <div class="card">
+                    <!-- con esto del #scrollChat nos aseguramos de que baje automatico el scroll -->
+                    <div #scrollChat [scrollTop]="scrollChat.scrollHeight" class="card-body"
+                        style="overflow-y: scroll; height: 550px;">
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item list-group-item-light" *ngFor="let mensaje of mensajes">
+                                <span *ngIf="mensaje.tipo == 'NUEVO_USUARIO'"> {{mensaje.fecha | date: 'shortTime'}} @
+                                    {{mensaje.texto}}
+                                    <span [ngStyle]="{'color': mensaje.color}"> El usuario {{mensaje.username}} </span>
+                                    se ha conectado al
+                                    chat!</span>
+                                <span *ngIf="mensaje.tipo == 'MENSAJE'"> {{mensaje.fecha | date: 'shortTime'}} <span
+                                        [ngStyle]="{'color': mensaje.color}"> {{mensaje.username}} </span> Dice: <br>
+                                    {{mensaje.texto}}
+                                </span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="card-footer">
+                        <div>
+                            {{escribiendo}}
+                        </div>
+                        <div class="row">
+                            <div class="col-8">
+                                <div class="form-group">
+                                    <input type="text" class="form-control" [(ngModel)]="mensaje.texto"
+                                        placeholder="Escribe el mensaje ..." name="texto" (keydown.enter)="onKeydown($event)" autocomplete="off">
+                                </div>
+                            </div>
+                            <div class="col-4 text-center">
+                                <button class="btn btn-info" (click)="sendMessage()" type="submit"> Enviar
+                                    mensaje
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row space-bottom space-over">
+                <div class="col-6 text-center">
+                    <button class="btn btn-info col-md-6" (click)="goToMeet()" type="submit"> Ir a la tutoria </button>
+                </div>
+                <div class="col-6 text-center">
+                    <button class="btn btn-outline-info col-md-6" (click)="closeModal()" type="submit"> Cerrar </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

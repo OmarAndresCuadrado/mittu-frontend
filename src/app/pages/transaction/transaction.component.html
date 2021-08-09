@@ -1,0 +1,15 @@
+<div class="container">
+    <div class="row">
+        <div *ngFor="let object of opciones" class="col-4 text-center" style="padding-bottom: 10px; padding-top: 10px;">
+            <div class="card">
+                <img class="card-img-top" src="../../../assets/images/mittu.png"
+                    style="border-radius: 50%; height: 150px; width: 150px;">
+                <div class="card-body">
+                    <p>Realizar recarga de {{object.name}}</p>
+                    <p> Costo de <u>{{object.cost | currency}}</u> COP</p>
+                    <button class="btn btn-info" (click)="pay(object)"> Pagar </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

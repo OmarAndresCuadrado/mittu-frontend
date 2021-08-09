@@ -1,0 +1,39 @@
+<div class="all">
+    <app-header></app-header>
+    <div style="padding-top: 50px; padding-bottom: 50px;">
+        <div class="row">
+            <div class="col-12 text-center">
+                <h1>
+                    <u> Conoce a nuestros docentes </u>
+                </h1>
+            </div>
+        </div>
+        <div class="card border-info" style="padding-top: 50px; padding-bottom: 50px;">
+            <div class="container">
+                <div class="row">
+                    <div *ngFor="let teacher of teacherDetails" class="col-4"
+                        style="padding-bottom: 20px; padding-top: 20px;">
+                        <div class="card text-center" style="padding-bottom: 25px;">
+                            <img class="card-img-top" src="{{endpoint_teacher_image}}/{{teacher.picture }}"
+                                alt="Card image cap">
+                            <div class="card-body">
+                                <h2 class="card-title">{{teacher.name}} {{teacher.lastName}}</h2>
+                                <p class="card-text text-info"> <b>Nivel de estudios</b></p>
+                                <p class="card-text">{{teacher.education}}</p>
+                                <p class="card-text text-info"><b>Perfil actual en la plataforma</b></p>
+                                <p class="card-text">{{teacher.profile}}</p>
+                                <p class="card-text text-info"><b>Acerca de mi</b></p>
+                                <p class="card-text">{{teacher.description}}</p>
+                            </div>
+                            <div class="row">
+                                <div class="col-12 text-center">
+                                    <button class="btn btn-info">Ver tutorías y cursos grupales</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

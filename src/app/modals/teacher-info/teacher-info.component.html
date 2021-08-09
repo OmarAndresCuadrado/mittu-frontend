@@ -1,0 +1,88 @@
+<!-- Modal -->
+<div class="modal fade" id="openTeacherInfo" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="closeModal()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+
+            </div>
+            <div class="modal-body">
+                <div class="row space-over">
+                    <div class="col-12 text-center">
+                        <img src="{{endpoint_teacher_image}}/{{teacherFound.picture }}" alt=""
+                            class="img-thumbnail rounded image-size" style="border-radius: 50% !important;">
+                    </div>
+                </div>
+
+
+                <div class="text-center">
+                    <div class="row" style="padding-top: 5px;">
+                        <div class="col-6">
+                            <h2 style="color: rgb(70, 219, 219);"> Nombre </h2>
+                        </div>
+                        <div class="col-6">
+                            <h2> {{teacherFound.name}} {{teacherFound.lastName}} </h2>
+                        </div>
+                    </div>
+
+                    <div class="row" style="padding-top: 5px;">
+                        <div class="col-6">
+                            <h2 style="color: rgb(70, 219, 219);"> Educación </h2>
+                        </div>
+                        <div class="col-6">
+                            <h2> {{teacherFound.education}} </h2>
+                        </div>
+                    </div>
+
+                    <div class="row" style="padding-top: 5px;">
+                        <div class="col-6">
+                            <h2 style="color: rgb(70, 219, 219);"> Costo por hora</h2>
+                        </div>
+                        <div class="col-6">
+                            <h2> {{teacherFound.hourCost | currency}} COP </h2>
+                        </div>
+                    </div>
+
+                    <div class="row" style="padding-top: 5px;">
+                        <div class="col-6">
+                            <h2 style="color: rgb(70, 219, 219);"> Acerca de mi </h2>
+                        </div>
+                        <div class="col-6">
+                            <h2> {{teacherFound.description}}</h2>
+                        </div>
+                    </div>
+
+                    <div class="row" style="padding-top: 5px;">
+                        <div class="col-6">
+                            <h2 style="color: rgb(70, 219, 219);"> Clasificación </h2>
+                        </div>
+                        <div class="col-6">
+                            <h2> Promedio: ( <u>{{teacherFound.calification}}</u> ) de ( <u>{{teacherFound.countStudent}}</u> ) clasificaciones</h2>
+                        </div>
+                    </div>
+
+                   
+
+                    <div class="row" style="padding-top: 15px;">
+                       
+                    </div>
+
+                    <div class="row" style="padding-top: 15px;">
+                       
+                    </div>
+                </div>
+
+
+
+            </div>
+            <div class="modal-footer">
+
+            </div>
+
+        </div>
+    </div>
+</div>

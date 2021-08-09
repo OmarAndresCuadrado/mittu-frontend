@@ -1,0 +1,34 @@
+<H1>CHAT PRIVADO PARA ESTUDIANTE Y PROFESOR</H1>
+<h3>id teacher {{idTeacher}}</h3>
+<h3>id student {{idStudent}}</h3>
+
+<div class="card">
+
+    <!-- con esto del #scrollChat nos aseguramos de que baje automatico el scroll -->
+    <div #scrollChat [scrollTop]="scrollChat.scrollHeight" class="card-body" style="overflow-y: scroll; height: 550px;">
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item list-group-item-light" *ngFor="let mensaje of mensajes">
+                <span *ngIf="mensaje.tipo == 'NUEVO_USUARIO'"> {{mensaje.fecha | date: 'shortTime'}} @ {{mensaje.texto}}
+                    <span [ngStyle]="{'color': mensaje.color}"> El usuario {{mensaje.username}} </span> se ha conectado al
+                    chat!</span>
+                <span *ngIf="mensaje.tipo == 'MENSAJE'"> {{mensaje.fecha | date: 'shortTime'}} <span
+                        [ngStyle]="{'color': mensaje.color}"> {{mensaje.username}} </span> Dice: <br> {{mensaje.texto}}
+                </span>
+            </li>
+        </ul>
+    </div>
+
+    <div class="card-footer">
+        <div>
+            {{escribiendo}}
+        </div>
+        <form class="form-inline">
+            <div class="form-group mx-3">
+                <!-- KeyUp notifica cuando alguien esta escribiendo -->
+                <input type="text" class="form-control" [(ngModel)]="mensaje.texto" placeholder="Escribir mensaje"
+                    name="texto">
+            </div>
+            <button class="btn btn-primary" (click)="sendMessage()" type="submit"> Enviar </button>
+        </form>
+    </div>
+</div>

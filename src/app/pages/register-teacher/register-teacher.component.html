@@ -1,0 +1,216 @@
+<div class="background-image-gradient">
+    <div class="all">
+        <div class="row">
+            <div class="col-12 text-center mittu-title">
+                mittu
+            </div>
+        </div>
+        <div class="general-padding">
+            <div class="container" style="padding-top: 50px;">
+                <div class="card background-middle-two borders">
+                    <div class="formSpace">
+                        <form autocomplete="off" [formGroup]="registerTeacherForm" (ngSubmit)="register()">
+                            <div class="row">
+                                <div class="col-12 text-center">
+                                    <h1> Registro de docente</h1>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-6 text-center">
+                                    <div class="form-group">
+                                        <div class="input-container">
+                                            <i class="fa fa-address-card icon"></i>
+                                            <input type="text" class="form-control" formControlName="name"
+                                                placeholder="Nombres">
+                                        </div>
+                                        <div *ngIf="name.invalid && (name.dirty || name.touched)"
+                                            class="alert alert-danger">
+                                            <div *ngIf="name.errors.minlength || name.errors.maxlength ">
+                                                Los nombres debe tener entre 6 y 40 caracteres
+                                            </div>
+                                            <div *ngIf="name.errors.required">
+                                                Los nombres son requeridos
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-6 text-center">
+                                    <div class="form-group">
+                                        <div class="input-container">
+                                            <i class="fa fa-address-card icon"></i>
+                                            <input type="text" class="form-control" id="lastName"
+                                                formControlName="lastName" placeholder="Apellidos">
+                                        </div>
+                                        <div *ngIf="lastName.invalid && (lastName.dirty || lastName.touched)"
+                                            class="alert alert-danger">
+                                            <div *ngIf="lastName.errors.minlength || lastName.errors.maxlength ">
+                                                Los apellidos debn tener entre 6 y 40 caracteres
+                                            </div>
+                                            <div *ngIf="lastName.errors.required">
+                                                El apellido es requerido
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-6 text-center">
+                                    <div class="form-group">
+                                        <div class="input-container">
+                                            <i class="fa fa-envelope icon"></i>
+                                            <input type="text" class="form-control" id="email" formControlName="email"
+                                                placeholder="Correo Electronico">
+                                        </div>
+                                        <div *ngIf="email.invalid && (email.dirty || email.touched)"
+                                            class="alert alert-danger">
+                                            <div *ngIf="email.errors.minlength || email.errors.maxlength ">
+                                                El correo debe tener entre 12 y 40 caracteres
+                                            </div>
+                                            <div *ngIf="email.errors.required">
+                                                El correo es requerido
+                                            </div>
+                                            <div *ngIf="email.errors.email">
+                                                El correo debe ser valido
+                                            </div>
+                                            <div *ngIf="email.errors.usernameUnico">
+                                                El correo ya esta registrado
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-6 text-center">
+                                    <div class="form-group">
+                                        <div class="input-container">
+                                            <i class="fa fa-envelope icon"></i>
+                                            <input type="email" class="form-control" id="emailVerify"
+                                                formControlName="emailVerification"
+                                                (ngModelChange)="verifyEmail(emailVerification)"
+                                                placeholder="Verificar Correo Electronico">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-12 text-center">
+                                    <div *ngIf="!emailEnable" class="alert alert-danger">
+                                        Las direcciones de correo no son las mismas
+                                    </div>
+                                    <div *ngIf="emailEnable" class="alert alert-success">
+                                        Las direcciones de correo coinciden
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-6 text-center">
+                                    <div class="form-group">
+                                        <div class="input-container">
+                                            <i class="fa fa-lock icon"></i>
+                                            <input type="password" class="form-control" id="password"
+                                                formControlName="password" placeholder="Contraseña">
+                                        </div>
+                                        <div *ngIf="password.invalid && (password.dirty || password.touched)"
+                                            class="alert alert-danger">
+                                            <div *ngIf="password.errors.minlength || password.errors.maxlength ">
+                                                La contraseña debe tener entre 6 y 30 caracteres
+                                            </div>
+                                            <div *ngIf="password.errors.required">
+                                                La contraseña es requerida
+                                            </div>
+                                            <div *ngIf="password.errors.passwordValidation">
+                                                {{password.errors.passwordValidation.message}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-6 text-center">
+                                    <div class="form-group">
+                                        <div class="input-container">
+                                            <i class="fa fa-lock icon"></i>
+                                            <input type="password" class="form-control" id="passwordVerify"
+                                                formControlName="passwordVerification"
+                                                (ngModelChange)="verifyPassword(passwordVerification)"
+                                                placeholder="Verificar Contraseña">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-12 text-center">
+                                    <div *ngIf="!passwordEnable" class="alert alert-danger">
+                                        Las contraseñas no son las mismas
+                                    </div>
+                                    <div *ngIf="passwordEnable" class="alert alert-success">
+                                        Las contraseñas coinciden
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-6 text-center">
+                                    <div class="form-group">
+                                        <div class="input-container">
+                                            <i class="fa fa-phone icon"></i>
+                                            <input type="text" class="form-control" id="phone" formControlName="phone">
+                                        </div>
+                                        <div *ngIf="phone.invalid && (phone.dirty || phone.touched)"
+                                            class="alert alert-danger">
+                                            <div *ngIf="phone.errors.minlength || phone.errors.maxlength ">
+                                                El telefono debe de tener entre 6 y 10 numeros
+                                            </div>
+                                            <div *ngIf="phone.errors.required">
+                                                El telefono es requerido
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="col-6 text-center">
+                                    <div class="form-group">
+                                        <div class="input-container">
+                                            <i class="fa fa-building icon"></i>
+                                            <input type="text" class="form-control" id="phone" placeholder="ciudad">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-12 text-center">
+                                    <div class="form-group">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="TermsAndConditions"
+                                                formControlName="TermsAndConditions">
+                                            <label class="form-check-label" for="defaultCheck1">
+                                                He leído y acepto los <u class="text-primary">términos</u> y <u
+                                                    class="text-primary">condiciones</u>
+                                            </label>
+                                        </div>
+                                        <div *ngIf="!TermsAndConditions.value" class="alert alert-danger">
+                                            Debe aceptar los términos y condiciones
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12 text-center">
+                                    <button
+                                        *ngIf="((registerTeacherForm.valid) && (passwordEnable) && (TermsAndConditions.value == true) && (emailEnable))"
+                                        class="btn btn-info" type="submit">Realizar registro</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 
+<app-footer></app-footer> -->

@@ -1,0 +1,21 @@
+.space-over {
+    padding-top: 20px;
+}
+
+.space-bottom {
+    padding-bottom: 20px;
+}
+
+.space-right {
+    padding-right: 20px;
+}
+
+
+.space-left {
+    padding-left: 20px;
+}
+
+.image-size {
+    max-width: 100%;
+    height: 100%;
+  }

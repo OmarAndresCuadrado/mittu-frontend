@@ -1,0 +1,26 @@
+
+.space-over {
+    padding-top: 10px;
+  }
+  
+  .space-over-min {
+    padding-top: 20px
+  }
+  
+  .space-bottom {
+    padding-bottom: 10px;
+  }
+  
+  .space-right {
+    padding-right: 10px;
+  }
+  
+  .space-left {
+    padding-left: 10px;
+  }
+
+  .logo-size {
+    max-width: 80px;
+    max-height: 80px;
+    border-radius: 20%;
+  }

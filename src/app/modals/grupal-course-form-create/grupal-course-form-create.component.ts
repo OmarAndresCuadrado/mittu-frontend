@@ -1,0 +1,83 @@
+import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ModalService } from '../../services/modal.service';
+import { grupalCourseEntity } from '../../interfaces/grupalCourseEntity';
+import { GrupalCoursesService } from '../../services/grupal-courses.service';
+import Swal from 'sweetalert2';
+
+@Component({
+  selector: 'app-grupal-course-form-create',
+  templateUrl: './grupal-course-form-create.component.html',
+  styleUrls: ['./grupal-course-form-create.component.css']
+})
+export class GrupalCourseFormCreateComponent implements OnInit {
+
+
+  @Input() grupalCourse: grupalCourseEntity;
+  @Output() grupalCourseEmmiter = new EventEmitter<any>();
+  @Input() idTeacherHeredado: number;
+  grupalCourseForm: FormGroup;
+
+  constructor(
+    public modalService: ModalService,
+    public grupalCoursesService: GrupalCoursesService,
+    private formBuilder: FormBuilder,
+
+  ) { }
+
+  get name() {
+    return this.grupalCourseForm.get('name');
+  }
+
+  get description() {
+    return this.grupalCourseForm.get('description');
+  }
+
+  get classTime() {
+    return this.grupalCourseForm.get('classTime');
+  }
+
+  get urlMeet() {
+    return this.grupalCourseForm.get('urlMeet');
+  }
+
+
+  ngOnInit(): void {
+    this.grupalCourseForm = this.formBuilder.group({
+      name: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(255)]],
+      description: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(255)]],
+      classTime: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(255)]],
+      urlMeet: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(255)]]
+    });
+  }
+
+  closeModal() {
+    this.modalService.closeModal();
+  }
+
+
+  createGrupalCourseAndCloseModal() {
+    let grupalCourseToCreate = this.grupalCourse = this.grupalCourseForm.value;
+    grupalCourseToCreate.idTeacher =  this.idTeacherHeredado;
+
+    this.grupalCoursesService.createGrupalCourse(grupalCourseToCreate).subscribe((resp) => {
+      Swal.fire({
+        title: `Creación exitosa`,
+        html: `El curso ${grupalCourseToCreate.name} ha sido creado con exito`,
+        icon: 'success',
+        confirmButtonColor: '#5cb85c',
+        confirmButtonText: 'Volver a la lista de cursos grupales',
+      }).then((result) => {
+        if (result.value) {
+          this.modalService.closeModal();
+          this.updateGrupalCourses();
+        }
+      })
+    });
+  }
+
+  updateGrupalCourses() {
+    this.grupalCourseEmmiter.emit(true);
+  }
+
+}

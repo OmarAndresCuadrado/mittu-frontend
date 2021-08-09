@@ -1,0 +1,233 @@
+<div class="all">
+    <!-- <app-logged-nvbar></app-logged-nvbar> -->
+
+    <div class="row panel buttons-space">
+        <div class="col-3">
+            <div class="col-12 text-center mittu-title" (click)="backToHome()">
+                mittu
+            </div>
+        </div>
+
+        <div class="col-3 text-center">
+            <button class="btn btn-info btn-block" style="border-radius: 20px;" (click)="showProfile()">Ver mis
+                transacciones</button>
+        </div>
+
+        <div class="col-3 text-center">
+            <button class="btn btn-outline-info btn-block" style="border-radius: 20px;"
+                (click)="showGrupalCourses()">Ver mis
+                cursos grupales </button>
+        </div>
+
+        <div class="col-3">
+            <div class="row">
+                <div class="col text-center">
+                    <i class="fa fa-user-secret icon" (click)="closeSession()"></i>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col text-center" style="padding-top: 10px; color: #17A2B8; cursor: pointer;">
+                    <p (click)="closeSession()"> Cerrar sesión</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+
+
+
+    <div class="row">
+        <div class="col-12" style="padding-top: 40px;">
+
+        </div>
+    </div>
+
+
+    <div class="row">
+        <div class="col-1">
+
+        </div>
+
+        <div class="col-2 vertical-panel borders">
+            <div style="padding-top: 20px;"></div>
+            <div class="row">
+                <div class="col text-center" style="color: white;">
+                    <h1> <b> <span class="badge badge-info"> Mi perfil</span> </b> </h1>
+                </div>
+            </div>
+            <div style="padding-top: 20px;"></div>
+            <div class="row borders-sides">
+                <div class="col text-center">
+                    <h2> <b> Saldo disponible</b> </h2>
+                    <p class="card-text">{{studentObject.money | currency}} COP</p>
+                </div>
+            </div>
+
+            <div style="padding-top: 20px;"></div>
+            <div class="row borders-sides">
+                <div class="col text-center">
+                    <h2> <b> Nombre</b> </h2>
+                    <p> {{studentObject.name}} {{studentObject.lastName}} </p>
+                </div>
+            </div>
+
+            <div style="padding-top: 20px;"></div>
+            <div class="row borders-sides">
+                <div class="col text-center">
+                    <h2> <b> Correo electronico </b> </h2>
+                    <p> {{studentObject.email}} </p>
+                </div>
+            </div>
+
+            <div style="padding-top: 20px;"></div>
+            <div class="row borders-sides">
+                <div class="col text-center">
+                    <h2> <b> Telefono</b> </h2>
+                    {{studentObject.phone}}
+                </div>
+            </div>
+
+            <div style="padding-top: 30px;"></div>
+            <div class="row">
+                <div class="col text-center">
+                    <button class="btn btn-info" (click)="openTransaccionts()"> Realizar recarga </button>
+                </div>
+            </div>
+            <div style="padding-top: 15px;"></div>
+            <div class="row">
+                <div class="col text-center">
+                    <button class="btn btn-outline-info"> Editar información </button>
+                </div>
+            </div>
+            <div style="padding-bottom: 20px;"></div>
+
+        </div>
+
+        <div class="col-1">
+
+        </div>
+        <div class="col-7 horizontal-panel">
+
+            <div *ngIf="grupalCourses" style="padding-bottom: 40px;">
+                <div class="row">
+                    <div class="col text-center" style="padding-top: 15px;">
+                        <h2>Cursos grupales</h2>
+                    </div>
+                </div>
+
+                <div *ngIf="grupalCoursesFound.length <= 0" class="container">
+                    <div class="card bg-info">
+                        <div class="row">
+                            <div class="col-12 text-center text-white">
+                                <h2>Aún no has realizado transacciones</h2>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div *ngFor="let grupalCourse of grupalCoursesFound" class="col-6">
+                        <div class="card border-secondary mb-3 text-center">
+                            <div class="card-header"><b>Nombre</b></div>
+                            <div class="card-header">{{grupalCourse.name}}</div>
+                            <div class="card-body text-secondary">
+                                <img src="{{endpoint_grupal_course_image}}/{{grupalCourse.picture}}" alt=""
+                                    class="img-thumbnail rounded image-size">
+                                <p class="card-text space-over"><b>descripción de curso</b></p>
+                                <p class="card-text">{{grupalCourse.description}} </p>
+                                <p class="card-text"><b> Horario</b> </p>
+                                <p class="card-text">{{grupalCourse.classTime}} </p>
+                                <p class="card-text"><b> Url de Google meet</b> </p>
+                                <a href="{{grupalCourse.urlMeet}}" target="_blank">{{grupalCourse.urlMeet}}</a>
+                                <div class="col-12 text-center space-over"
+                                    style="padding-top: 10px; padding-bottom: 10px">
+                                    <button class="btn btn-info" (click)="goToMeet(grupalCourse.urlMeet)">Ir a
+                                        clase</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div *ngIf="profiles">
+
+                <div>
+                    <div class="container">
+                        <div class="row space-over space-bottom">
+                        </div>
+                        <div *ngIf="openTransactions" style="padding-top: 20px; padding-bottom: 20px;">
+                            <div class="row" style="padding-bottom: 30px;">
+                                <div class="col text-right">
+                                    <button class="btn btn-info col-md-4" (click)="closeTransactions()"> cerrar opciones
+                                        de recarga
+                                    </button>
+                                </div>
+                            </div>
+                            <app-transaction></app-transaction>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="row">
+                    <div class="col text-center" style="padding-top: 15px;">
+                        <h2>
+                            <p>Historial de transacciones</p>
+                        </h2>
+                    </div>
+                </div>
+
+                <div *ngIf="dataSource">
+                    <div *ngIf="dataSource.data.length <= 0" class="container"
+                        style="padding-top: 30px; padding-bottom: 30px;">
+                        <div class="card bg-info">
+                            <div class="row" style="padding-bottom: 30px; padding-top: 30px;">
+                                <div class="col-12 text-center text-white">
+                                    <h2>Aún no has realizado transacciones</h2>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div *ngIf="dataSource.data.length > 0" class="container"
+                        style="padding-top: 30px; padding-bottom: 30px;">
+                        <div class="mat-elevation-z8">
+                            <table mat-table [dataSource]="dataSource" matSort>
+
+                                <ng-container matColumnDef="Fecha">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Fecha </th>
+                                    <td mat-cell *matCellDef="let row"> {{row.fechaDeCreacion}} </td>
+                                </ng-container>
+
+                                <ng-container matColumnDef="CantidadRecargada">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Cantidad Recargada </th>
+                                    <td mat-cell *matCellDef="let row"> {{row.cost | currency}} COP </td>
+                                </ng-container>
+
+
+                                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                            </table>
+
+                            <mat-paginator [pageSizeOptions]="[10, 25, 100]"></mat-paginator>
+                        </div>
+                    </div>
+                </div>
+
+
+
+            </div>
+        </div>
+    </div>
+
+
+
+
+    <div style="padding-top: 140px">
+        <!--  <app-footer></app-footer>-->
+    </div>
+</div>

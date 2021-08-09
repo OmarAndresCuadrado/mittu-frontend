@@ -1,0 +1,57 @@
+<!-- Modal -->
+<div *ngIf="grupalCourse" class="modal fade" id="modalGroup" tabindex="-1" role="dialog"
+    aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="row">
+                    <div class="col-12 text-center" style="text-align: center !important;">
+                        <h2 class="text-center" style="text-align: center !important;">{{grupalCourse.name}}</h2>
+                    </div>
+                </div>
+
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="closeModal()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-12">
+                        <img src="{{endpoint_grupal_course_image}}/{{grupalCourse.picture}}" alt="" class="img-thumbnail rounded image-size">
+                    </div>
+                </div>
+                <div class="row space-over space-bottom">
+                    <div class="col-6">
+                        Horario de clase:
+                    </div>
+                    <div class="col-6">
+                        {{grupalCourse.classTime}}
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-6">
+                        Descripcion del curso:
+                    </div>
+
+                    <div class="col-6">
+                        {{grupalCourse.description}}
+                    </div>
+                </div>
+
+                <div class="row space-over space-bottom">
+                    <div *ngIf="authService.hasRole('ROLE_STUDENT')" class="col-12 text-center">
+                        <button type="button" class="btn btn-outline-info col-6" (click)="makeInscription()" >Inscribirme al grupo</button>
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button *ngIf="authService.hasRole('ROLE_STUDENT')" type="button" class="btn btn-info col-md-4" data-dismiss="modal" (click)="goToProfile()">Ir a mi perfil</button>
+                <button type="button" class="btn btn-outline-info col-md-4" data-dismiss="modal" (click)="closeModal()">Cerrar</button>
+            </div>
+         
+        </div>
+    </div>
+</div>
+

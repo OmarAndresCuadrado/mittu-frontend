@@ -1,0 +1,111 @@
+.all {
+  overflow-x: hidden;
+}
+
+.space-over {
+  padding-top: 15px;
+}
+
+.space-over-max {
+  padding-top: 40px;
+}
+
+.space-over-min {
+  padding-top: 15px;
+}
+
+.space-bottom {
+  padding-bottom: 15px;
+}
+
+.space-right {
+  padding-right: 15px;
+}
+
+.space-left {
+  padding-left: 15px;
+}
+
+.navBarBackground {
+  background: #e3f2fd;
+}
+
+.image-size {
+  max-width: 100%;
+  max-height: 200px;
+}
+
+table {
+  width: 100%;
+}
+
+.mat-form-field {
+  font-size: 14px;
+  width: 100%;
+}
+
+td,
+th {
+  width: 50%;
+}
+
+th.mat-header-cell {
+  text-align: center !important;
+}
+
+td.mat-cell {
+  text-align: center !important;
+}
+
+.panel {
+  width: 100%;
+  height: 150px;
+  background: rgb(243, 243, 243);
+}
+
+.buttons-space {
+  padding-top: 50px;
+}
+
+.icon {
+  padding: 8px;
+  border-radius: 50%;
+  background: #17a2b8;
+  color: white;
+  text-align: center;
+  font-size: 40px;
+  width: 60px;
+  cursor: pointer;
+}
+
+.mittu-title {
+  font-size: 50px;
+  color: #17a2b8;
+  cursor: pointer;
+}
+
+.vertical-panel {
+  width: 100%;
+  background: rgb(243, 243, 243);
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+.horizontal-panel {
+  background: rgb(243, 243, 243);
+}
+
+.borders {
+  border-bottom-left-radius: 5% !important;
+  border-bottom-right-radius: 5% !important;
+  border-top-left-radius: 5% !important;
+  border-top-right-radius: 5% !important;
+}
+
+.borders-sides {
+  border-color: #c9c9c9;
+  border-bottom: 1px solid;
+  border-top: 1px solid;
+  height: 130px;
+  padding-top: 5px;
+}

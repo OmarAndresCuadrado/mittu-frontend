@@ -1,0 +1,26 @@
+table {
+    width: 100%;
+  }
+  
+  .mat-form-field {
+    font-size: 14px;
+    width: 100%;
+  }
+  
+  td,
+  th {
+    width: 20%;
+  }
+  
+  .general-pedding {
+      padding-top: 15px;
+      padding-right:15px;
+      padding-left: 15px;
+      padding-bottom: 15px;
+  }
+
+  .image-size {
+    max-width: 150px;
+    max-height: 150px;
+  }
+  

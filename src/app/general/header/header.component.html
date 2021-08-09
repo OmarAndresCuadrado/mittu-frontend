@@ -1,0 +1,22 @@
+<div style="padding-top: 30px;">
+    <div class="row text-center" style="padding-bottom: 10px;">
+        <div *ngIf="authService.hasRole('ROLE_STUDENT')" class="col-1">
+            <button class="btn option-one" (click)="myProfile()"> ver perfil </button>
+        </div>
+        <div *ngIf="authService.hasRole('ROLE_TEACHER')" class="col-1">
+            <button class="btn option-one" (click)="myProfileTeacher()"> ver perfil </button>
+        </div>
+        <div *ngIf="authService.hasRole('ROLE_ADMIN')" class="col-1">
+            <button class="btn option-one" (click)="myProfileAdmin()"> ver perfil </button>
+        </div>
+        <div *ngIf="!noAuth" class="col-3">
+            <button class="btn option-one" (click)="goToRegisterStudent()"> Registrarme como estudiante</button>
+        </div>
+        <div *ngIf="!noAuth" class="col-3">
+            <button class="btn option-one" (click)="goToRegisterTeacher()"> Registrarme como docente</button>
+        </div>
+        <div *ngIf="!noAuth" class="col-3">
+            <button class="btn option-one" (click)="goToLogin()"> Ingresar </button>
+        </div>
+    </div>
+</div>

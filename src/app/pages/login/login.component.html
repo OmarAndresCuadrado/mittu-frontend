@@ -1,0 +1,115 @@
+<div class="background-image-gradient">
+    <div class="all">
+        <div class="row">
+            <div class="col-12 text-center mittu-title">
+                mittu
+            </div>
+        </div>
+        <div class="general-padding">
+            <div class="container">
+                <div class="borders">
+                    <div class="col-12 background-middle-two" style="border-radius: 30px;">
+                        <div class="row shadow-box" style="padding-top: 10px; padding-bottom: 10px;">
+                            <div class="col-6">
+                                <div class="middle-image">
+                                </div>
+                            </div>
+
+                            <div class="col-6">
+                                <div class="" style="max-width: 100%;">
+                                    <div class="row" style="padding-top: 40px">
+                                        <div class="col-12 text-center">
+                                            <h1>Bienvenido</h1>
+                                        </div>
+                                    </div>
+
+                                    <div class="text-center" style="padding-bottom: 10px;">
+                                        Teaching & Learning
+                                    </div>
+                                    <div class="text-center" style="padding-bottom: 10px;">
+                                        Tutorías y clases online
+                                    </div>
+                                    <div class="formSpace text-center">
+                                        <form [formGroup]="loginForm" (ngSubmit)="login()">
+                                            <div class="form-group" style="padding-top: 15px;">
+                                                <div class="input-container">
+                                                    <i class="fa fa-envelope icon"></i>
+                                                    <input type="email" class="form-control" formControlName="email"
+                                                        placeholder="Correo Electronico">
+                                                </div>
+
+                                                <div *ngIf="email.invalid && (email.dirty || email.touched)"
+                                                    class="alert alert-danger">
+                                                    <div *ngIf="email.errors.minlength || email.errors.maxlength ">
+                                                        El email debe tener entre 1 y 50 caracteres
+                                                    </div>
+                                                    <div *ngIf="email.errors.required">
+                                                        El correo es requerido
+                                                    </div>
+                                                    <div *ngIf="email.errors.email">
+                                                        El correo debe tener un formato valido
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group" style="padding-top: 15px;">
+                                                <div class="input-container">
+                                                    <i class="fa fa-key icon"></i>
+                                                    <input type="password" class="form-control" id="password"
+                                                        formControlName="password" placeholder="Contraseña">
+                                                </div>
+                                                <div *ngIf="password.invalid && (password.dirty || password.touched)"
+                                                    class="alert alert-danger">
+                                                    <div
+                                                        *ngIf="password.errors.minlength || password.errors.maxlength ">
+                                                        La contraseña debe tener entre 6 y 30 caracteres
+                                                    </div>
+                                                    <div *ngIf="password.errors.required">
+                                                        La contraseña es requerida
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-12 text-center" style="padding-top: 15px;">
+                                                    <button class="btn btn-round btn-block"
+                                                        style="border-radius: 20px !important; background-color: #17A2B8; color: white;"
+                                                        type="submit" [disabled]="loginForm.invalid">Ingresar</button>
+                                                </div>
+                                            </div>
+                                            <div class="row" style="padding-top: 20px;">
+                                                <div class="col-12 text-center"
+                                                    style="padding-top: 5px; padding-bottom: 5px; color: black;">
+                                                    ¿Aún no estás registrado?
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+
+                                <div class="row" style="padding-top: 10px; padding-bottom: 40px;">
+                                    <div class="col-6">
+                                        <div class="text-center btn btn-outline-info option-one option-two"
+                                            (click)="studentRegister()">
+                                            Registrate como estudiante
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="text-center btn btn-outline-info option-one option-two"
+                                            (click)="teacherRegister()">
+                                            Registrate como docente
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- <div style="padding-top: 100px;">
+            <app-footer></app-footer>
+        </div> -->
+
+    </div>
+</div>

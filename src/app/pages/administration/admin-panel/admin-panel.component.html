@@ -1,0 +1,223 @@
+<div class="all">
+    <app-logged-nvbar></app-logged-nvbar>
+    <div class="card border-info">
+        <div class="space-over space-bottom">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12 space-bottom space-over text-center">
+                        <h2>Acciones</h2>
+                    </div>
+                </div>
+                <div class="row navBarBackground text-center">
+                    <div class="col-1">
+
+                    </div>
+                    <div class="col-2">
+                        <button class="btn btn-info" (click)="showMetrics()">Ver métricas </button>
+                    </div>
+                    <div class="col-2">
+                        <button class="btn btn-info" (click)="showStudents()">Ver estudiantes </button>
+                    </div>
+                    <div class="col-2">
+                        <button class="btn btn-info" (click)="showTeachers()">Ver profesores </button>
+                    </div>
+                    <div class="col-2">
+                        <button class="btn btn-info" (click)="showPersonalCourses()">Ver tutorias</button>
+                    </div>
+                    <div class="col-3">
+                        <button class="btn btn-info" (click)="showGrupalCourses()">Ver cursos grupales </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div *ngIf="onMetrics" class="space-over space-bottom">
+            <div class="row">
+                <div class="col-12 text-center text-info">
+                    <h1>Panel de metricas</h1>
+                </div>
+            </div>
+
+            <div class="container card">
+                <div class="row">
+                    <div class="col-12 text-center">
+                        <h2>Valor total generado por la plataforma</h2>
+                        <h1> <span class="badge badge-info"> {{ this.plaformValue | currency}} COP </span> </h1>
+                    </div>
+                </div>
+
+                <form autocomplete="off" [formGroup]="documentForm">
+                    <div class="row">
+                        <div class="col-12 text-center">
+                            <h2> Exportar estadisticas </h2>
+                            <div class="row" style="padding-bottom: 20px;">
+                                <div class="col-4 text-center">
+                                    Nombre del documento
+                                </div>
+                                <div class="col-4 text-center">
+                                    Fecha Inicial
+                                </div>
+                                <div class="col-4 text-center">
+                                    Fecha Final
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-4 text-center" style="padding-top: 15px;">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" formControlName="documentName"
+                                            id="form-control" name="documentName">
+                                        <div *ngIf="documentName.invalid && (documentName.dirty || documentName.touched)"
+                                            class="alert alert-danger">
+                                            <div *ngIf="documentName.errors.required">
+                                                El nombre del documento es requerido
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col text-center">
+                                    <mat-form-field appearance="fill">
+                                        <input matInput [matDatepicker]="one" formControlName="initialDate">
+                                        <mat-datepicker-toggle matSuffix [for]="one"></mat-datepicker-toggle>
+                                        <mat-datepicker #one></mat-datepicker>
+                                    </mat-form-field>
+                                    <div *ngIf="initialDate.invalid && (initialDate.dirty || initialDate.touched)"
+                                        class="alert alert-danger">
+                                        <div *ngIf="initialDate.errors.required">
+                                            El nombre del documento es requerido
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="col text-center">
+                                    <mat-form-field appearance="fill">
+                                        <input matInput [matDatepicker]="two" formControlName="endDate">
+                                        <mat-datepicker-toggle matSuffix [for]="two"></mat-datepicker-toggle>
+                                        <mat-datepicker #two></mat-datepicker>
+                                    </mat-form-field>
+                                    <div *ngIf="endDate.invalid && (endDate.dirty || endDate.touched)"
+                                        class="alert alert-danger">
+                                        <div *ngIf="endDate.errors.required">
+                                            El nombre del documento es requerido
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 text-center" style="padding-top: 20px; padding-bottom: 20px;">
+                            <button class="btn btn-info" (click)="generateStudy()"
+                                [disabled]=documentForm.invalid>Generar
+                                informe </button>
+                            <div style="padding-bottom: 15px;"></div>
+                            <div *ngIf="documentForm.invalid === true" class="alert alert-danger">
+                                <div *ngIf="endDate.errors.required">
+                                    Algun campo para generar el documento no ha sido diligenciado correctamente
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+                <div class="row">
+                    <div *ngIf="showTableFeedback === false; else elseBlockTable" class="col-12 text-center"
+                        style="padding-top: 20px; padding-bottom: 20px;">
+                        <button class="btn btn-info" (click)="showFeedback()">Ver calificaciones a docentes
+                        </button>
+                    </div>
+                    <ng-template #elseBlockTable>
+                        <div class="col-12 text-center" style="padding-top: 20px; padding-bottom: 20px;">
+                            <button class="btn btn-info" (click)="closeFeedBack()">Cerrar calificaciones a docentes
+                            </button>
+                        </div>
+                    </ng-template>
+                </div>
+
+                <div *ngIf="showTableFeedback">
+                    <div *ngIf="dataSource" style="padding-bottom: 50px;">
+                        <mat-form-field>
+                            <mat-label>Buscar</mat-label>
+                            <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Mia" #input>
+                        </mat-form-field>
+
+                        <div class="mat-elevation-z8">
+                            <table mat-table [dataSource]="dataSource" matSort>
+                                <ng-container matColumnDef="Nombre del estudiante">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Nombre del estudiante </th>
+                                    <td mat-cell *matCellDef="let row"> {{row.studentName}} </td>
+                                </ng-container>
+
+                                <ng-container matColumnDef="Nombre del profesor">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Nombre del profesor </th>
+                                    <td mat-cell *matCellDef="let row"> {{row.teacherName}} </td>
+                                </ng-container>
+
+                                <ng-container matColumnDef="Calificación">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Calificación </th>
+                                    <td mat-cell *matCellDef="let row"> {{row.calification}} </td>
+                                </ng-container>
+
+                                <ng-container matColumnDef="Comentario">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Comentario </th>
+                                    <td mat-cell *matCellDef="let row"> {{row.feedBack}} </td>
+                                </ng-container>
+
+                                <ng-container matColumnDef="fechaDeCreacion">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Fecha de creación </th>
+                                    <td mat-cell *matCellDef="let row"> {{row.fechaDeCreacion}} </td>
+                                </ng-container>
+
+                                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+                                <!-- Row shown when there is no matching data. -->
+                                <tr class="mat-row" *matNoDataRow>
+                                    <td class="mat-cell" colspan="3">No data matching the filter "{{input.value}}"</td>
+                                </tr>
+                            </table>
+
+                            <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div *ngIf="onStudents" class="space-over space-bottom">
+        <div class="row">
+            <div class="col-12 text-center text-info">
+                <h1>Estudiantes registrados</h1>
+            </div>
+        </div>
+        <app-students></app-students>
+    </div>
+
+    <div *ngIf="onTeachers" class="space-over space-bottom">
+        <div class="row">
+            <div class="col-12 text-center text-info">
+                <h1>Profesores registrados</h1>
+            </div>
+        </div>
+        <app-teachers></app-teachers>
+    </div>
+
+    <div *ngIf="onCourses" class="space-over space-bottom">
+        <div class="row">
+            <div class="col-12 text-center text-info">
+                <h1>Tutorias registradas</h1>
+            </div>
+        </div>
+        <app-courses></app-courses>
+    </div>
+
+    <div *ngIf="onGrupalCourses" class="space-over space-bottom">
+        <div class="row">
+            <div class="col-12 text-center text-info">
+                <h1>Cursos gruaples registrados</h1>
+            </div>
+        </div>
+        <app-grupal-course-general></app-grupal-course-general>
+    </div>
+</div>
