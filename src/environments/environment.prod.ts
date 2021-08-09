@@ -11,41 +11,41 @@ export const environment = {
   },
 
   student: {
-    host: 'http://http://3.137.213.20:8085/api/student'
+    host: 'http://localhost:8080/api/student'
   },
 
   transaction: {
-    host: 'http://http://3.137.213.20:8085/api/payment'
+    host: 'http://localhost:8080/api/payment'
   },
 
   transfers: {
-    host: 'http://http://3.137.213.20:8085/api/transfer'
+    host: 'http://localhost:8080/api/transfer'
   },
 
   subject: {
-    host: 'http://http://3.137.213.20:8085/api/subject'
+    host: 'http://localhost:8080/api/subject'
   },
 
   course: {
-    host: 'http://http://3.137.213.20:8085/api/course',
-    host_image: 'http://http://3.137.213.20:8085/api/course/upload/image'
+    host: 'http://localhost:8080/api/course',
+    host_image: 'http://localhost:8080/api/course/upload/image'
   },
 
   grupalCourse: {
-    host: 'http://http://3.137.213.20:8085/api/grupal/course',
-    host_image: 'http://http://3.137.213.20:8085/api/grupal/course/image'
+    host: 'http://localhost:8080/api/grupal/course',
+    host_image: 'http://localhost:8080/api/grupal/course/image'
   },
 
   feedBack: {
-    host: 'http://http://3.137.213.20:8085/api/feed-back',
+    host: 'http://localhost:8080/api/feed-back',
   },
 
   retirements: {
-    host: 'http://http://3.137.213.20:8085/api/retirement',
+    host: 'http://localhost:8080/api/retirement',
   },
 
   jwt: {
-    host: 'http://http://3.137.213.20:8085/oauth/token'
+    host: 'http://localhost:8080/oauth/token'
   },
 
   appCredentials: {
