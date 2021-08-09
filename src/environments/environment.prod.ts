@@ -2,50 +2,50 @@ export const environment = {
   production: false,
 
   webSocket: {
-    host: 'http://localhost:8080/websocket'
+    host: 'http://3.137.213.20:8085/websocket'
   },
 
   teacher: {
-    host: 'http://localhost:8080/api/teacher',
-    host_image: 'http://localhost:8080/teacher/upload/image'
+    host: 'http://3.137.213.20:8085/api/teacher',
+    host_image: 'http://3.137.213.20:8085/teacher/upload/image'
   },
 
   student: {
-    host: 'http://localhost:8080/api/student'
+    host: 'http://3.137.213.20:8085/api/student'
   },
 
   transaction: {
-    host: 'http://localhost:8080/api/payment'
+    host: 'http://3.137.213.20:8085/api/payment'
   },
 
   transfers: {
-    host: 'http://localhost:8080/api/transfer'
+    host: 'http://3.137.213.20:8085/api/transfer'
   },
 
   subject: {
-    host: 'http://localhost:8080/api/subject'
+    host: 'http://3.137.213.20:8085/api/subject'
   },
 
   course: {
-    host: 'http://localhost:8080/api/course',
-    host_image: 'http://localhost:8080/api/course/upload/image'
+    host: 'http://3.137.213.20:8085/api/course',
+    host_image: 'http://3.137.213.20:8085/api/course/upload/image'
   },
 
   grupalCourse: {
-    host: 'http://localhost:8080/api/grupal/course',
-    host_image: 'http://localhost:8080/api/grupal/course/image'
+    host: 'http://3.137.213.20:8085/api/grupal/course',
+    host_image: 'http://3.137.213.20:8085/api/grupal/course/image'
   },
 
   feedBack: {
-    host: 'http://localhost:8080/api/feed-back',
+    host: 'http://3.137.213.20:8085/api/feed-back',
   },
 
   retirements: {
-    host: 'http://localhost:8080/api/retirement',
+    host: 'http://3.137.213.20:8085/api/retirement',
   },
 
   jwt: {
-    host: 'http://localhost:8080/oauth/token'
+    host: 'http://3.137.213.20:8085/oauth/token'
   },
 
   appCredentials: {
