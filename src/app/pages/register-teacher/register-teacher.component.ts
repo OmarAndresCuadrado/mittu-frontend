@@ -58,7 +58,9 @@ export class RegisterTeacherComponent implements OnInit {
     return this.registerTeacherForm.get('TermsAndConditions');
   }
 
-
+  get city() {
+    return this.registerTeacherForm.get('city');
+  }
 
   ngOnInit(): void {
     this.registerTeacherForm = this.formBuilder.group({
@@ -67,6 +69,7 @@ export class RegisterTeacherComponent implements OnInit {
       email: ['', { validators: [Validators.required, Validators.minLength(12), Validators.maxLength(50), Validators.email], asyncValidators: [this.usernameUnicoService.validate.bind(this.usernameUnicoService)] }],
       emailVerification: ['', { validators: [Validators.required, Validators.minLength(12), Validators.maxLength(50), Validators.email] }],
       phone: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(10)]],
+      city: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(40)]],
       password: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(30), passwordValidation()]],
       passwordVerification: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(30), passwordValidation()]],
       TermsAndConditions: ['', [Validators.required]]

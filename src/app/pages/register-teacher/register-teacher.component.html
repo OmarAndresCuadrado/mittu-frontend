@@ -175,7 +175,17 @@
                                     <div class="form-group">
                                         <div class="input-container">
                                             <i class="fa fa-building icon"></i>
-                                            <input type="text" class="form-control" id="phone" placeholder="ciudad">
+                                            <input type="text" class="form-control" id="city" formControlName="city"
+                                                placeholder="ciudad">
+                                        </div>
+                                        <div *ngIf="city.invalid && (city.dirty || city.touched)"
+                                            class="alert alert-danger">
+                                            <div *ngIf="city.errors.minlength || city.errors.maxlength ">
+                                                La ciudad debe de tener entre 3 y 40 caracteres
+                                            </div>
+                                            <div *ngIf="city.errors.required">
+                                                La ciudad es requerida
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

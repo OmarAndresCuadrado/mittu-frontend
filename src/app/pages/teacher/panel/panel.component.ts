@@ -125,6 +125,7 @@ export class PanelComponent implements OnInit {
     this.showStartButton = true;
     this.showStopButton = true;
     this.studentMinutes = 20;
+    this.teacherImage = "default.png"
   }
 
   ngOnInit(): void {
@@ -497,7 +498,9 @@ export class PanelComponent implements OnInit {
   }
 
   getTeahcerImage() {
-    this.teacherImage = this.teacherFound.picture;
+    if((this.teacherFound.picture != null || this.teacherFound.picture.length >= 0) && this.teacherImage != "default.png") {
+      this.teacherImage = this.teacherFound.picture;
+    }
   }
 
   idTeacherToUploadImage() {
