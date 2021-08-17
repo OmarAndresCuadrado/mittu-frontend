@@ -33,7 +33,7 @@ export class PanelComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  public conected: boolean = true;
+  public conected: boolean;
   private autenticationState: boolean = false;
   private endpoint_socket: string = environment.webSocket.host;
   public idTeacher: any;
@@ -129,7 +129,6 @@ export class PanelComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.conected = true;
     this.idTeacher = sessionStorage.getItem('teacherId');
     this.teacherService.getTeachersById(this.idTeacher).subscribe((resp) => {
       this.teacherFound = resp;
@@ -156,10 +155,11 @@ export class PanelComponent implements OnInit {
     setTimeout(() => {
       this.getTeahcerImage();
     }, 1000)
-    setTimeout(() => {
-      const source = interval(1000);
-      source.subscribe(() => this.getState());
-    }, 1000);
+    // setTimeout(() => {
+    //   // const source = interval(1000);
+    //   // source.subscribe(() => this.getState());
+    //   this.getState();
+    // }, 1000);
 
 
     setTimeout(() => {
@@ -278,6 +278,7 @@ export class PanelComponent implements OnInit {
   }
 
   showSweetAlertForSession() {
+    this.conected = true;
     this.playSound();
     this.notificationPopUp();
     Swal.fire({
@@ -314,6 +315,7 @@ export class PanelComponent implements OnInit {
 
 
   conectar() {
+    this.conected = false;
     this.webSocketService.connectToSocket();
     let bodyToEnableTeacherAndCourses: any = {
       idTeacher: this.idTeacher,
@@ -325,6 +327,7 @@ export class PanelComponent implements OnInit {
   }
 
   desconectar() {
+    this.conected = true;
     let bodyToDisableTeacherAndCourses: any = {
       idTeacher: this.idTeacher,
       mensaje: 'DISABLE_TEACHER'
@@ -333,18 +336,17 @@ export class PanelComponent implements OnInit {
       this.webSocketService.sendEventToAgent(this.publis_topic_endpoint, bodyToDisableTeacherAndCourses)
     }, 1000);
   }
-
   getCourses() {
     this.courseService.getAllCourseFromTeacher(this.idTeacher).subscribe((resp) => {
       this.teacherCourses = resp;
     });
   }
 
-  getState() {
-    let bodyToverifyState: any = this.idTeacher;
-    this.webSocketService.sendEventToAgent(`${this.publis_topic_endpoint_verify_state}/${this.idTeacher}`, bodyToverifyState);
-    this.conected = this.webSocketService.getStateOfTeacher();
-  }
+  // getState() {
+  //   let bodyToverifyState: any = this.idTeacher;
+  //   this.webSocketService.sendEventToAgent(`${this.publis_topic_endpoint_verify_state}/${this.idTeacher}`, bodyToverifyState);
+  //   this.conected = this.webSocketService.getStateOfTeacher();
+  // }
 
 
   // como sacar el ID para que funcione por el momento esta quemado para desactivar el sweet Alert
@@ -498,7 +500,7 @@ export class PanelComponent implements OnInit {
   }
 
   getTeahcerImage() {
-    if((this.teacherFound.picture != null || this.teacherFound.picture.length >= 0) && this.teacherImage != "default.png") {
+    if ((this.teacherFound.picture != null || this.teacherFound.picture.length >= 0) && this.teacherImage != "default.png") {
       this.teacherImage = this.teacherFound.picture;
     }
   }
@@ -558,8 +560,8 @@ export class PanelComponent implements OnInit {
 
   openTimmerModal() {
     Sw.fire({
-      'title': `Tutoría pendiente`,
-      'text': `Deseas unirte a la tutoría`,
+      'title': `Tutoría en progreso`,
+      'text': `¿ Iniciar cronometro ?`,
       'icon': `success`,
       showCloseButton: true,
       showCancelButton: true,
