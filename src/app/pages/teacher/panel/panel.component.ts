@@ -1,13 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { Client } from '@stomp/stompjs';
-import * as SockJS from 'sockjs-client';
 import { AuthService } from '../../../services/auth.service';
 import { WebSocketService } from '../../../services/web-socket.service';
 import { TeacherService } from '../../../services/teacher.service';
 import { teacherEntity } from '../../../interfaces/teacherEntity';
 import { CourseService } from '../../../services/course.service';
 import { courseEntity } from '../../../interfaces/coursesEntity';
-import { interval } from 'rxjs';
 import Sw from 'sweetalert2';
 import { Router } from '@angular/router';
 import { GrupalCoursesService } from '../../../services/grupal-courses.service';
@@ -33,12 +30,9 @@ export class PanelComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  public conected: boolean;
-  private autenticationState: boolean = false;
-  private endpoint_socket: string = environment.webSocket.host;
+  public conected: boolean
   public idTeacher: any;
   private publis_topic_endpoint = '/app/teacher/socket';
-  private publis_topic_endpoint_verify_state = '/app/teacher/state';
   private publis_topic_endpoint_verify_state_of_chat = '/app/teacher/state/chat';
   private publis_topic_endpoint_private_teacher_chanel = '/app/private/chanel/teacher';
   public teacherName: any;

@@ -1,22 +1,28 @@
-<div style="padding-top: 30px;">
-    <div class="row text-center" style="padding-bottom: 10px;">
-        <div *ngIf="authService.hasRole('ROLE_STUDENT')" class="col-1">
-            <button class="btn option-one" (click)="myProfile()"> ver perfil </button>
+<div class="row panel buttons-space">
+    <div class="col-4">
+        <div class="col-12 text-left mittu-title">
+            mittu
         </div>
-        <div *ngIf="authService.hasRole('ROLE_TEACHER')" class="col-1">
-            <button class="btn option-one" (click)="myProfileTeacher()"> ver perfil </button>
+    </div>
+
+    <div class="col-8 text-right">
+        <div *ngIf="authService.hasRole('ROLE_STUDENT')">
+            <button class="col-3 btn btn-outline-info" (click)="myProfile()"> ver perfil </button>
         </div>
-        <div *ngIf="authService.hasRole('ROLE_ADMIN')" class="col-1">
-            <button class="btn option-one" (click)="myProfileAdmin()"> ver perfil </button>
+        <div *ngIf="authService.hasRole('ROLE_TEACHER')">
+            <button class="col-3 btn btn-info" (click)="myProfileTeacher()"> ver perfil </button>
+        </div>
+        <div *ngIf="authService.hasRole('ROLE_ADMIN')">
+            <button class="col-3 btn btn-info" (click)="myProfileAdmin()"> ver perfil </button>
         </div>
         <div *ngIf="!noAuth" class="col-3">
-            <button class="btn option-one" (click)="goToRegisterStudent()"> Registrarme como estudiante</button>
+            <button class="col-3 btn btn-info" (click)="goToRegisterStudent()"> Registrarme como estudiante</button>
         </div>
         <div *ngIf="!noAuth" class="col-3">
-            <button class="btn option-one" (click)="goToRegisterTeacher()"> Registrarme como docente</button>
+            <button class="col-3 btn btn-info" (click)="goToRegisterTeacher()"> Registrarme como docente</button>
         </div>
         <div *ngIf="!noAuth" class="col-3">
-            <button class="btn option-one" (click)="goToLogin()"> Ingresar </button>
+            <button class="col-3 btn option-one" (click)="goToLogin()"> Ingresar </button>
         </div>
     </div>
 </div>

@@ -85,6 +85,8 @@ export class HomeLogedComponent implements OnInit {
   public isCheckedFive = false;
   public finalCalification: number;
   public isTutoriaAvailable: boolean;
+  public colorone = `rgb(13, 192, 176)`;
+  public colortwo = `rgb(192, 120, 13)`;
 
 
   @ViewChild('editModalHome') editModalHome: TemplateRef<any>; // Note: TemplateRef

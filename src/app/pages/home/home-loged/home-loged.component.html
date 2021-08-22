@@ -1,72 +1,35 @@
-<div class="all" style="padding-bottom: 100px;">
-  <!-- <app-header></app-header> -->
-  <!-- <div class="row">
-    <div class="col-12 text-center">
-      <img src="../../../../assets/images/Mittu.svg" class="card-img-top image-size-mittu" alt="...">
-    </div>
-  </div>
-
-
-  <div class="row space-over space-bottom">
-    <div class="col-12 personal-div text-center">
-      asds
-    </div>
-  </div> -->
-  <!-- <div>
-  <app-slide-var></app-slide-var>>
-</div> -->
+<div class="all">
 
   <div>
-    <video playsinline autoplay muted loop id="bgvid">
-      <source src="../../../../assets/videos/study.mp4" type="video/mp4">
-    </video>
-
     <app-header></app-header>
+    <div class="row">
+      <div class="col-10" style=" padding-top: 15px; padding-bottom: 15px;">
+      </div>
+    </div>
+
+    <div class="advertising-panel" [ngStyle]="{'background-color':colorone}">
+      <div class="container">
+        <div class="row">
+          <div class="col-12">
+            <div style="padding-top: 20px;"></div>
+            <img src="../../../../assets/images/adv.webp" alt="" class="img-thumbnail">
+          </div>
+        </div>
+      </div>
+    </div>
 
     <div class="container" style="padding-bottom: 20px;">
-      <div class="row title-style-primary initial-space">
-        <div class="col-12 text-center space-over">
-          Mittu
-        </div>
-        <div class="col-12 text-center space-over">
-          Tutorías y cursos grupales online
-        </div>
-      </div>
-
-      <div class="row title-style-primary second-space">
-        <div class="col-12 text-center space-over">
+      <div class="row">
+        <div class="col-12 text-center space-over space-down">
           Elige lo que buscas
         </div>
-        <div class="col-12 text-center">
-        </div>
       </div>
-
-      <div class="row space-over space-bottom">
-        <div class="col-6 text-center">
-          <button class="btn btn-dark" (click)="optionOneMethod()">
-            <img class="imagePersonal"
-              src="https://www.tandem-madrid.es/wp-content/uploads/2020/03/curso_videoconferencia.jpg" alt=""
-              title="Bootstrap">
-          </button>
-        </div>
-
-        <div class="col-6 text-center">
-          <button class="btn btn-dark" (click)="optionTwoMethod()">
-            <img class="imagePersonal"
-              src="https://previews.123rf.com/images/belchonock/belchonock1803/belchonock180330931/97412265-grupo-de-j%C3%B3venes-dise%C3%B1adores-trabajando-en-el-nuevo-proyecto-37-00.jpg"
-              alt="" title="Bootstrap">
-          </button>
-        </div>
-      </div>
-
-
       <div class="row">
-        <div class="col-6 text-center title-style-secondary">
-          Tutorías individuales
+        <div class="col-6 text-center">
+          <button class="col-6 btn btn-info" (click)="optionOneMethod()"> Tutorías individuales</button>
         </div>
-
-        <div class="col-6 text-center title-style-secondary">
-          Cursos grupales
+        <div class="col-6 text-center">
+          <button class="col-6 btn btn-info" (click)="optionTwoMethod()"> Cursos grupales</button>
         </div>
       </div>
     </div>
@@ -76,21 +39,16 @@
   <div class="section-space" *ngIf="optionOneSelected">
     <div class="container text-center">
       <div class="row title-style-secondary">
-        <div class="col-12">
-          <img src="../../../../assets/icons/bootstrap-icons/people.svg" alt="" width="300px" height="150px">
-          <p class="space-over-min" style="color: white;">Buscar tutorias</p>
-          <p class="space-over-min" style="color: yellow;">Tip</p>
-
-          <p class="space-over-min" style="color: white;">Puedes buscar tutorías por cualquier criterio ... Ejemplo:
-            'Inglés', 'Español', 'Matemáticas'</p>
+        <div class="col-12 text-center" style="color: black;">
+          <h1> Tutorías individuales</h1>
         </div>
       </div>
       <div class="row">
         <div class="col-12 input-group-prepend text-center space-over">
           <form class="example-form">
             <div class="input-padding">
-              <input type="text" placeholder="Realiza tu busqueda" aria-label="Tutorias" matInput
-                [formControl]="autoComplete" [matAutocomplete]="auto">
+              <input type="text" placeholder="Ejemplo ingles" aria-label="Tutorias" matInput
+                [formControl]="autoComplete" [matAutocomplete]="auto" style="margin: auto;">
             </div>
             <mat-autocomplete #auto="matAutocomplete" [displayWith]="showName">
               <mat-option *ngFor="let course of filteredOptions | async" [value]="course">
@@ -100,37 +58,22 @@
           </form>
         </div>
       </div>
+    </div>
 
-      <div *ngIf="filteredOptions">
+    <div style="padding-top: 40px;"></div>
+
+    <div *ngIf="filteredOptions">
+      <div class="personal-container">
         <div class="row">
-          <div *ngFor="let course of coursesFonundSearch" class="col-6 space-over text-center">
+          <div *ngFor="let course of coursesFonundSearch" class="col-3 text-center"
+            style="padding-top: 10px; padding-bottom: 10px;">
             <div class="card border-secondary mb-3 card-background">
-              <div class="card-header"><b>Nombre</b></div>
-              <div class="card-header">{{course.name}}</div>
               <div class="card-body">
                 <img src="{{endpoint_course_image}}/{{course.picture}}" alt="" class="img-thumbnail rounded image-size">
-                <p class="space-over"><b>descripción de curso</b></p>
-                <p class="card-text">{{course.description}} </p>
-                <!-- <p class="card-text"><b> Profesor que ofrece el curso</b> </p> -->
-                <!-- <p class="card-text">{{course.teacherName}} </p> -->
+                <div style="padding-top: 10px;"></div>
+                <p class="card-text"> <b>{{course.name}}</b></p>
+                <p class="card-text">{{course.description}}</p>
                 <div class="row space-bottom space-over">
-                  <!-- <div class="col-6">
-                    <button class="btn btn-outline-info text-center" (click)=goToMeetUrl()>
-                      Ver mas detalles
-                    </button>
-                  </div> -->
-                  <!-- <div class="col-12" style="padding-bottom: 15px;">
-                    <button class="btn btn-outline-info">
-                      ver informacion del profesor
-                    </button>
-                  </div>
-                  <div class="col-12">
-                    <button class="btn btn-info"
-                      (click)=createSessionChat(course.idTeacher,course.teacherName,course.meetUrlCourse)
-                      data-toggle="modal" data-target="#chatModal">
-                      enviar mensaje al profesor
-                    </button>
-                  </div> -->
                   <div *ngIf="authService.hasRole('ROLE_STUDENT')" class="col-6">
                     <button class="btn btn-info"
                       (click)=createSessionChat(course.idTeacher,course.teacherName,course.meetUrlCourse)
@@ -140,15 +83,11 @@
                   </div>
 
                   <div class="col-6">
-                    <button class="btn btn-warning" (click)=openTeacherInformation(course.idTeacher) data-toggle="modal"
-                      data-target="#openTeacherInfo">
+                    <button class="btn btn-outline-info" (click)=openTeacherInformation(course.idTeacher)
+                      data-toggle="modal" data-target="#openTeacherInfo">
                       Ver informacion del docente
                     </button>
                   </div>
-                  <!-- <button class="btn btn-info col-md-8" (click)=goToDetailGroup(course) data-toggle="modal"
-                      data-target="#modalGroup">
-                      Ver informacion del curso
-                    </button> -->
                 </div>
               </div>
             </div>
@@ -156,28 +95,26 @@
         </div>
       </div>
     </div>
+
+    <div style="padding-bottom: 40px;"></div>
+
   </div>
-  <app-footer></app-footer>
 </div>
+
 
 <!-- TAB 2  -->
 <div class="section-space" *ngIf="optionTwoSelected">
   <div class="container text-center">
     <div class="row title-style-secondary">
-      <div class="col-12">
-        <img src="../../../../assets/icons/bootstrap-icons/people-fill.svg" alt="" width="300px" height="150px"
-          title="Bootstrap">
-        <p class="space-over-min" style="color: white;">Buscar cursos grupales</p>
-        <p class="space-over-min" style="color: yellow;">Tip</p>
-        <p class="space-over-min" style="color: white;">Puedes buscar cursos grupales por cualquier criterio ...
-          Ejemplo: 'Inglés', 'Español', 'Matemáticas'</p>
+      <div class="col-12 text-center" style="color: black;">
+        <h1> Cursos grupales </h1>
       </div>
     </div>
     <div class="row">
       <div class="col-12 input-group-prepend text-center space-over">
         <form class="example-form">
           <div class="input-padding">
-            <input type="text" placeholder="Realiza tu busqueda" aria-label="Grupales" matInput
+            <input type="text" placeholder="Ejemplo ingles" aria-label="Grupales" matInput
               [formControl]="autoCompleteGrupalCourses" [matAutocomplete]="autoGrupal">
           </div>
           <mat-autocomplete #autoGrupal="matAutocomplete" [displayWith]="showNameTwo">
@@ -188,18 +125,21 @@
         </form>
       </div>
     </div>
+  </div>
 
+  <div style="padding-top: 40px;"></div>
 
-    <div *ngIf="filteredOptionsGrupalCourses">
+  <div *ngIf="filteredOptionsGrupalCourses">
+    <div class="personal-container">
       <div class="row">
-        <div *ngFor="let grupalCourse of coursesFonundGrupal" class="col-6 space-over">
+        <div *ngFor="let grupalCourse of coursesFonundGrupal" class="col-3 text-center"
+          style="padding-top: 10px; padding-bottom: 10px;">
           <div class="card border-secondary mb-3 card-background">
-            <div class="card-header"><b>Nombre</b></div>
-            <div class="card-header">{{grupalCourse.name}}</div>
             <div class="card-body">
               <img src="{{endpoint_grupal_course_image}}/{{grupalCourse.picture}}" alt=""
                 class="img-thumbnail rounded image-size">
-              <p class="card-text space-over"><b>descripción de curso</b></p>
+              <div style="padding-top: 10px;"></div>
+              <p class="card-text"> {{grupalCourse.name}} </p>
               <p class="card-text">{{grupalCourse.description}} </p>
               <p class="card-text"><b> Horario</b> </p>
               <p class="card-text">{{grupalCourse.classTime}} </p>
@@ -210,7 +150,7 @@
                 </button>
               </div>
               <div class="text-center space-over">
-                <button class="btn btn-warning" (click)=openTeacherInformation(grupalCourse.idTeacher)
+                <button class="btn btn-outline-info" (click)=openTeacherInformation(grupalCourse.idTeacher)
                   data-toggle="modal" data-target="#openTeacherInfo">
                   Ver informacion del docente
                 </button>
@@ -226,9 +166,6 @@
 
   <app-chat *ngIf="chatModalOpen" [idStudent]="idStudent" [idTeacher]="idTeacher" [urlMeet]="urlMeetSelected"
     (goToMeetEventEmiter)="goToMeetUrl()"> </app-chat>
-
-  <app-footer></app-footer>
-
 </div>
 
 <app-teacher-info *ngIf="idTeacherSelected > 0" [idTeacherFor]="idTeacherSelected"> </app-teacher-info>
@@ -288,7 +225,7 @@
     <div class="modal-footer">
       <div class="row">
         <div class="col-12 text-center">
-          
+
         </div>
       </div>
     </div>
@@ -373,31 +310,36 @@
         <div class="row" style="padding-top: 5px; padding-bottom: 5px;">
           <div class="col-1.1">
             <div class="input-group mb-3">
-              <button [ngClass]="{'star-color' : isCheckedOne === true, 'star-no-color': isCheckedOne === false}" (click)="startOne()"> </button>
+              <button [ngClass]="{'star-color' : isCheckedOne === true, 'star-no-color': isCheckedOne === false}"
+                (click)="startOne()"> </button>
             </div>
           </div>
           <div class="col-1"></div>
           <div class="col-1.1">
             <div class="input-group mb-3">
-              <button [ngClass]="{'star-color' : isCheckedTwo === true, 'star-no-color': isCheckedTwo === false}" (click)="startTwo()"> </button>
+              <button [ngClass]="{'star-color' : isCheckedTwo === true, 'star-no-color': isCheckedTwo === false}"
+                (click)="startTwo()"> </button>
             </div>
           </div>
           <div class="col-1"></div>
           <div class="col-1.1">
             <div class="input-group mb-3">
-              <button [ngClass]="{'star-color' : isCheckedThree === true, 'star-no-color': isCheckedThree === false}" (click)="startThree()"> </button>
+              <button [ngClass]="{'star-color' : isCheckedThree === true, 'star-no-color': isCheckedThree === false}"
+                (click)="startThree()"> </button>
             </div>
           </div>
           <div class="col-1"></div>
           <div class="col-1.1">
             <div class="input-group mb-3">
-              <button [ngClass]="{'star-color' : isCheckedFour === true, 'star-no-color': isCheckedFour === false}" (click)="startFour()"> </button>
+              <button [ngClass]="{'star-color' : isCheckedFour === true, 'star-no-color': isCheckedFour === false}"
+                (click)="startFour()"> </button>
             </div>
           </div>
           <div class="col-1"></div>
           <div class="col-1.1">
             <div class="input-group mb-3">
-              <button [ngClass]="{'star-color' : isCheckedFive === true, 'star-no-color': isCheckedFive === false}" (click)="startFive()"> </button>
+              <button [ngClass]="{'star-color' : isCheckedFive === true, 'star-no-color': isCheckedFive === false}"
+                (click)="startFive()"> </button>
             </div>
           </div>
         </div>

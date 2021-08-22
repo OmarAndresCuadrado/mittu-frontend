@@ -12,6 +12,10 @@
   padding-top: 40px;
 }
 
+.space-down {
+  padding-bottom: 40px;
+}
+
 .space-over-min {
   padding-top: 20px;
 }
@@ -127,8 +131,8 @@ input[type="text"]:focus {
 }
 
 .card-background {
-  background-color: #00000096 !important;
-  color: rgb(255, 255, 255) !important;
+  background-color: #ffffff96 !important;
+  color: rgb(0, 0, 0) !important;
 }
 
 .imagePersonal {
@@ -175,4 +179,14 @@ textarea {
   height: 45px;
   width: 45px;
   border: none;
+}
+
+.advertising-panel {
+  width: 100%;
+  height: 400px;
+}
+
+.personal-container {
+  padding-left: 50px;
+  padding-right: 50px;
 }
