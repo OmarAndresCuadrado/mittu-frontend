@@ -9,10 +9,11 @@
             <div class="container" style="padding-top: 50px;">
                 <div class="card background-middle-two borders">
                     <div class="formSpace">
+                        <div class="btn btn-primary col-1" (click)="goToLogin()"> Volver </div>
                         <form autocomplete="off" [formGroup]="registerStudentForm" (ngSubmit)="register()">
                             <div class="row">
-                                <div class="col-12 text-center">
-                                    <h1> Registro de estudiante</h1>
+                                <div class="col-12 text-center title-padding montserrat-font-thirty">
+                                    Registro de estudiante
                                 </div>
                             </div>
                             <div class="row">

@@ -2,3 +2,34 @@
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+
+.montserrat-font-fourty {
+    font-family: 'Montserrat';
+    font-size: 40px;
+    color: #414141;
+   }
+  
+   .montserrat-font-eigtheen {
+    font-family: 'Montserrat';
+    font-size: 20px;
+    color: #a0a0a0;
+   }
+
+   .montserrat-font-thirty {
+    font-family: 'Montserrat';
+    font-size: 30px;
+    color: #414141;
+   }
+  
+   .roboto-font-twenty-five {
+    font-family: 'Roboto';
+    font-size: 25px;
+    color: #000000;
+   }
+
+   .roboto-font-twenty {
+    font-family: 'Roboto';
+    font-size: 17px;
+    color: #b4b4b4;
+   }

@@ -74,6 +74,9 @@ export class RegisterStudentComponent implements OnInit {
     });
   }
 
+  goToLogin() {
+    this.router.navigate(['/login']);
+  }
 
   register() {
     if (!this.registerStudentForm.valid) {

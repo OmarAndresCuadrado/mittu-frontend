@@ -90,6 +90,7 @@ export class AdminPanelComponent implements OnInit {
 
   showFeedback() {
     this.showTableFeedback = true;
+    this.getFeedBacks();
   }
 
   closeFeedBack() {
