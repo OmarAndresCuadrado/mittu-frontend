@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { studentEntity } from '../interfaces/studentEntity';
 import { AuthService } from './auth.service';
 import { Router } from '@angular/router';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -59,7 +60,16 @@ export class StudentService {
 
   }
 
-
+  uploadStudentPicture(picture: File, id: any): Observable<studentEntity> {
+    let formData = new FormData();
+    let internalEnpoint = `${environment.student.host}/upload/image`;
+    formData.append("studentImage", picture);
+    formData.append("id", id);
+    return this.http.post<studentEntity>(internalEnpoint, formData).pipe
+      (
+        map((response: any) => response as studentEntity)
+      );
+  }
 
   saveStudent() {
 

@@ -1,31 +1,27 @@
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
-import { ModalService } from '../../services/modal.service';
+import { FormBuilder } from '@angular/forms';
+import { ModalService } from 'src/app/services/modal.service';
+import { StudentService } from 'src/app/services/student.service';
 import Swal from 'sweetalert2';
-import { courseEntity } from '../../interfaces/coursesEntity';
-import { CourseService } from '../../services/course.service';
 import { environment } from '../../../environments/environment';
-import { GrupalCoursesService } from '../../services/grupal-courses.service';
-import { TeacherService } from '../../services/teacher.service';
-
 
 @Component({
-  selector: 'app-upload-teacher-image',
-  templateUrl: './upload-teacher-image.component.html',
-  styleUrls: ['./upload-teacher-image.component.css']
+  selector: 'app-upload-student-image',
+  templateUrl: './upload-student-image.component.html',
+  styleUrls: ['./upload-student-image.component.css']
 })
-export class UploadTeacherImageComponent {
+export class UploadStudentImageComponent {
 
-  @Input() teacherIdToHeredate: any;
-  @Output() TeacherEmmiterUpload = new EventEmitter<any>();
+  @Input() studentIdToHeredate: any;
+  @Output() studentEmmiterUpload = new EventEmitter<any>();
   public selectedPicture: File;
   public environment = environment;
-  public endpoint_grupal_course_image = environment.teacher.host_image;
+  public endpoint_grupal_course_image = environment.student.host_image;
   public imageNameFromService: any;
 
   constructor(
     public modalService: ModalService,
-    private teacherService: TeacherService
+    private studentService: StudentService
   ) { }
 
   closeModal() {
@@ -41,7 +37,7 @@ export class UploadTeacherImageComponent {
     if (!this.selectedPicture) {
       Swal.fire('Error', 'Se debe seleccionar una imagen', 'error');
     } else {
-      this.teacherService.uploadTeacherPicture(this.selectedPicture, this.teacherIdToHeredate)
+      this.studentService.uploadStudentPicture(this.selectedPicture, this.studentIdToHeredate)
       .subscribe((resp => {
         // colocar spinner en lo que carga la imagen
         this.imageNameFromService = resp.picture;
@@ -51,7 +47,7 @@ export class UploadTeacherImageComponent {
   }
 
   okk() {
-    this.TeacherEmmiterUpload.emit(true);
+    this.studentEmmiterUpload.emit(true);
   }
 
 }

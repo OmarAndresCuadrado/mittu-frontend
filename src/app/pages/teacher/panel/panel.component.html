@@ -57,6 +57,17 @@
                 </div>
             </div>
 
+            <div class="row borders-sides">
+                <div class="col text-left" style="padding-top: 15px;">
+                    <p class="roboto-font-twenty" style="color: black;"> Correo: {{teacherFound.email}} </p>
+                </div>
+            </div>
+
+            <div class="row borders-sides">
+                <div class="col text-left" style="padding-top: 15px;">
+                    <p class="roboto-font-twenty" style="color: black;"> Telefono: {{teacherFound.phone}} </p>
+                </div>
+            </div>
 
             <div class="row borders-sides">
                 <div class="col text-left" style="padding-top: 15px;">
@@ -151,15 +162,19 @@
                 <div class="col-12">
                     <div class="col-12 horizontal-panel">
                         <div class="row text-center" style="padding-top: 40px;">
-                            <div class="col-4">
+                            <div class="col-3 text-center">
+                                <button class="btn btn-info btn-block">Nueva opcion </button>
+                            </div>
+                            
+                            <div class="col-3">
                                 <button class="btn btn-info" (click)="showPersonalCourses()">Ver mis
                                     tutorias</button>
                             </div>
-                            <div class="col-4">
+                            <div class="col-3">
                                 <button class="btn btn-info" (click)="showGrupalCourses()">Ver mis cursos grupales
                                 </button>
                             </div>
-                            <div class="col-4">
+                            <div class="col-3">
                                 <button class="btn btn-info" (click)="showTransfers()">Ver mis transacciones
                                 </button>
                             </div>
@@ -171,14 +186,14 @@
                             <div class="card border-info">
                                 <div class="row text-center">
                                     <div class="col-12 space-over space-bottom">
-                                        <h2>Tutorias que actualmente ofreces</h2>
+                                        <p class="roboto-font-twenty-five" style="color: black;"> Tutorias que actualmente ofreces</p>
                                     </div>
                                 </div>
 
                                 <div *ngIf="teacherCourses.length <= 0">
                                     <div class="row">
                                         <div class="col-12 text-center" style="color: darkturquoise;">
-                                            <h2> Actualmente no tienes creada alguna tutoría</h2>
+                                            <p class="roboto-font-twenty" style="color: black;"> Actualmente no tienes creada alguna tutoría</p>
                                         </div>
                                     </div>
                                 </div>
@@ -234,7 +249,7 @@
                             <div class="card border-info">
                                 <div class="row text-center">
                                     <div class="col-12 space-over space-bottom">
-                                        <h2>Cursos grupales que actualmente ofreces</h2>
+                                        <p class="roboto-font-twenty-five" style="color: black;">Cursos grupales que actualmente ofreces </p>
                                     </div>
                                 </div>
 
@@ -343,7 +358,7 @@
                                 <div class="container">
                                     <div class="row space-bottom space-over text-center">
                                         <div class="col-12">
-                                            <h2>Panel de transacciones</h2>
+                                            <p class="roboto-font-twenty-five" style="color: black;"> Panel de transacciones </p>
                                         </div>
                                     </div>
                                     <div class="row space-over space-bottom">
@@ -377,7 +392,7 @@
 
                                     <div class="row space-over-max">
                                         <div class="col-12 text-center">
-                                            <h2>Historial de retiros</h2>
+                                            <p class="roboto-font-twenty-five" style="color: black;"> Historial de retiros </p>
                                         </div>
                                     </div>
                                     <div class="space-bottom">

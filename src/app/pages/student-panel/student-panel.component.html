@@ -8,16 +8,8 @@
             </div>
         </div>
 
-        <div class="col-3 text-center">
-            <button class="btn btn-info btn-block" style="border-radius: 20px;" (click)="showProfile()">Ver mis
-                transacciones</button>
-        </div>
-
-        <div class="col-3 text-center">
-            <button class="btn btn-outline-info btn-block" style="border-radius: 20px;"
-                (click)="showGrupalCourses()">Ver mis
-                cursos grupales </button>
-        </div>
+        <div class="col-3 text-center"></div>
+        <div class="col-3 text-center"></div>
 
         <div class="col-3">
             <div class="row">
@@ -33,9 +25,6 @@
         </div>
 
     </div>
-
-
-
 
 
     <div class="row">
@@ -54,42 +43,41 @@
             <div style="padding-top: 20px;"></div>
             <div class="row">
                 <div class="col text-center" style="color: white;">
-                    <h1> <b> <span class="badge badge-info"> Mi perfil</span> </b> </h1>
-                </div>
-            </div>
-            <div style="padding-top: 20px;"></div>
-            <div class="row borders-sides">
-                <div class="col text-center">
-                    <h2> <b> Saldo disponible</b> </h2>
-                    <p class="card-text">{{studentObject.money | currency}} COP</p>
+                    <h1> <b> <span class="badge badge-info"> mittu </span> </b> </h1>
+                    <img src="{{endpoint_student_image}}/{{studentImage }}" alt="" class="img-thumbnail" style="border-radius: 50%;">
+                    <div style="padding-top: 20px;"></div>
+                    <button class="btn btn-info col-12" (click)="idStudentToUploadImage()" data-toggle="modal" data-target="#modalImageStudent">Seleccionar
+                        foto de perfil</button>
                 </div>
             </div>
 
-            <div style="padding-top: 20px;"></div>
-            <div class="row borders-sides">
-                <div class="col text-center">
-                    <h2> <b> Nombre</b> </h2>
-                    <p> {{studentObject.name}} {{studentObject.lastName}} </p>
+            <div class="row">
+                <div class="col text-center" style="padding-top: 20px;">
+                    <p class="roboto-font-twenty-five"> <b> {{studentObject.name}} {{studentObject.lastName}} </b> </p>
                 </div>
             </div>
 
-            <div style="padding-top: 20px;"></div>
             <div class="row borders-sides">
-                <div class="col text-center">
-                    <h2> <b> Correo electronico </b> </h2>
-                    <p> {{studentObject.email}} </p>
+                <div class="col text-left" style="padding-top: 15px;">
+                    <p class="roboto-font-twenty" style="color: black;"> Correo: {{studentObject.email}} </p>
                 </div>
             </div>
 
-            <div style="padding-top: 20px;"></div>
+
             <div class="row borders-sides">
-                <div class="col text-center">
-                    <h2> <b> Telefono</b> </h2>
-                    {{studentObject.phone}}
+                <div class="col text-left" style="padding-top: 15px;">
+                    <p class="roboto-font-twenty" style="color: black;"> Telefono: {{studentObject.phone}} </p>
                 </div>
             </div>
 
-            <div style="padding-top: 30px;"></div>
+            <div class="row borders-sides">
+                <div class="col text-left" style="padding-top: 15px;">
+                    <p class="roboto-font-twenty" style="color: black;"> Saldo disponible : {{studentObject.money |
+                        currency}} COP</p>
+                </div>
+            </div>
+
+            <div class="row borders-sides"></div>
             <div class="row">
                 <div class="col text-center">
                     <button class="btn btn-info" (click)="openTransaccionts()"> Realizar recarga </button>
@@ -101,7 +89,7 @@
                     <button class="btn btn-outline-info"> Editar información </button>
                 </div>
             </div>
-            <div style="padding-bottom: 20px;"></div>
+            <div style="padding-bottom: 30px;"></div>
 
         </div>
 
@@ -110,59 +98,77 @@
         </div>
         <div class="col-7 horizontal-panel">
 
-            <div *ngIf="grupalCourses" style="padding-bottom: 40px;">
-                <div class="row">
-                    <div class="col text-center" style="padding-top: 15px;">
-                        <h2>Cursos grupales</h2>
-                    </div>
+            <div class="row" style="padding-top: 20px;">
+                <div class="col-4 text-center">
+                    <button class="btn btn-info btn-block">Nueva opcion </button>
                 </div>
 
-                <div *ngIf="grupalCoursesFound.length <= 0" class="container">
-                    <div class="card bg-info">
+                <div class="col-4 text-center">
+                    <button class="btn btn-info btn-block" (click)="showProfile()">Ver mis
+                        transacciones</button>
+                </div>
+
+                <div class="col-4 text-center">
+                    <button class="btn btn-info btn-block" (click)="showGrupalCourses()">Ver mis
+                        cursos grupales </button>
+                </div>
+            </div>
+
+            <div style="padding-top: 20px; padding-bottom: 20px;"> </div>
+
+            <div class="card border-info">
+                <div class="spaces-courses">
+                    <div *ngIf="grupalCourses" style="padding-bottom: 40px;">
                         <div class="row">
-                            <div class="col-12 text-center text-white">
-                                <h2>Aún no te has inscrito a cursos grupales</h2>
+                            <div class="col text-center" style="padding-top: 20px;  padding-bottom: 20px;">
+                                <p class="roboto-font-twenty-five" style="color: black;"> Cursos grupales</p>
                             </div>
                         </div>
-                    </div>
-                </div>
 
-                <div class="row">
-                    <div *ngFor="let grupalCourse of grupalCoursesFound" class="col-6">
-                        <div class="card border-secondary mb-3 text-center">
-                            <div class="card-header"><b>Nombre</b></div>
-                            <div class="card-header">{{grupalCourse.name}}</div>
-                            <div class="card-body text-secondary">
-                                <img src="{{endpoint_grupal_course_image}}/{{grupalCourse.picture}}" alt=""
-                                    class="img-thumbnail rounded image-size">
-                                <p class="card-text space-over"><b>descripción de curso</b></p>
-                                <p class="card-text">{{grupalCourse.description}} </p>
-                                <p class="card-text"><b> Horario</b> </p>
-                                <p class="card-text">{{grupalCourse.classTime}} </p>
-                                <p class="card-text"><b> Url de Google meet</b> </p>
-                                <a href="{{grupalCourse.urlMeet}}" target="_blank">{{grupalCourse.urlMeet}}</a>
-                                <div class="col-12 text-center space-over"
-                                    style="padding-top: 10px; padding-bottom: 10px">
-                                    <button class="btn btn-info" (click)="goToMeet(grupalCourse.urlMeet)">Ir a
-                                        clase</button>
+                        <div *ngIf="grupalCoursesFound.length <= 0" class="container">
+                            <div class="card bg-info">
+                                <div class="row">
+                                    <div class="col-12 text-center text-white">
+                                        <h2>Aún no te has inscrito a cursos grupales</h2>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div *ngFor="let grupalCourse of grupalCoursesFound" class="col-6">
+                                <div class="card border-secondary mb-3 text-center">
+                                    <div class="card-header"><b>Nombre</b></div>
+                                    <div class="card-header">{{grupalCourse.name}}</div>
+                                    <div class="card-body text-secondary">
+                                        <img src="{{endpoint_grupal_course_image}}/{{grupalCourse.picture}}" alt=""
+                                            class="img-thumbnail rounded image-size">
+                                        <p class="card-text space-over"><b>descripción de curso</b></p>
+                                        <p class="card-text">{{grupalCourse.description}} </p>
+                                        <p class="card-text"><b> Horario</b> </p>
+                                        <p class="card-text">{{grupalCourse.classTime}} </p>
+                                        <p class="card-text"><b> Url de la reunion</b> </p>
+                                        <a href="{{grupalCourse.urlMeet}}" target="_blank">{{grupalCourse.urlMeet}}</a>
+                                        <div class="col-12 text-center space-over"
+                                            style="padding-top: 10px; padding-bottom: 10px">
+                                            <button class="btn btn-info" (click)="goToMeet(grupalCourse.urlMeet)">Ir a
+                                                clase</button>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
 
-            </div>
-
-            <div *ngIf="profiles">
-
-                <div>
+                <div *ngIf="profiles">
                     <div class="container">
-                        <div class="row space-over space-bottom">
-                        </div>
+                        <div class="row space-over space-bottom"> </div>
                         <div *ngIf="openTransactions" style="padding-top: 20px; padding-bottom: 20px;">
                             <div class="row" style="padding-bottom: 30px;">
                                 <div class="col text-right">
-                                    <button class="btn btn-info col-md-4" (click)="closeTransactions()"> cerrar opciones
+                                    <button class="btn btn-info col-md-4" (click)="closeTransactions()"> cerrar
+                                        opciones
                                         de recarga
                                     </button>
                                 </div>
@@ -170,61 +176,56 @@
                             <app-transaction></app-transaction>
                         </div>
                     </div>
-                </div>
 
-
-                <div class="row">
-                    <div class="col text-center" style="padding-top: 15px;">
-                        <h2>
-                            <p>Historial de transacciones</p>
-                        </h2>
+                    <div class="row">
+                        <div class="col text-center" style="padding-top: 15px;">
+                            <p class="roboto-font-twenty-five" style="color: black;"> Historial de transacciones</p>
+                        </div>
                     </div>
-                </div>
 
-                <div *ngIf="dataSource">
-                    <div *ngIf="dataSource.data.length <= 0" class="container"
-                        style="padding-top: 30px; padding-bottom: 30px;">
-                        <div class="card bg-info">
-                            <div class="row" style="padding-bottom: 30px; padding-top: 30px;">
-                                <div class="col-12 text-center text-white">
-                                    <h2>Aún no has realizado transacciones</h2>
+                    <div *ngIf="dataSource">
+                        <div *ngIf="dataSource.data.length <= 0" class="container"
+                            style="padding-top: 30px; padding-bottom: 30px;">
+                            <div class="card bg-info">
+                                <div class="row" style="padding-bottom: 30px; padding-top: 30px;">
+                                    <div class="col-12 text-center text-white">
+                                        <h2>Aún no has realizado transacciones</h2>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
 
-                    <div *ngIf="dataSource.data.length > 0" class="container"
-                        style="padding-top: 30px; padding-bottom: 30px;">
-                        <div class="mat-elevation-z8">
-                            <table mat-table [dataSource]="dataSource" matSort>
+                        <div *ngIf="dataSource.data.length > 0" class="container"
+                            style="padding-top: 30px; padding-bottom: 30px;">
+                            <div class="mat-elevation-z8">
+                                <table mat-table [dataSource]="dataSource" matSort>
 
-                                <ng-container matColumnDef="Fecha">
-                                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Fecha </th>
-                                    <td mat-cell *matCellDef="let row"> {{row.fechaDeCreacion}} </td>
-                                </ng-container>
+                                    <ng-container matColumnDef="Fecha">
+                                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Fecha </th>
+                                        <td mat-cell *matCellDef="let row"> {{row.fechaDeCreacion}} </td>
+                                    </ng-container>
 
-                                <ng-container matColumnDef="CantidadRecargada">
-                                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Cantidad Recargada </th>
-                                    <td mat-cell *matCellDef="let row"> {{row.cost | currency}} COP </td>
-                                </ng-container>
+                                    <ng-container matColumnDef="CantidadRecargada">
+                                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Cantidad Recargada </th>
+                                        <td mat-cell *matCellDef="let row"> {{row.cost | currency}} COP </td>
+                                    </ng-container>
 
 
-                                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-                            </table>
+                                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                                </table>
 
-                            <mat-paginator [pageSizeOptions]="[10, 25, 100]"></mat-paginator>
+                                <mat-paginator [pageSizeOptions]="[10, 25, 100]"></mat-paginator>
+                            </div>
                         </div>
                     </div>
                 </div>
-
-
-
             </div>
         </div>
     </div>
 
-
+    <app-upload-student-image *ngIf="idStudentImageToUpload" [studentIdToHeredate]="idStudentImageToUpload"
+    (studentEmmiterUpload)="refreshPicture()"></app-upload-student-image>
 
 
     <div style="padding-top: 140px">

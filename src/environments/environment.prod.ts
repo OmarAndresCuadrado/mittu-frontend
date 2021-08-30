@@ -11,7 +11,8 @@ export const environment = {
   },
 
   student: {
-    host: 'http://localhost:8085/api/student'
+    host: 'http://localhost:8085/api/student',
+    host_image: 'http://localhost:8085/api/student/upload/image'
   },
 
   transaction: {

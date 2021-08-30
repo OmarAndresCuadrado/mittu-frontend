@@ -125,15 +125,9 @@ export class PanelComponent implements OnInit {
     this.idTeacher = sessionStorage.getItem('teacherId');
     this.teacherService.getTeachersById(this.idTeacher).subscribe((resp) => {
       this.teacherFound = resp;
-      if (resp.description.length > 5) {
-        this.teacherFound.description = resp.description;
-      } else if (this.teacherFound.description === null || this.teacherFound.description === 'null' || this.teacherFound.description === undefined || this.teacherFound.description === 'undefined') {
-        this.teacherFound.description = 'asd';
+      if (this.teacherFound.picture === null || this.teacherFound.picture === "null" || this.teacherFound.picture === "") {
+        this.teacherFound.picture = "default.png";
       }
-      else {
-        this.teacherFound.description = 'asd';
-      }
-
       console.log("teacher found ", this.teacherFound);
       this.conected = this.teacherFound.busy;
       console.log("valor del coneected ", this.conected);

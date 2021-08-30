@@ -9,5 +9,6 @@ export class studentEntity {
     TermsAndConditions: boolean;
     money: number = 0;
     fechaDeCreacion: Date;
+    picture: string;
 
 }

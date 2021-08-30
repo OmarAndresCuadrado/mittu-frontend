@@ -59,6 +59,7 @@ import { TeacherReferencesComponent } from './pages/teacher-references/teacher-r
 import { ModalDetailComponent } from './modal-detail/modal-detail.component';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
+import { UploadStudentImageComponent } from './modals/upload-student-image/upload-student-image.component';
 
 
 @NgModule({
@@ -105,7 +106,8 @@ import { MatNativeDateModule } from '@angular/material/core';
     StudentTimerComponent,
     TeacherInfoComponent,
     TeacherReferencesComponent,
-    ModalDetailComponent
+    ModalDetailComponent,
+    UploadStudentImageComponent
   ],
   imports: [
     BrowserModule,

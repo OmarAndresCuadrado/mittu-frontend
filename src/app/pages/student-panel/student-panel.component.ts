@@ -12,6 +12,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { AuthService } from 'src/app/services/auth.service';
 import { WebSocketService } from 'src/app/services/web-socket.service';
+import { ModalService } from 'src/app/services/modal.service';
 
 @Component({
   selector: 'app-student-panel',
@@ -42,6 +43,9 @@ export class StudentPanelComponent implements OnInit {
   public costOfTransaction: any;
   public transferId: any;
   public transferIdFromDB: any;
+  public idStudentImageToUpload: any;
+  public studentImage: any;
+  public endpoint_student_image = environment.student.host_image;
 
   constructor(
     private grupalCoursesService: GrupalCoursesService,
@@ -50,7 +54,8 @@ export class StudentPanelComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private transferService: TransactionService,
     public authService: AuthService,
-    private webSocketService: WebSocketService
+    private webSocketService: WebSocketService,
+    private modalService: ModalService
   ) {
     this.showVar = false;
     this.grupalCourses = false;
@@ -89,6 +94,12 @@ export class StudentPanelComponent implements OnInit {
     } else if (this.responseTwo == 'DECLINED') {
       this.transactionReject();
     }
+
+
+    setTimeout(() => {
+      this.studentImage = this.studentObject.picture;
+      this.getStudentImage();
+    }, 1000)
   }
 
   ngAfterViewInit() {
@@ -102,6 +113,9 @@ export class StudentPanelComponent implements OnInit {
     let idStudent = this.idStudent;
     this.studentService.getStudentsById(idStudent).subscribe((resp) => {
       this.studentObject = resp;
+      if (this.studentObject.picture === null || this.studentObject.picture === "null" || this.studentObject.picture === "") {
+        this.studentObject.picture = "default.png";
+      }
     });
   }
 
@@ -208,7 +222,7 @@ export class StudentPanelComponent implements OnInit {
       this.dataSource = new MatTableDataSource(resp);
       console.log("lista de transacciones ", this.listOfTransactions);
     });
-    console.log("DATA SOURCEEEE " , this.dataSource);
+    console.log("DATA SOURCEEEE ", this.dataSource);
   }
 
   makeTransaction() {
@@ -252,6 +266,26 @@ export class StudentPanelComponent implements OnInit {
     this.authService.logout();
   }
 
+  idStudentToUploadImage() {
+    this.idStudentImageToUpload = this.studentObject.id;
+    this.modalService.openModal();
+  }
 
+  refreshPicture() {
+    this.studentImage = '';
+    this.studentService.getStudentsById(this.idStudent).subscribe((resp) => {
+      this.studentObject = resp;
+    });
 
+    setTimeout(() => {
+      this.studentImage = this.studentObject.picture;
+    }, 2000)
+  }
+
+  getStudentImage() {
+    console.log("imagen estudiante ", this.studentImage);
+    if ((this.studentObject.picture != null || this.studentObject.picture.length >= 0) && this.studentImage != "default.png") {
+      this.studentImage = this.studentObject.picture;
+    }
+  }
 }
