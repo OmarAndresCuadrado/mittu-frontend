@@ -24,7 +24,8 @@ export const environment = {
   },
 
   transfers: {
-    host: 'http://localhost:8085/api/transfer'
+    host: 'http://localhost:8085/api/transfer',
+    host_image: 'http://localhost:8085/api/transfer/banner/upload/image'
   },
 
   subject: {

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -13,10 +14,15 @@ export class TransactionService {
   public endpoint_transaction_insert = environment.transfers.host;
   public endpoint_transfers = environment.transfers.host;
   public endpoint_retirements = environment.retirements.host;
+  public endpoint_image_upload = environment.transfers.host_image;
   public onChatToHeredate: any;
   public idStudent: any;
 
   constructor(private http: HttpClient) { }
+
+  getBannerInformation(id: number): Observable<any> {
+    return this.http.get(`${this.endpoint_transfers}/banner/${id}`);
+  }
 
   getAllPaymentsOptions(): Observable<any[]> {
     return this.http.get<any[]>(this.endpoint_transaction);
@@ -41,5 +47,17 @@ export class TransactionService {
     let internalUrl = `${this.endpoint_retirements}/excel`;
     return this.http.post(internalUrl, objectToSend, { responseType: 'blob' });
 
+  }
+
+  uploadBannerPicture(picture: File, id: any, color: any): Observable<any> {
+    let formData = new FormData();
+    let internalEnpoint = `${this.endpoint_image_upload}`;
+    formData.append("bannerImage", picture);
+    formData.append("id", id);
+    formData.append("color", color);
+    return this.http.post<any>(internalEnpoint, formData).pipe
+      (
+        map((response: any) => response as any)
+      );
   }
 }

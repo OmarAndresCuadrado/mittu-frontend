@@ -7,12 +7,14 @@
       </div>
     </div>
 
-    <div class="advertising-panel" [ngStyle]="{'background-color':colorone}">
-      <div class="container">
-        <div class="row">
-          <div class="col-12">
-            <div style="padding-top: 20px;"></div>
-            <img src="../../../../assets/images/adv.webp" alt="" class="img-thumbnail">
+    <div *ngIf="bannerTransfer && bannerColor">
+      <div class="advertising-panel" [ngStyle]="{'background-color':bannerColor}">
+        <div class="container">
+          <div class="row">
+            <div class="col-12">
+              <div style="padding-top: 20px;"></div>
+              <img src="{{endpoint_image_upload}}/{{bannerTransfer.urlBanner}}" alt="" class="img-thumbnail">
+            </div>
           </div>
         </div>
       </div>

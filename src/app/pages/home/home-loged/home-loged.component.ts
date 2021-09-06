@@ -21,6 +21,7 @@ import { NgbModal, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
 import { FeedBackService } from 'src/app/services/feed-back.service';
 import { TeacherService } from 'src/app/services/teacher.service';
 import { StudentService } from 'src/app/services/student.service';
+import { TransactionService } from 'src/app/services/transaction.service';
 
 
 @Component({
@@ -85,8 +86,9 @@ export class HomeLogedComponent implements OnInit {
   public isCheckedFive = false;
   public finalCalification: number;
   public isTutoriaAvailable: boolean;
-  public colorone = `rgb(13, 192, 176)`;
-  public colortwo = `rgb(192, 120, 13)`;
+  public bannerTransfer: any;
+  public endpoint_image_upload = environment.transfers.host_image;
+  public bannerColor: any;
 
 
   @ViewChild('editModalHome') editModalHome: TemplateRef<any>; // Note: TemplateRef
@@ -101,7 +103,8 @@ export class HomeLogedComponent implements OnInit {
     private boostrapModalService: NgbModal,
     private feedBackService: FeedBackService,
     private teacherService: TeacherService,
-    private studentService: StudentService
+    private studentService: StudentService,
+    private transferService: TransactionService
   ) {
     this.timeOnSession = 0;
     this.studentTime = 0;
@@ -126,10 +129,13 @@ export class HomeLogedComponent implements OnInit {
 
   //buscar una mejor forma para observar los cambios
   ngOnInit(): void {
+    this.transferService.getBannerInformation(1).subscribe(resp => {
+      this.bannerTransfer = resp;
+    })
+    setTimeout(() => {
+      this.bannerColor = `${this.bannerTransfer.colorBanner}`;
+    }, 2000);
     this.idStudent = sessionStorage.getItem('studentId');
-    // const source = interval(2000);
-    // const subscribe = source.subscribe(() => this.getNewData());
-
     this.filteredOptions = this.autoComplete.valueChanges
       .pipe(
         map(value => typeof value === 'string' ? value : value.name),

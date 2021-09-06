@@ -60,6 +60,7 @@ import { ModalDetailComponent } from './modal-detail/modal-detail.component';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { UploadStudentImageComponent } from './modals/upload-student-image/upload-student-image.component';
+import { UploadBannerImageComponent } from './modals/upload-banner-image/upload-banner-image.component';
 
 
 @NgModule({
@@ -107,7 +108,8 @@ import { UploadStudentImageComponent } from './modals/upload-student-image/uploa
     TeacherInfoComponent,
     TeacherReferencesComponent,
     ModalDetailComponent,
-    UploadStudentImageComponent
+    UploadStudentImageComponent,
+    UploadBannerImageComponent
   ],
   imports: [
     BrowserModule,

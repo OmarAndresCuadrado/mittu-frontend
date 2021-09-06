@@ -5,6 +5,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { FeedBackService } from 'src/app/services/feed-back.service';
 import { TransactionService } from '../../../services/transaction.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ModalService } from 'src/app/services/modal.service';
 
 
 @Component({
@@ -27,11 +28,14 @@ export class AdminPanelComponent implements OnInit {
   public onMetrics: boolean;
   public plaformValue: any;
   public showTableFeedback: boolean;
+  public bannerImage: any;
+  public bannerObject: any;
 
   constructor(
     private transactionService: TransactionService,
     private feedBackService: FeedBackService,
     private formBuilder: FormBuilder,
+    private modalService: ModalService
   ) {
     this.onStudents = false;
     this.onTeachers = false;
@@ -199,5 +203,19 @@ export class AdminPanelComponent implements OnInit {
       });
   }
 
+  idBannerToUploadImage() {
+    this.modalService.openModal();
+  }
+
+  refreshPicture() {
+    this.bannerImage = '';
+    this.transactionService.getBannerInformation(1).subscribe((resp) => {
+      this.bannerObject = resp;
+    });
+
+    setTimeout(() => {
+      this.bannerImage = this.bannerObject.urlBanner;
+    }, 2000)
+  }
 
 }

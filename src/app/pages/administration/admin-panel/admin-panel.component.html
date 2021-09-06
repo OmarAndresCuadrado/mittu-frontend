@@ -28,6 +28,13 @@
                         <button class="btn btn-info" (click)="showGrupalCourses()">Ver cursos grupales </button>
                     </div>
                 </div>
+
+                <div class="row">
+                    <div class="col-12 text-center" style="padding-top: 20px;">
+                        <button class="btn btn-info" (click)="idBannerToUploadImage()" data-toggle="modal" data-target="#modalImageBanner"> Agregar banner
+                            y color </button>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -221,3 +228,5 @@
         <app-grupal-course-general></app-grupal-course-general>
     </div>
 </div>
+
+<app-upload-banner-image [bannerIdToHeredate]="1" (bannerEmmiterUpload)="refreshPicture()"> </app-upload-banner-image>
