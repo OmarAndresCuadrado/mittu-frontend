@@ -1,0 +1,18 @@
+.borders-sides {
+    border-color: #c9c9c9;
+    border-top: 1px solid;
+    height: 60px;
+    padding-top: 5px;
+  }
+  
+  .borders-sides-two {
+    border-color: #c9c9c9;
+    border-top: 1px solid;
+    padding-top: 5px;
+  }
+
+  .image-size {
+    max-width: 100%;
+    height: 190px;
+    border-radius: 50%;
+  }

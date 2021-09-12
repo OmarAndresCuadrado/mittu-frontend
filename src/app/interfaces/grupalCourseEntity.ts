@@ -9,4 +9,5 @@ export class grupalCourseEntity {
   studentes: studentEntity[];
   description?: any;
   urlMeet?: string;
+  price?: number;
 }

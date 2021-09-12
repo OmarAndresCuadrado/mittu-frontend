@@ -94,6 +94,7 @@ export class GrupalCourseFormComponent implements OnInit {
         icon: 'success',
         confirmButtonColor: '#5cb85c',
         confirmButtonText: 'Volver a la lista de cursos grupales',
+        allowOutsideClick: false
       }).then((result) => {
         if (result.value) {
           this.modalService.closeModal();

@@ -100,6 +100,7 @@ export class RegisterTeacherComponent implements OnInit {
       icon: 'success',
       confirmButtonColor: '#5cb85c',
       confirmButtonText: 'Ir al ingreso',
+      allowOutsideClick: false
     }).then((result) => {
       if (result.value) {
         this.router.navigate(['/login']);

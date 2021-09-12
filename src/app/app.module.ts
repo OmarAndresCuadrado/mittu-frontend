@@ -61,6 +61,8 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { UploadStudentImageComponent } from './modals/upload-student-image/upload-student-image.component';
 import { UploadBannerImageComponent } from './modals/upload-banner-image/upload-banner-image.component';
+import { CurrencyPipe } from '@angular/common';
+import { UpdateTeacherComponent } from './modals/update-teacher/update-teacher.component';
 
 
 @NgModule({
@@ -109,7 +111,8 @@ import { UploadBannerImageComponent } from './modals/upload-banner-image/upload-
     TeacherReferencesComponent,
     ModalDetailComponent,
     UploadStudentImageComponent,
-    UploadBannerImageComponent
+    UploadBannerImageComponent,
+    UpdateTeacherComponent
   ],
   imports: [
     BrowserModule,
@@ -127,7 +130,8 @@ import { UploadBannerImageComponent } from './modals/upload-banner-image/upload-
     MatDatepickerModule,
     MatNativeDateModule
   ],
-  providers: [{ provide: LocationStrategy, useClass: HashLocationStrategy },
+  providers: [CurrencyPipe,
+  { provide: LocationStrategy, useClass: HashLocationStrategy },
   { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },
   { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },],
   bootstrap: [AppComponent]

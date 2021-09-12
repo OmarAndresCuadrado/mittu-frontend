@@ -141,8 +141,10 @@
               <img src="{{endpoint_grupal_course_image}}/{{grupalCourse.picture}}" alt=""
                 class="img-thumbnail rounded image-size">
               <div style="padding-top: 10px;"></div>
-              <p class="card-text"> {{grupalCourse.name}} </p>
-              <p class="card-text">{{grupalCourse.description}} </p>
+              <p class="card-text"> <b>{{grupalCourse.name}}</b> </p>
+              <p class="card-text">{{grupalCourse.description}}</p>
+              <p class="card-text"> <b> Costo del curso </b></p>
+              <p class="card-text">{{grupalCourse.price | currency}}</p>
               <p class="card-text"><b> Horario</b> </p>
               <p class="card-text">{{grupalCourse.classTime}} </p>
               <div class="text-center space-over">

@@ -1,13 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { TransactionService } from 'src/app/services/transaction.service';
 import { Md5 } from 'ts-md5/dist/md5';
-import { Router, ActivatedRoute } from '@angular/router';
-import { WebSocketService } from '../../services/web-socket.service';
-import { Client } from '@stomp/stompjs';
 import { TemplateRef, ViewChild } from '@angular/core';
 import { NgbModal, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
-import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
-import Sw from 'sweetalert2';
 
 @Component({
   selector: 'app-transaction',
@@ -18,8 +13,6 @@ export class TransactionComponent implements OnInit {
   public opciones: any[] = [];
   public responseFromTransfer: any;
   private apiKey = 'U5IXKhl1VI8AAuW8N6DJARK45T';
-  private client: Client;
-  private destination_topic = '/app/teacher/socket';
   public seconds: number;
   public minutes: number;
   public totalTime: any;
@@ -42,10 +35,7 @@ export class TransactionComponent implements OnInit {
 
   constructor(
     private transactionService: TransactionService,
-    private router: Router,
-    private socketService: WebSocketService,
-    private boostrapModalService: NgbModal,
-    private activatedRoute: ActivatedRoute
+    private boostrapModalService: NgbModal
   ) { }
 
 
@@ -56,10 +46,6 @@ export class TransactionComponent implements OnInit {
 
     this.transactionService.getAllPaymentsOptions().subscribe(resp => {
        this.opciones = resp;
-      // resp.forEach(element => {
-      //   element.cost = 100;
-      //   this.opciones.push(element);
-      // });;
     });
 
     
@@ -86,7 +72,6 @@ export class TransactionComponent implements OnInit {
     let referenceCode: any;
     referenceCode = this.referenceCodeMethod();
     var form = document.createElement("form");
-    // form.target = "view";
     form.method = "POST";
     form.action = "https://checkout.payulatam.com/ppp-web-gateway-payu";
     var paramsToEncrypt = {
@@ -127,7 +112,6 @@ export class TransactionComponent implements OnInit {
 
     document.body.appendChild(form);
     form.submit();
-    // window.open('', 'view');
   }
 
   openModalTest() {

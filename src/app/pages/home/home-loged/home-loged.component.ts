@@ -230,7 +230,8 @@ export class HomeLogedComponent implements OnInit {
       confirmButtonColor: '#17a2b8',
       cancelButtonColor: '#4d545a',
       confirmButtonText: 'Cancelar notificación de tutoria',
-      cancelButtonText: 'Cancelar notificación de tutoria'
+      cancelButtonText: 'Cancelar notificación de tutoria',
+      allowOutsideClick: false
     }).then((result) => {
       if (result.isDismissed) {
         let quemado = this.idTeacher;
@@ -264,7 +265,8 @@ export class HomeLogedComponent implements OnInit {
       showCancelButton: false,
       confirmButtonColor: '#17a2b8',
       cancelButtonColor: '#4d545a',
-      confirmButtonText: 'ir a la tutoria'
+      confirmButtonText: 'ir a la tutoria',
+      allowOutsideClick: false
     }).then((result) => {
       if (result.isConfirmed) {
         this.goToMeetUrl();
@@ -304,7 +306,8 @@ export class HomeLogedComponent implements OnInit {
       showCancelButton: false,
       confirmButtonColor: '#17a2b8',
       cancelButtonColor: '#4d545a',
-      confirmButtonText: 'Aceptar'
+      confirmButtonText: 'Aceptar',
+      allowOutsideClick: false
     }).then((result) => {
       if (result.isConfirmed) {
         setTimeout(() => {
@@ -347,7 +350,8 @@ export class HomeLogedComponent implements OnInit {
         confirmButtonColor: '#17a2b8',
         cancelButtonColor: '#4d545a',
         confirmButtonText: 'Enviar notificacíon',
-        cancelButtonText: 'Cancelar'
+        cancelButtonText: 'Cancelar',
+        allowOutsideClick: false
       }).then((result) => {
         if (result.isConfirmed) {
           setTimeout(() => {
@@ -370,7 +374,8 @@ export class HomeLogedComponent implements OnInit {
         confirmButtonColor: '#17a2b8',
         cancelButtonColor: '#4d545a',
         confirmButtonText: 'Recargar saldo',
-        cancelButtonText: 'Volver'
+        cancelButtonText: 'Volver',
+        allowOutsideClick: false
       }).then((result) => {
         if (result.isConfirmed) {
           this.router.navigate(['/student-panel']);
@@ -593,6 +598,7 @@ export class HomeLogedComponent implements OnInit {
       showConfirmButton: true,
       confirmButtonColor: '#17a2b8',
       confirmButtonText: 'Continuar',
+      allowOutsideClick: false
     })
   }
 

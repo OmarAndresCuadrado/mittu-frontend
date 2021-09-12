@@ -84,6 +84,7 @@ export class TutoriaFormComponent implements OnInit {
         icon: 'success',
         confirmButtonColor: '#5cb85c',
         confirmButtonText: 'Volver a la lista de tutorias',
+        allowOutsideClick: false
       }).then((result) => {
         if (result.value) {
           this.modalService.closeModal();

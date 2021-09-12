@@ -93,7 +93,9 @@
             <div style="padding-top: 20px;"></div>
             <div class="row borders-sides">
                 <div class="col text-center" style="padding-top: 5px;">
-                    <button class="btn btn-info"> Editar información </button>
+                    <button class="btn btn-outline-info" data-toggle="modal" data-target="#modalTeacherUpdate" (click)="updateTeacherModal()">Editar
+                        información
+                    </button>
                 </div>
             </div>
             <div style="padding-bottom: 20px;"></div>
@@ -165,7 +167,7 @@
                             <div class="col-3 text-center">
                                 <button class="btn btn-info btn-block">Nueva opcion </button>
                             </div>
-                            
+
                             <div class="col-3">
                                 <button class="btn btn-info" (click)="showPersonalCourses()">Ver mis
                                     tutorias</button>
@@ -186,14 +188,16 @@
                             <div class="card border-info">
                                 <div class="row text-center">
                                     <div class="col-12 space-over space-bottom">
-                                        <p class="roboto-font-twenty-five" style="color: black;"> Tutorias que actualmente ofreces</p>
+                                        <p class="roboto-font-twenty-five" style="color: black;"> Tutorias que
+                                            actualmente ofreces</p>
                                     </div>
                                 </div>
 
                                 <div *ngIf="teacherCourses.length <= 0">
                                     <div class="row">
                                         <div class="col-12 text-center" style="color: darkturquoise;">
-                                            <p class="roboto-font-twenty" style="color: black;"> Actualmente no tienes creada alguna tutoría</p>
+                                            <p class="roboto-font-twenty" style="color: black;"> Actualmente no tienes
+                                                creada alguna tutoría</p>
                                         </div>
                                     </div>
                                 </div>
@@ -249,7 +253,8 @@
                             <div class="card border-info">
                                 <div class="row text-center">
                                     <div class="col-12 space-over space-bottom">
-                                        <p class="roboto-font-twenty-five" style="color: black;">Cursos grupales que actualmente ofreces </p>
+                                        <p class="roboto-font-twenty-five" style="color: black;">Cursos grupales que
+                                            actualmente ofreces </p>
                                     </div>
                                 </div>
 
@@ -296,8 +301,10 @@
                                                 <div class="card-body text-secondary">
                                                     <img src="{{endpoint_grupal_course_image}}/{{grupalCourse.picture}}"
                                                         alt="" class="img-thumbnail rounded image-size">
-                                                    <p class="card-text"><b>descripción de curso</b></p>
+                                                    <p class="card-text"><b>Descripción de curso</b></p>
                                                     <p class="card-text">{{grupalCourse.description}} </p>
+                                                    <p class="card-text"><b>Costo del curso</b></p>
+                                                    <p class="card-text">{{grupalCourse.price | currency}} </p>
                                                     <p class="card-text"><b> Horario</b> </p>
                                                     <p class="card-text">{{grupalCourse.classTime}} </p>
                                                     <p class="card-text"><b> Url de Google meet</b> </p>
@@ -358,7 +365,8 @@
                                 <div class="container">
                                     <div class="row space-bottom space-over text-center">
                                         <div class="col-12">
-                                            <p class="roboto-font-twenty-five" style="color: black;"> Panel de transacciones </p>
+                                            <p class="roboto-font-twenty-five" style="color: black;"> Panel de
+                                                transacciones </p>
                                         </div>
                                     </div>
                                     <div class="row space-over space-bottom">
@@ -392,7 +400,8 @@
 
                                     <div class="row space-over-max">
                                         <div class="col-12 text-center">
-                                            <p class="roboto-font-twenty-five" style="color: black;"> Historial de retiros </p>
+                                            <p class="roboto-font-twenty-five" style="color: black;"> Historial de
+                                                retiros </p>
                                         </div>
                                     </div>
                                     <div class="space-bottom">
@@ -525,6 +534,8 @@
 
     <app-upload-teacher-image *ngIf="idTeacherImageToUpload" [teacherIdToHeredate]="idTeacherImageToUpload"
         (TeacherEmmiterUpload)="refreshPicture()"></app-upload-teacher-image>
+
+    <app-update-teacher *ngIf="teacherFoundToUpdate" [teacherObjectToHeredate]="teacherFoundToUpdate" (teacherUpdateEmitter)="updateTeacherInfo($event)"> </app-update-teacher>
 
     <div style="padding-top: 140px">
         <!-- <app-footer></app-footer> -->

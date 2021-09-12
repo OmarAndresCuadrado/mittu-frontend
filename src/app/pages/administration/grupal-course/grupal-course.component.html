@@ -63,6 +63,11 @@
                     <td mat-cell *matCellDef="let row"> {{row.urlMeet}} </td>
                 </ng-container>
 
+                <ng-container matColumnDef="price">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Costo del curso </th>
+                    <td mat-cell *matCellDef="let row"> {{row.price | currency}} </td>
+                </ng-container>
+
                 <ng-container matColumnDef="ver">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header> Ver cursos </th>
                     <td mat-cell *matCellDef="let row">

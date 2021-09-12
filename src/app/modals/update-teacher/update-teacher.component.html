@@ -1,0 +1,110 @@
+<!-- Modal -->
+<div *ngIf="modalService.modal && teacherObjectToHeredate" class="modal fade" id="modalTeacherUpdate" tabindex="-1"
+    role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="closeModal()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row space-over space-bottom">
+                    <div class="col-12 text-center">
+                        <h2> Actualizar información del docente</h2>
+                    </div>
+                </div>
+                <div class="text-center">
+                    <form autocomplete="off" [formGroup]="teacherForm">
+
+                        <div class="form-group">
+                            <label for="formGroupExampleInput">Nombres</label>
+                            <input type="text" class="form-control" id="name"
+                                placeholder="{{teacherObjectToHeredate?.name}}" formControlName="name">
+                            <div *ngIf="name.invalid && (name.dirty || name.touched)" class="alert alert-danger">
+                                <div *ngIf="name.errors.minlength || name.errors.maxlength ">
+                                    Los nombres deben de tener entre 2 y 200 caracteres
+                                </div>
+                                <div *ngIf="name.errors.required">
+                                    Los nombres son requeridos
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="formGroupExampleInput">Apellidos</label>
+                            <input type="text" class="form-control" id="lastName"
+                                placeholder="{{teacherObjectToHeredate?.lastName}}" formControlName="lastName">
+                            <div *ngIf="lastName.invalid && (lastName.dirty || lastName.touched)"
+                                class="alert alert-danger">
+                                <div *ngIf="lastName.errors.minlength || lastName.errors.maxlength ">
+                                    Los apellidos deben de tener entre 2 y 200 caracteres
+                                </div>
+                                <div *ngIf="lastName.errors.required">
+                                    Los apellidos son requeridos
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="formGroupExampleInput">Telefono</label>
+                            <input type="text" class="form-control" id="phone"
+                                placeholder="{{teacherObjectToHeredate?.phone}}" formControlName="phone">
+                            <div *ngIf="phone.invalid && (phone.dirty || phone.touched)" class="alert alert-danger">
+                                <div *ngIf="phone.errors.minlength || phone.errors.maxlength ">
+                                    El telefono debe de tener entre 2 y 12 numeros
+                                </div>
+                                <div *ngIf="phone.errors.required">
+                                    El telefono es requerido
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="formGroupExampleInput">Descripción profesional</label>
+                            <textarea type="text" class="form-control" id="description"
+                                placeholder="{{teacherObjectToHeredate?.description}}"
+                                formControlName="description"> </textarea>
+                            <div *ngIf="description.invalid && (description.dirty || description.touched)"
+                                class="alert alert-danger">
+                                <div *ngIf="description.errors.minlength || description.errors.maxlength ">
+                                    La descripción debe de tener entre 2 y 900 caracteres
+                                </div>
+                                <div *ngIf="description.errors.required">
+                                    La descripción es requerido
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="formGroupExampleInput">Costo por hora</label>
+                            <input type="text" class="form-control" id="hourCost"
+                                placeholder="{{teacherObjectToHeredate?.hourCost}}" formControlName="hourCost">
+                            <div *ngIf="hourCost.invalid && (hourCost.dirty || hourCost.touched)"
+                                class="alert alert-danger">
+                                <div *ngIf="hourCost.errors.required">
+                                    El precio es requerido
+                                </div>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+            <div class="row" style="padding-bottom: 20px;">
+                <div class="col-1"></div>
+                <div class="col-5 text-center">
+                    <div *ngIf="teacherForm.valid">
+                        <button class="btn btn-info btn-block" data-dismiss="modal"
+                            (click)="updateTeacher(); teacherForm.reset()">Guardar</button>
+                    </div>
+                </div>
+                <div class="col-5 text-center">
+                    <button type="button" class="btn btn-outline-info btn-block" data-dismiss="modal"
+                        (click)="closeModal(); teacherForm.reset()">Cerrar</button>
+                </div>
+                <div class="col-1"></div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -42,8 +42,8 @@ table {
   }
   
   .image-size {
-    max-width: 250px;
-    max-height: 250px;
+    max-width: 100%;
+    max-height: 150px;
   }
   
   .size {

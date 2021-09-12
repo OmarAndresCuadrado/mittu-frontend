@@ -4,6 +4,7 @@ import { ModalService } from '../../services/modal.service';
 import { grupalCourseEntity } from '../../interfaces/grupalCourseEntity';
 import { GrupalCoursesService } from '../../services/grupal-courses.service';
 import Swal from 'sweetalert2';
+import { CurrencyPipe } from '@angular/common';
 
 @Component({
   selector: 'app-grupal-course-form-create',
@@ -11,7 +12,6 @@ import Swal from 'sweetalert2';
   styleUrls: ['./grupal-course-form-create.component.css']
 })
 export class GrupalCourseFormCreateComponent implements OnInit {
-
 
   @Input() grupalCourse: grupalCourseEntity;
   @Output() grupalCourseEmmiter = new EventEmitter<any>();
@@ -22,7 +22,7 @@ export class GrupalCourseFormCreateComponent implements OnInit {
     public modalService: ModalService,
     public grupalCoursesService: GrupalCoursesService,
     private formBuilder: FormBuilder,
-
+    private currencyPipe: CurrencyPipe
   ) { }
 
   get name() {
@@ -37,17 +37,29 @@ export class GrupalCourseFormCreateComponent implements OnInit {
     return this.grupalCourseForm.get('classTime');
   }
 
+  get price() {
+    return this.grupalCourseForm.get('price');
+  }
+
   get urlMeet() {
     return this.grupalCourseForm.get('urlMeet');
   }
-
 
   ngOnInit(): void {
     this.grupalCourseForm = this.formBuilder.group({
       name: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(255)]],
       description: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(255)]],
       classTime: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(255)]],
+      price: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(10)]],
       urlMeet: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(255)]]
+    });
+
+    this.grupalCourseForm.valueChanges.subscribe(form => {
+      if (form.price) {
+        this.grupalCourseForm.patchValue({
+          price: this.currencyPipe.transform(form.price.replace(/\D/g, '').replace(/^0+/, ''), '', '', '1.0-0')
+        }, { emitEvent: false });
+      }
     });
   }
 
@@ -55,11 +67,12 @@ export class GrupalCourseFormCreateComponent implements OnInit {
     this.modalService.closeModal();
   }
 
-
   createGrupalCourseAndCloseModal() {
+    this.grupalCourseForm.patchValue({
+      price: this.grupalCourseForm.value.price.replace(/\,/g, '')
+    }, { emitEvent: false });
     let grupalCourseToCreate = this.grupalCourse = this.grupalCourseForm.value;
-    grupalCourseToCreate.idTeacher =  this.idTeacherHeredado;
-
+    grupalCourseToCreate.idTeacher = this.idTeacherHeredado;
     this.grupalCoursesService.createGrupalCourse(grupalCourseToCreate).subscribe((resp) => {
       Swal.fire({
         title: `Creación exitosa`,
@@ -67,6 +80,7 @@ export class GrupalCourseFormCreateComponent implements OnInit {
         icon: 'success',
         confirmButtonColor: '#5cb85c',
         confirmButtonText: 'Volver a la lista de cursos grupales',
+        allowOutsideClick: false
       }).then((result) => {
         if (result.value) {
           this.modalService.closeModal();

@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import { environment } from '../../../environments/environment.prod';
 import { AuthService } from '../../services/auth.service';
 import { StudentService } from 'src/app/services/student.service';
+import { CurrencyPipe } from '@angular/common';
 
 @Component({
   selector: 'app-grupal-course',
@@ -19,32 +20,29 @@ export class GrupalCourseComponent implements OnInit {
   public endpoint_grupal_course_image = environment.grupalCourse.host_image;
   public isTutoriaAvailable: boolean;
   public idStudent: any;
+  public studentMoney: any;
 
   constructor(
     public modalService: ModalService,
     public studentService: StudentService,
     private grupalCourseService: GrupalCoursesService,
     private router: Router,
-    public authService: AuthService    
+    public authService: AuthService,
+    private currencyPipe: CurrencyPipe
   ) {
     this.isTutoriaAvailable = false;
-   }
-
-  ngOnInit(): void {
-   this.idStudent = sessionStorage.getItem('studentId');
   }
 
+  ngOnInit(): void {
+    this.idStudent = sessionStorage.getItem('studentId');
+    this.getStudentMoneyMethod();
+  }
 
   getStudentMoneyMethod() {
     this.studentService.getStudentMoney(this.idStudent).subscribe(resp => {
-      if (resp >= +5000) {
-        console.log("can have tutoria");
-        this.isTutoriaAvailable = true;
-      } else {
-        console.log("cant have tutoria");
-        this.isTutoriaAvailable = false;
-      }
-    })
+      this.studentMoney = resp;
+      console.log("dinero actual del estudiante ", this.studentMoney);
+    });
   }
 
   closeModal() {
@@ -57,17 +55,21 @@ export class GrupalCourseComponent implements OnInit {
   }
 
   makeInscription() {
-    this.getStudentMoneyMethod();
-    if (this.isTutoriaAvailable == false) {
+    console.log("validacion del dinero de inscripcion dinero estudiante", this.studentMoney , "costo del curso grupal " ,  this.grupalCourse.price);
+    console.log("validacion" , this.studentMoney == this.grupalCourse.price);
+    let diplsayCourseValueString = this.grupalCourse.price.toString();
+    let diplsayCourseValue = this.currencyPipe.transform(diplsayCourseValueString.replace(/\D/g, '').replace(/^0+/, ''), '', '', '1.0-0')
+    if (this.studentMoney < this.grupalCourse.price) {
       Sw.fire({
-        title: 'Querido estudiante, debes contar con al menos 5.000 COP en tu saldo para poder ingresar a la tutoría.',
+        title: `Querido estudiante, debes contar con ${diplsayCourseValue} COP en tu saldo para poder inscribir el curso grupal.`,
         text: "¿Deseas recargar saldo?",
         icon: 'info',
         showCancelButton: true,
         confirmButtonColor: '#17a2b8',
         cancelButtonColor: '#4d545a',
         confirmButtonText: 'Recargar saldo',
-        cancelButtonText: 'Volver'
+        cancelButtonText: 'Volver',
+        allowOutsideClick: false
       }).then((result) => {
         if (result.isConfirmed) {
           this.router.navigate(['/student-panel']);
@@ -76,7 +78,7 @@ export class GrupalCourseComponent implements OnInit {
     } else {
       Sw.fire({
         'title': `Realizar inscripción`,
-        'text': `¿ Desea realizar la inscripcion para el curso grupal ${this.grupalCourse.name}?`,
+        'html': `¿ Desea realizar la inscripcion para el curso grupal ${this.grupalCourse.name}? Nota: al realizar la inscripción se descontaran <b>${diplsayCourseValue}.00 COP </b> de tu cuenta`,
         'icon': `question`,
         showCloseButton: true,
         showCancelButton: true,
@@ -84,6 +86,7 @@ export class GrupalCourseComponent implements OnInit {
         cancelButtonText: `Cancelar`,
         confirmButtonColor: '#17a2b8',
         cancelButtonColor: '#4d545a',
+        allowOutsideClick: false
       }).then((result) => {
         if (result.isConfirmed) {
           let studentId = sessionStorage.getItem('studentId');

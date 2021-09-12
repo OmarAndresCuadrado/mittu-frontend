@@ -89,6 +89,7 @@ export class PanelComponent implements OnInit {
   public studentMinutes: number;
   public globalIdTeacher: any;
   public gloablIdStudent: any;
+  public teacherFoundToUpdate: teacherEntity;
 
   @ViewChild('editModal') editModal: TemplateRef<any>; // Note: TemplateRef
 
@@ -278,7 +279,8 @@ export class PanelComponent implements OnInit {
       confirmButtonColor: '#17a2b8',
       cancelButtonColor: '#4d545a',
       confirmButtonText: 'Aceptar',
-      cancelButtonText: 'Rechazar'
+      cancelButtonText: 'Rechazar',
+      allowOutsideClick: false
     }).then((result) => {
       if (result.isConfirmed) {
         this.sendPositiveAnswerToChannel();
@@ -359,6 +361,7 @@ export class PanelComponent implements OnInit {
         cancelButtonText: `Rechazar`,
         confirmButtonColor: '#17a2b8',
         cancelButtonColor: '#4d545a',
+        allowOutsideClick: false
       }).then((result) => {
         if (result.isConfirmed) {
           this.modalService.openModal();
@@ -559,6 +562,7 @@ export class PanelComponent implements OnInit {
       cancelButtonText: `Detener cronometro`,
       confirmButtonColor: '#17a2b8',
       cancelButtonColor: '#4d545a',
+      allowOutsideClick: false
     }).then((result) => {
       if (result.isConfirmed) {
         this.showStart = false;
@@ -659,6 +663,23 @@ export class PanelComponent implements OnInit {
   playSound() {
     let sound = new Audio('../../../../assets/sound/notification.wav');
     sound.play();
+  }
+
+  updateTeacherModal() {
+    this.teacherFoundToUpdate =  this.teacherFound;
+    this.modalService.openModal();
+  }
+
+  updateTeacherInfo(event: any) {
+    console.log("valor del event ", event)
+    if(event) {
+      setTimeout(() => {
+        this.teacherService.getTeachersById(this.idTeacher).subscribe(resp => {
+          this.teacherFound = resp;
+          console.log("informacion recuperada del backend ", resp );
+        })
+      }, 2000);
+    }
   }
 
 }

@@ -18,11 +18,11 @@ export class TeacherService {
   public onChatToHeredate: any;
 
   constructor(
-    private http: HttpClient,
-    private authService: AuthService,
-    private router: Router) { }
+    private http: HttpClient) { }
 
-
+  updateTeacher(teacherId: number, teacherObject: teacherEntity) {
+    return this.http.put(`${this.endpoint_teacher}/${teacherId}`, teacherObject);
+  }
 
   registerTeacher(Teacher: teacherEntity): Observable<teacherEntity> {
     return this.http.post<teacherEntity>(this.endpoint_teacher, Teacher);

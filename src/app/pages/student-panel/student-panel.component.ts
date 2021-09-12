@@ -184,6 +184,7 @@ export class StudentPanelComponent implements OnInit {
       showCancelButton: false,
       confirmButtonText: `Ir a mi panel`,
       confirmButtonColor: '#10d10d',
+      allowOutsideClick: false
     }).then((result) => {
       if (result.isConfirmed) {
         window.location.href.split("?")[0];
@@ -210,6 +211,7 @@ export class StudentPanelComponent implements OnInit {
       showCancelButton: false,
       confirmButtonText: `Ir a mi panel`,
       confirmButtonColor: '#10d10d',
+      allowOutsideClick: false
     }).then((result) => {
       if (result.isConfirmed) {
         // this.router.navigate(['/student-panel']);

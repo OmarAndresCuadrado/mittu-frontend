@@ -44,7 +44,16 @@ export class HeaderComponent implements OnInit {
   }
 
   swalAlert() {
-    Sw.fire('Querido estudiante', 'Si deseas inscribirte a un curso grupal o tutoría recuerda que debes estar registrado en la plataforma Mittu', 'info');
+    Sw.fire({
+      title: 'Querido visitante',
+      text: "Si deseas inscribirte a un curso grupal, tutoría o dictar clases en mittu, recuerda que debes estar registrado en la plataforma.",
+      icon: 'info',
+      showCancelButton: false,
+      confirmButtonColor: '#17a2b8',
+      cancelButtonColor: '#4d545a',
+      confirmButtonText: 'Continuar',
+      allowOutsideClick: false
+    });
   }
 
   verify() {

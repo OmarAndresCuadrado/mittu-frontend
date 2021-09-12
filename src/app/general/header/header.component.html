@@ -15,14 +15,23 @@
         <div *ngIf="authService.hasRole('ROLE_ADMIN')">
             <button class="col-3 btn btn-info" (click)="myProfileAdmin()"> ver perfil </button>
         </div>
-        <div *ngIf="!noAuth" class="col-3">
-            <button class="col-3 btn btn-info" (click)="goToRegisterStudent()"> Registrarme como estudiante</button>
-        </div>
-        <div *ngIf="!noAuth" class="col-3">
-            <button class="col-3 btn btn-info" (click)="goToRegisterTeacher()"> Registrarme como docente</button>
-        </div>
-        <div *ngIf="!noAuth" class="col-3">
-            <button class="col-3 btn option-one" (click)="goToLogin()"> Ingresar </button>
+    </div>
+</div>
+
+<div *ngIf="!noAuth" style="padding-top: 40px; padding-bottom: 40px;">
+    <div class="container">
+        <div class="row">
+            <div class="col-5">
+                <button class="btn btn-info" (click)="goToRegisterStudent()"> Registrarme como
+                    estudiante</button>
+            </div>
+            <div class="col-5">
+                <button class="btn btn-info" (click)="goToRegisterTeacher()"> Registrarme como
+                    docente</button>
+            </div>
+            <div class="col-2">
+                <button class="btn btn-info" (click)="goToLogin()"> Ingresar </button>
+            </div>
         </div>
     </div>
 </div>

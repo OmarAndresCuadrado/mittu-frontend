@@ -11,72 +11,68 @@
 
             </div>
             <div class="modal-body">
-                <div class="row space-over">
-                    <div class="col-12 text-center">
-                        <img src="{{endpoint_teacher_image}}/{{teacherFound.picture }}" alt=""
-                            class="img-thumbnail rounded image-size" style="border-radius: 50% !important;">
+                <div class="col-12">
+                    <div style="padding-top: 20px;"></div>
+                    <div class="row">
+                        <div class="col-12 text-center" style="color: white;">
+                            <img src="{{endpoint_teacher_image}}/{{teacherFound.picture }}" alt="" class="image-size">
+                            <div style="padding-top: 20px;"></div>
+                        </div>
                     </div>
+
+                    <div class="row">
+                        <div class="col text-center" style="padding-top: 20px;">
+                            <p class="roboto-font-twenty-five"> <b> {{teacherFound.name}} {{teacherFound.lastName}} </b>
+                            </p>
+                            <p class="roboto-font-twenty"> {{teacherFound.education}} </p>
+                        </div>
+                    </div>
+
+                    <div class="row borders-sides">
+                        <div class="col text-left" style="padding-top: 15px;">
+                            <p class="roboto-font-twenty" style="color: black;"> Correo: {{teacherFound.email}} </p>
+                        </div>
+                    </div>
+
+                    <div class="row borders-sides">
+                        <div class="col text-left" style="padding-top: 15px;">
+                            <p class="roboto-font-twenty" style="color: black;"> Telefono: {{teacherFound.phone}} </p>
+                        </div>
+                    </div>
+
+                    <div class="row borders-sides">
+                        <div class="col text-left" style="padding-top: 15px;">
+                            <p class="roboto-font-twenty" style="color: black;"> Categoria : {{teacherFound.profile}}
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="row borders-sides">
+                        <div class="col text-left" style="padding-top: 15px;">
+                            <p class="roboto-font-twenty" style="color: black;"> Costo por hora :
+                                {{teacherFound.hourCost |
+                                currency}} COP </p>
+                        </div>
+                    </div>
+
+
+                    <div class="row borders-sides-two">
+                        <div class="col text-left" style="padding-top: 15px;">
+                            <p class="roboto-font-twenty" style="color: black;"> Descripción profesional</p>
+                            <p class="text-justify"> {{teacherFound.description}}</p>
+                        </div>
+                    </div>
+
+                    <div class="row borders-sides-two">
+                        <div class="col text-left" style="padding-top: 15px;">
+                            <p class="roboto-font-twenty" style="color: black;"> Clasificación:
+                                (<u>{{teacherFound.calification}}</u> ) de ( <u>{{teacherFound.countStudent}}</u> )
+                                clasificaciones de estudiantes. </p>
+                        </div>
+                    </div>
+                    <div style="padding-top: 20px; padding-bottom: 20px;"></div>
+
                 </div>
-
-
-                <div class="text-center">
-                    <div class="row" style="padding-top: 5px;">
-                        <div class="col-6">
-                            <h2 style="color: rgb(70, 219, 219);"> Nombre </h2>
-                        </div>
-                        <div class="col-6">
-                            <h2> {{teacherFound.name}} {{teacherFound.lastName}} </h2>
-                        </div>
-                    </div>
-
-                    <div class="row" style="padding-top: 5px;">
-                        <div class="col-6">
-                            <h2 style="color: rgb(70, 219, 219);"> Educación </h2>
-                        </div>
-                        <div class="col-6">
-                            <h2> {{teacherFound.education}} </h2>
-                        </div>
-                    </div>
-
-                    <div class="row" style="padding-top: 5px;">
-                        <div class="col-6">
-                            <h2 style="color: rgb(70, 219, 219);"> Costo por hora</h2>
-                        </div>
-                        <div class="col-6">
-                            <h2> {{teacherFound.hourCost | currency}} COP </h2>
-                        </div>
-                    </div>
-
-                    <div class="row" style="padding-top: 5px;">
-                        <div class="col-6">
-                            <h2 style="color: rgb(70, 219, 219);"> Acerca de mi </h2>
-                        </div>
-                        <div class="col-6">
-                            <h2> {{teacherFound.description}}</h2>
-                        </div>
-                    </div>
-
-                    <div class="row" style="padding-top: 5px;">
-                        <div class="col-6">
-                            <h2 style="color: rgb(70, 219, 219);"> Clasificación </h2>
-                        </div>
-                        <div class="col-6">
-                            <h2> Promedio: ( <u>{{teacherFound.calification}}</u> ) de ( <u>{{teacherFound.countStudent}}</u> ) clasificaciones</h2>
-                        </div>
-                    </div>
-
-                   
-
-                    <div class="row" style="padding-top: 15px;">
-                       
-                    </div>
-
-                    <div class="row" style="padding-top: 15px;">
-                       
-                    </div>
-                </div>
-
-
 
             </div>
             <div class="modal-footer">

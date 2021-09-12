@@ -21,7 +21,7 @@
                     </div>
                 </div>
                 <div class="row space-over space-bottom">
-                    <div class="col-6">
+                    <div class="col-4">
                         Horario de clase:
                     </div>
                     <div class="col-6">
@@ -29,13 +29,23 @@
                     </div>
                 </div>
 
-                <div class="row">
-                    <div class="col-6">
+                <div class="row space-over space-bottom">
+                    <div class="col-4">
                         Descripcion del curso:
                     </div>
 
                     <div class="col-6">
                         {{grupalCourse.description}}
+                    </div>
+                </div>
+
+                <div class="row space-over space-bottom">
+                    <div class="col-4">
+                        Costo de inscripción del curso:
+                    </div>
+
+                    <div class="col-6">
+                        {{grupalCourse.price | currency}}
                     </div>
                 </div>
 
