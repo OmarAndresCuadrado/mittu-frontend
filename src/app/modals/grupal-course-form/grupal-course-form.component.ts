@@ -4,6 +4,7 @@ import { ModalService } from '../../services/modal.service';
 import { grupalCourseEntity } from '../../interfaces/grupalCourseEntity';
 import { GrupalCoursesService } from '../../services/grupal-courses.service';
 import Swal from 'sweetalert2';
+import { CurrencyPipe } from '@angular/common';
 
 @Component({
   selector: 'app-grupal-course-form',
@@ -21,7 +22,7 @@ export class GrupalCourseFormComponent implements OnInit {
     public modalService: ModalService,
     public grupalCoursesService: GrupalCoursesService,
     private formBuilder: FormBuilder,
-
+    private currencyPipe: CurrencyPipe
   ) {
     this.grupalCourseToEdit = new grupalCourseEntity();
   }
@@ -42,12 +43,25 @@ export class GrupalCourseFormComponent implements OnInit {
     return this.grupalCourseForm.get('name');
   }
 
+  get price() {
+    return this.grupalCourseForm.get('price');
+  }
+
   ngOnInit(): void {
     this.grupalCourseForm = this.formBuilder.group({
       description: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(255)]],
       classTime: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(255)]],
       urlMeet: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(255)]],
+      price: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(10)]],
       name: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(255)]]
+    });
+
+    this.grupalCourseForm.valueChanges.subscribe(form => {
+      if (form.price) {
+        this.grupalCourseForm.patchValue({
+          price: this.currencyPipe.transform(form.price.replace(/\D/g, '').replace(/^0+/, ''), '', '', '1.0-0')
+        }, { emitEvent: false });
+      }
     });
   }
 
@@ -56,13 +70,18 @@ export class GrupalCourseFormComponent implements OnInit {
   }
 
   updateCourseAndCloseModal(grupalCourse: any, idGrupalCourse: any) {
+    this.grupalCourseForm.patchValue({
+      price: this.grupalCourseForm.value.price.replace(/\,/g, '')
+    }, { emitEvent: false });
+
     let actualGrupalCourse = this.grupalCourse;
     let updateGrupalCourse = this.grupalCourseForm.value;
+
     if (updateGrupalCourse.classTime === null) {
       updateGrupalCourse.classTime = actualGrupalCourse.classTime;
     }
 
-    if (updateGrupalCourse.classTime === null) {
+    if (updateGrupalCourse.name === null) {
       updateGrupalCourse.name = actualGrupalCourse.name;
     }
 
@@ -72,6 +91,10 @@ export class GrupalCourseFormComponent implements OnInit {
 
     if (updateGrupalCourse.urlMeet === null) {
       updateGrupalCourse.urlMeet = actualGrupalCourse.urlMeet;
+    }
+
+    if (updateGrupalCourse.price === null) {
+      updateGrupalCourse.price = actualGrupalCourse.price;
     }
 
     if (actualGrupalCourse.name != updateGrupalCourse.name && updateGrupalCourse.name.length > 0) {
@@ -85,6 +108,10 @@ export class GrupalCourseFormComponent implements OnInit {
 
     } if (actualGrupalCourse.urlMeet != updateGrupalCourse.urlMeet && updateGrupalCourse.urlMeet.length > 0) {
       actualGrupalCourse.urlMeet = updateGrupalCourse.urlMeet;
+    }
+
+    if (actualGrupalCourse.price != updateGrupalCourse.price && updateGrupalCourse.price > 0) {
+      actualGrupalCourse.price = updateGrupalCourse.price;
     }
 
     this.grupalCoursesService.updateGrupalCourseInformation(actualGrupalCourse, idGrupalCourse).subscribe((resp) => {

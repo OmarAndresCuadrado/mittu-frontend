@@ -71,19 +71,13 @@ export class StudentService {
       );
   }
 
-  saveStudent() {
-
-    // if(this.isNoAutorizado(e)){
-    //   return throwError(e);
-    // }
-
+  addNewGrupalCourse(courseCost: any, teacherId: number, studentId: number,): Observable<any> {
+    return this.http.get<any>(`${this.endpoint_student}/teacher/set/grupalCourse/${courseCost}/${teacherId}/${studentId}`)
   }
 
-  makeInscriptionToGrupalCourse(idGruaplCourse: any, idStduent: any) {
-
+  getTutoriasDetailsForStudent(studentId: number) {
+    let endpointStudentDetails = `${this.endpoint_student}/get/class-details/${studentId}`;
+    return this.http.get<any>(endpointStudentDetails);
   }
 
-  updateStudent() {
-
-  }
 }

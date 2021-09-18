@@ -44,9 +44,11 @@
             <div class="row">
                 <div class="col text-center" style="color: white;">
                     <h1> <b> <span class="badge badge-info"> mittu </span> </b> </h1>
-                    <img src="{{endpoint_student_image}}/{{studentImage }}" alt="" class="img-thumbnail" style="border-radius: 50%;">
+                    <img src="{{endpoint_student_image}}/{{studentImage }}" alt="" class="img-thumbnail"
+                        style="border-radius: 50%;">
                     <div style="padding-top: 20px;"></div>
-                    <button class="btn btn-info col-12" (click)="idStudentToUploadImage()" data-toggle="modal" data-target="#modalImageStudent">Seleccionar
+                    <button class="btn btn-info col-12" (click)="idStudentToUploadImage()" data-toggle="modal"
+                        data-target="#modalImageStudent">Seleccionar
                         foto de perfil</button>
                 </div>
             </div>
@@ -100,7 +102,8 @@
 
             <div class="row" style="padding-top: 20px;">
                 <div class="col-4 text-center">
-                    <button class="btn btn-info btn-block">Nueva opcion </button>
+                    <button class="btn btn-info btn-block" (click)="showTutoriaDetails()"> Ver detalles de las tutorías
+                    </button>
                 </div>
 
                 <div class="col-4 text-center">
@@ -117,6 +120,61 @@
             <div style="padding-top: 20px; padding-bottom: 20px;"> </div>
 
             <div class="card border-info">
+
+                <div *ngIf="onTutoriasDetails && dataSourceTwo.data.length <=  0">
+                    <div class="card bg-info">
+                        <div class="row" style="padding-bottom: 30px; padding-top: 30px;">
+                            <div class="col-12 text-center text-white">
+                                <h2> Aún no has realizado alguna tutoría </h2>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div *ngIf="onTutoriasDetails && dataSourceTwo.data.length >  0" style="padding-bottom: 40px;">
+                    <mat-form-field appearance="standard">
+                        <input matInput (keyup)="applyFilterTwo($event)" placeholder="Ex. Juan Pablo" #input>
+                    </mat-form-field>
+
+                    <div class="mat-elevation-z8">
+                        <table mat-table [dataSource]="dataSourceTwo" matSort>
+
+                            <ng-container matColumnDef="FechaDeLaTutoria">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header> Fecha de la tutoría </th>
+                                <td mat-cell *matCellDef="let row"> {{row.fechaDeCreacion}}</td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="DuracionDeLaTutoria">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header> Duración de la tutoría
+                                </th>
+                                <td mat-cell *matCellDef="let row"> {{row.duration}} minutos </td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="NombreDelEstudiante">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header> Nombre del profesor
+                                </th>
+                                <td mat-cell *matCellDef="let row"> {{row.teacherName}} </td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="PagoRealizadoPorLaTutoria">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header> Pago realiizado por la
+                                    tutoría </th>
+                                <td mat-cell *matCellDef="let row"> {{row.studentPayment}} </td>
+                            </ng-container>
+
+                            <tr mat-header-row *matHeaderRowDef="displayedColumnsTwo"></tr>
+                            <tr mat-row *matRowDef="let row; columns: displayedColumnsTwo;"></tr>
+
+                            <tr class="mat-row" *matNoDataRow>
+                                <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"
+                                </td>
+                            </tr>
+                        </table>
+
+                        <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+                    </div>
+                </div>
+
                 <div class="spaces-courses">
                     <div *ngIf="grupalCourses" style="padding-bottom: 40px;">
                         <div class="row">
@@ -225,7 +283,7 @@
     </div>
 
     <app-upload-student-image *ngIf="idStudentImageToUpload" [studentIdToHeredate]="idStudentImageToUpload"
-    (studentEmmiterUpload)="refreshPicture()"></app-upload-student-image>
+        (studentEmmiterUpload)="refreshPicture()"></app-upload-student-image>
 
 
     <div style="padding-top: 140px">

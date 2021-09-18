@@ -68,7 +68,7 @@
                             <div *ngIf="description.invalid && (description.dirty || description.touched)"
                                 class="alert alert-danger">
                                 <div *ngIf="description.errors.minlength || description.errors.maxlength ">
-                                    La descripción debe de tener entre 2 y 900 caracteres
+                                    La descripción debe de tener entre 2 y 2500 caracteres
                                 </div>
                                 <div *ngIf="description.errors.required">
                                     La descripción es requerido
@@ -94,10 +94,8 @@
             <div class="row" style="padding-bottom: 20px;">
                 <div class="col-1"></div>
                 <div class="col-5 text-center">
-                    <div *ngIf="teacherForm.valid">
-                        <button class="btn btn-info btn-block" data-dismiss="modal"
-                            (click)="updateTeacher(); teacherForm.reset()">Guardar</button>
-                    </div>
+                    <button class="btn btn-info btn-block" data-dismiss="modal"
+                        (click)="updateTeacher()">Guardar</button>
                 </div>
                 <div class="col-5 text-center">
                     <button type="button" class="btn btn-outline-info btn-block" data-dismiss="modal"

@@ -95,6 +95,9 @@ export class GrupalCourseComponent implements OnInit {
             "courseId": courseId,
             "studentId": studentId
           }
+          this.studentService.addNewGrupalCourse(this.grupalCourse.price, this.grupalCourse.idTeacher, this.idStudent).subscribe((resp) => {
+            resp;
+          });
           this.grupalCourseService.makeInscriptionToGrupalCourse(data).subscribe(resp => {
             if (resp === null || resp === 'null') {
               Sw.fire('Inscripcion realizada', `Te has inscrito al curso ${this.grupalCourse.name}, ahora puedes ver tu nuevo curso inscrito en tu perfil de usuario`, 'success')

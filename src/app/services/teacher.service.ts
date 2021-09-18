@@ -100,4 +100,9 @@ export class TeacherService {
     let teacherProfileEndpoint = `${this.endpoint_teacher}/get/information`;
     return this.http.get<any>(teacherProfileEndpoint);
   }
+
+  getTutoriasDetailsForTeacher(studentId: number): Observable<any> {
+    let teacherDetailsEndpoint = `${this.endpoint_teacher}/get/class-details/${studentId}`;
+    return this.http.get<any>(teacherDetailsEndpoint);
+  }
 }

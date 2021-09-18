@@ -93,7 +93,8 @@
             <div style="padding-top: 20px;"></div>
             <div class="row borders-sides">
                 <div class="col text-center" style="padding-top: 5px;">
-                    <button class="btn btn-outline-info" data-toggle="modal" data-target="#modalTeacherUpdate" (click)="updateTeacherModal()">Editar
+                    <button class="btn btn-outline-info" data-toggle="modal" data-target="#modalTeacherUpdate"
+                        (click)="updateTeacherModal()">Editar
                         información
                     </button>
                 </div>
@@ -164,8 +165,10 @@
                 <div class="col-12">
                     <div class="col-12 horizontal-panel">
                         <div class="row text-center" style="padding-top: 40px;">
-                            <div class="col-3 text-center">
-                                <button class="btn btn-info btn-block">Nueva opcion </button>
+
+                            <div class="col-3">
+                                <button class="btn btn-info btn-block" (click)="showTutoriaDetails()">Ver detalle de
+                                    tutorías</button>
                             </div>
 
                             <div class="col-3">
@@ -183,6 +186,69 @@
                         </div>
 
                         <div style="padding-top: 40px;"></div>
+
+                        <div *ngIf="dataSourceTwo">
+                            <div *ngIf="onShowTutoriasDetails && dataSourceTwo.data.length <=  0">
+                                <div class="card bg-info">
+                                    <div class="row" style="padding-bottom: 30px; padding-top: 30px;">
+                                        <div class="col-12 text-center text-white">
+                                            <h2> Aún no has realizado alguna tutoría </h2>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div *ngIf="dataSourceTwo">
+                            <div *ngIf="onShowTutoriasDetails && dataSourceTwo.data.length > 0">
+                                <mat-form-field appearance="standard">
+                                    <input matInput (keyup)="applyFilterTwo($event)" placeholder="Ex. Juan Pablo"
+                                        #input>
+                                </mat-form-field>
+
+                                <div class="mat-elevation-z8">
+                                    <table mat-table [dataSource]="dataSourceTwo" matSort>
+
+                                        <ng-container matColumnDef="FechaDeLaTutoria">
+                                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Fecha de la tutoría
+                                            </th>
+                                            <td mat-cell *matCellDef="let row"> {{row.fechaDeCreacion}}</td>
+                                        </ng-container>
+
+                                        <ng-container matColumnDef="DuracionDeLaTutoria">
+                                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Duración de la
+                                                tutoría
+                                            </th>
+                                            <td mat-cell *matCellDef="let row"> {{row.duration}} minutos </td>
+                                        </ng-container>
+
+                                        <ng-container matColumnDef="NombreDelEstudiante">
+                                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Nombre del estudiante
+                                            </th>
+                                            <td mat-cell *matCellDef="let row"> {{row.studentName}} </td>
+                                        </ng-container>
+
+                                        <ng-container matColumnDef="PagoRealizadoPorLaTutoria">
+                                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Pago realiizado por
+                                                la
+                                                tutoría </th>
+                                            <td mat-cell *matCellDef="let row"> {{row.teacherEarning}} </td>
+                                        </ng-container>
+
+                                        <tr mat-header-row *matHeaderRowDef="displayedColumnsTwo"></tr>
+                                        <tr mat-row *matRowDef="let row; columns: displayedColumnsTwo;"></tr>
+
+                                        <tr class="mat-row" *matNoDataRow>
+                                            <td class="mat-cell" colspan="4">No data matching the filter
+                                                "{{input.value}}"
+                                            </td>
+                                        </tr>
+                                    </table>
+
+                                    <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+                                </div>
+                            </div>
+                        </div>
 
                         <div *ngIf="onPersonalCourse">
                             <div class="card border-info">
@@ -535,7 +601,8 @@
     <app-upload-teacher-image *ngIf="idTeacherImageToUpload" [teacherIdToHeredate]="idTeacherImageToUpload"
         (TeacherEmmiterUpload)="refreshPicture()"></app-upload-teacher-image>
 
-    <app-update-teacher *ngIf="teacherFoundToUpdate" [teacherObjectToHeredate]="teacherFoundToUpdate" (teacherUpdateEmitter)="updateTeacherInfo($event)"> </app-update-teacher>
+    <app-update-teacher *ngIf="teacherFoundToUpdate" [teacherObjectToHeredate]="teacherFoundToUpdate"
+        (teacherUpdateEmitter)="updateTeacherInfo($event)"> </app-update-teacher>
 
     <div style="padding-top: 140px">
         <!-- <app-footer></app-footer> -->

@@ -30,6 +30,12 @@ export class PanelComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
+  displayedColumnsTwo: string[] = ['FechaDeLaTutoria', 'DuracionDeLaTutoria', 'NombreDelEstudiante', 'PagoRealizadoPorLaTutoria'];
+  dataSourceTwo: MatTableDataSource<any>;
+  @ViewChild(MatPaginator) paginatorTwo: MatPaginator;
+  @ViewChild(MatSort) sortTwo: MatSort;
+
+
   public conected: boolean
   public idTeacher: any;
   private publis_topic_endpoint = '/app/teacher/socket';
@@ -90,6 +96,7 @@ export class PanelComponent implements OnInit {
   public globalIdTeacher: any;
   public gloablIdStudent: any;
   public teacherFoundToUpdate: teacherEntity;
+  public onShowTutoriasDetails;
 
   @ViewChild('editModal') editModal: TemplateRef<any>; // Note: TemplateRef
 
@@ -105,7 +112,7 @@ export class PanelComponent implements OnInit {
   ) {
     this.grupalCourses = [];
     this.watchStudents = false;
-    this.onPersonalCourse = true;
+    this.onPersonalCourse = false;
     this.onGrupalCourse = false;
     this.onTransactions = false;
     this.globalUrlMeet = '';
@@ -120,6 +127,7 @@ export class PanelComponent implements OnInit {
     this.showStartButton = true;
     this.showStopButton = true;
     this.studentMinutes = 20;
+    this.onShowTutoriasDetails = true;
   }
 
   ngOnInit(): void {
@@ -172,6 +180,7 @@ export class PanelComponent implements OnInit {
       this.sendInitialMessageToPrivateNotificationChannel();
     }, 3000)
 
+    this.getDetailsOfTutorias();
   }
 
   ngAfterViewInit() {
@@ -179,6 +188,15 @@ export class PanelComponent implements OnInit {
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
     }, 1000);
+  }
+
+  applyFilterTwo(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSourceTwo.filter = filterValue.trim().toLowerCase();
+
+    if (this.dataSourceTwo.paginator) {
+      this.dataSourceTwo.paginator.firstPage();
+    }
   }
 
   getListOfRetirements() {
@@ -400,10 +418,19 @@ export class PanelComponent implements OnInit {
     this.watchStudents = false;
   }
 
+  showTutoriaDetails() {
+    this.onPersonalCourse = false;
+    this.onGrupalCourse = false;
+    this.onTransactions = false;
+    this.onShowTutoriasDetails = true;
+    this.getDetailsOfTutorias();
+  }
+
   showPersonalCourses() {
     this.onPersonalCourse = true;
     this.onGrupalCourse = false;
     this.onTransactions = false;
+    this.onShowTutoriasDetails = false;
     this.getCourses();
   }
 
@@ -411,6 +438,7 @@ export class PanelComponent implements OnInit {
     this.onGrupalCourse = true;
     this.onPersonalCourse = false;
     this.onTransactions = false;
+    this.onShowTutoriasDetails = false;
     this.getAllGrupalCourses();
   }
 
@@ -418,6 +446,7 @@ export class PanelComponent implements OnInit {
     this.onTransactions = true;
     this.onPersonalCourse = false;
     this.onGrupalCourse = false;
+    this.onShowTutoriasDetails = false;
     this.teacherService.getTeachersById(this.idTeacher).subscribe((resp) => {
       this.teacherFound = resp;
     });
@@ -666,20 +695,34 @@ export class PanelComponent implements OnInit {
   }
 
   updateTeacherModal() {
-    this.teacherFoundToUpdate =  this.teacherFound;
+    this.teacherFoundToUpdate = this.teacherFound;
     this.modalService.openModal();
   }
 
   updateTeacherInfo(event: any) {
     console.log("valor del event ", event)
-    if(event) {
+    if (event) {
       setTimeout(() => {
         this.teacherService.getTeachersById(this.idTeacher).subscribe(resp => {
           this.teacherFound = resp;
-          console.log("informacion recuperada del backend ", resp );
+          console.log("informacion recuperada del backend ", resp);
         })
       }, 2000);
     }
+  }
+
+  getDetailsOfTutorias() {
+    this.teacherService.getTutoriasDetailsForTeacher(this.idTeacher).subscribe(resp => {
+      console.log("valor de la consulta de profesores filtrados ", resp);
+      this.dataSourceTwo = new MatTableDataSource(resp);
+      console.log("new data source ", this.dataSourceTwo);
+      if (this.dataSourceTwo.data.length > 0) {
+        setTimeout(() => {
+          this.dataSourceTwo.paginator = this.paginatorTwo;
+          this.dataSourceTwo.sort = this.sortTwo;
+        }, 1000);
+      }
+    });
   }
 
 }

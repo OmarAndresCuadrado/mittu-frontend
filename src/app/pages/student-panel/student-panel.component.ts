@@ -25,6 +25,11 @@ export class StudentPanelComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
+  displayedColumnsTwo: string[] = ['FechaDeLaTutoria', 'DuracionDeLaTutoria', 'NombreDelEstudiante', 'PagoRealizadoPorLaTutoria'];
+  dataSourceTwo: MatTableDataSource<any>;
+  @ViewChild(MatPaginator) paginatorTwo: MatPaginator;
+  @ViewChild(MatSort) sortTwo: MatSort;
+
   public idStudent: any;
   public grupalCoursesFound: grupalCourseEntity[] = [];
   public showVar: boolean;
@@ -46,6 +51,7 @@ export class StudentPanelComponent implements OnInit {
   public idStudentImageToUpload: any;
   public studentImage: any;
   public endpoint_student_image = environment.student.host_image;
+  public onTutoriasDetails;
 
   constructor(
     private grupalCoursesService: GrupalCoursesService,
@@ -61,6 +67,7 @@ export class StudentPanelComponent implements OnInit {
     this.grupalCourses = false;
     this.profiles = false;
     this.transactions = false;
+    this.onTutoriasDetails = true;
   }
 
   ngOnInit(): void {
@@ -85,7 +92,6 @@ export class StudentPanelComponent implements OnInit {
     this.getListOfTransactions();
     this.getAllgrupalCoursesFromStudent();
     this.getStudentInformation();
-    this.profiles = true;
     this.getStudentTime();
 
 
@@ -100,6 +106,8 @@ export class StudentPanelComponent implements OnInit {
       this.studentImage = this.studentObject.picture;
       this.getStudentImage();
     }, 1000)
+
+    this.getStudentDetailTutorias();
   }
 
   ngAfterViewInit() {
@@ -107,6 +115,15 @@ export class StudentPanelComponent implements OnInit {
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
     }, 500);
+  }
+
+  applyFilterTwo(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSourceTwo.filter = filterValue.trim().toLowerCase();
+
+    if (this.dataSourceTwo.paginator) {
+      this.dataSourceTwo.paginator.firstPage();
+    }
   }
 
   getStudentInformation() {
@@ -137,16 +154,26 @@ export class StudentPanelComponent implements OnInit {
     this.showVar = false;
   }
 
+  showTutoriaDetails() {
+    this.profiles = false;
+    this.transactions = false;
+    this.grupalCourses = false;
+    this.onTutoriasDetails = true;
+    this.getStudentDetailTutorias();
+  }
+
   showGrupalCourses() {
     this.profiles = false;
     this.transactions = false;
     this.grupalCourses = true;
+    this.onTutoriasDetails = false;
   }
 
   showProfile() {
     this.transactions = false;
     this.grupalCourses = false;
     this.profiles = true;
+    this.onTutoriasDetails = false;
     this.getStudentTime();
   }
 
@@ -154,6 +181,7 @@ export class StudentPanelComponent implements OnInit {
     this.grupalCourses = false;
     this.profiles = false;
     this.transactions = true;
+    this.onTutoriasDetails = false;
   }
 
   getStudentTime() {
@@ -289,5 +317,18 @@ export class StudentPanelComponent implements OnInit {
     if ((this.studentObject.picture != null || this.studentObject.picture.length >= 0) && this.studentImage != "default.png") {
       this.studentImage = this.studentObject.picture;
     }
+  }
+
+  getStudentDetailTutorias() {
+    this.studentService.getTutoriasDetailsForStudent(this.idStudent).subscribe (resp => {
+      console.log("respuesta del servicio detall de tutoria estudiantes " , resp);
+      this.dataSourceTwo = new MatTableDataSource(resp);
+      if (this.dataSourceTwo.data.length > 0) {
+        setTimeout(() => {
+          this.dataSourceTwo.paginator = this.paginatorTwo;
+          this.dataSourceTwo.sort = this.sortTwo;
+        }, 1000);
+      }
+    });
   }
 }

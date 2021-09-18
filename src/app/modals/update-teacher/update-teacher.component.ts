@@ -50,7 +50,7 @@ export class UpdateTeacherComponent implements OnInit {
       name: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(255)]],
       lastName: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(255)]],
       phone: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(10)]],
-      description: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(255)]],
+      description: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(2500)]],
       hourCost: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(10)]]
     });
 
@@ -64,15 +64,54 @@ export class UpdateTeacherComponent implements OnInit {
   }
 
   updateTeacher() {
-    // objeto anterior validar con el objeto anterior
-    // ver porque se sale la drescripcion del tamaño definido
-
-    //objeto nuevo
     this.teacherForm.patchValue({
       hourCost: this.teacherForm.value.hourCost.replace(/\,/g, '')
     }, { emitEvent: false });
-    console.log("valor enviado a la actualizacion del profesor " , this.teacherForm.value);
-    this.teacherService.updateTeacher(this.teacherObjectToHeredate.id, this.teacherForm.value).subscribe(resp => {
+
+    let actualTeacher = this.teacherObjectToHeredate;
+    let updatedTeacher = this.teacherForm.value;
+
+    if (updatedTeacher.name === null) {
+      updatedTeacher.name = actualTeacher.name;
+    }
+
+    if (updatedTeacher.lastName === null) {
+      updatedTeacher.lastName = actualTeacher.lastName;
+    }
+
+    if (updatedTeacher.phone === null) {
+      updatedTeacher.phone = actualTeacher.phone;
+    }
+
+    if (updatedTeacher.description === null) {
+      updatedTeacher.description = actualTeacher.description;
+    }
+
+    if (updatedTeacher.hourCost === null) {
+      updatedTeacher.hourCost = actualTeacher.hourCost;
+    }
+
+    if (actualTeacher.name != updatedTeacher.name && updatedTeacher.name.length > 0) {
+      actualTeacher.name = updatedTeacher.name;
+    }
+
+    if (actualTeacher.lastName != updatedTeacher.lastName && updatedTeacher.lastName.length > 0) {
+      actualTeacher.lastName = updatedTeacher.lastName;
+    }
+
+    if (actualTeacher.description != updatedTeacher.description && updatedTeacher.description.length > 0) {
+      actualTeacher.description = updatedTeacher.description;
+    }
+
+    if (actualTeacher.phone != updatedTeacher.phone && updatedTeacher.phone.length > 0) {
+      actualTeacher.phone = updatedTeacher.phone;
+    }
+
+    if (actualTeacher.hourCost != updatedTeacher.hourCost && updatedTeacher.hourCost.length > 0) {
+      actualTeacher.hourCost = updatedTeacher.hourCost;
+    }
+
+    this.teacherService.updateTeacher(this.teacherObjectToHeredate.id, actualTeacher).subscribe(resp => {
       //swet alert profesor actualizado
       console.log("profesor actualizado " , resp);
       Sw.fire({

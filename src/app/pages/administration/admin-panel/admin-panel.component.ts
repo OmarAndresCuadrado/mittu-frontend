@@ -43,9 +43,6 @@ export class AdminPanelComponent implements OnInit {
     this.onGrupalCourses = false;
     this.onMetrics = true;
     this.showTableFeedback = false;
-
-
-
   }
 
   get documentName() {
@@ -89,6 +86,10 @@ export class AdminPanelComponent implements OnInit {
   getFeedBacks() {
     this.feedBackService.getAllFeedBacks().subscribe(resp => {
       this.dataSource = new MatTableDataSource(resp);
+      setTimeout(() => {
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
+      }, 1000);
     });
   }
 
