@@ -48,8 +48,17 @@
     width: 100%;
   }
   
-  td, th {
-    width: 25%;
+  td,
+  th {
+    width: 20%;
+  }
+  
+  th.mat-header-cell {
+    text-align: center !important;
+  }
+  
+  td.mat-cell {
+    text-align: center !important;
   }
 
   .general-padding {

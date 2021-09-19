@@ -18,6 +18,8 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import webNotification from 'simple-web-notification';
+import { async } from 'rxjs/internal/scheduler/async';
+import { RetirementsService } from 'src/app/services/retirements.service';
 
 @Component({
   selector: 'app-panel',
@@ -108,7 +110,8 @@ export class PanelComponent implements OnInit {
     private grupalCourseService: GrupalCoursesService,
     private router: Router,
     private modalService: ModalService,
-    private boostrapModalService: NgbModal
+    private boostrapModalService: NgbModal,
+    private retirementService: RetirementsService
   ) {
     this.grupalCourses = [];
     this.watchStudents = false;
@@ -184,10 +187,7 @@ export class PanelComponent implements OnInit {
   }
 
   ngAfterViewInit() {
-    setTimeout(() => {
-      this.dataSource.paginator = this.paginator;
-      this.dataSource.sort = this.sort;
-    }, 1000);
+
   }
 
   applyFilterTwo(event: Event) {
@@ -200,9 +200,21 @@ export class PanelComponent implements OnInit {
   }
 
   getListOfRetirements() {
+    this.teacherService.getTeachersById(this.idTeacher).subscribe(async resp => {
+      await this.setRetirements(resp);
+    });
+
+  }
+
+  setRetirements(resp: any) {
+    this.teacherFound = resp;
     console.log("valor de teacher foubnd ", this.teacherFound.retirements);
     this.dataSource = new MatTableDataSource(this.teacherFound.retirements);
     console.log("Data source ", this.dataSource);
+    setTimeout(() => {
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+    }, 1000);
   }
 
   sendEventToAgent(endpoint: any, payload: any, extra?: any) {
@@ -447,9 +459,6 @@ export class PanelComponent implements OnInit {
     this.onPersonalCourse = false;
     this.onGrupalCourse = false;
     this.onShowTutoriasDetails = false;
-    this.teacherService.getTeachersById(this.idTeacher).subscribe((resp) => {
-      this.teacherFound = resp;
-    });
     this.getListOfRetirements();
   }
 
@@ -722,6 +731,65 @@ export class PanelComponent implements OnInit {
           this.dataSourceTwo.sort = this.sortTwo;
         }, 1000);
       }
+    });
+  }
+
+  makeRetirement() {
+    if (this.teacherFound.money >= 10000) {
+      Sw.fire({
+        'title': `Solicitud retiro en proceso`,
+        'text': `Al realizar la solicitud de retiro el saldo displonible actual (${this.teacherFound.money}) sera descontado a 0 COP ¿Desea continuar?`,
+        'icon': `info`,
+        showCloseButton: true,
+        showCancelButton: true,
+        showConfirmButton: this.showStart,
+        confirmButtonText: `Realizar retiro`,
+        cancelButtonText: `Cancelar retiro`,
+        confirmButtonColor: '#17a2b8',
+        cancelButtonColor: '#4d545a',
+        allowOutsideClick: false
+      }).then((result) => {
+        if (result.isConfirmed) {
+          let bodyToBeSendTransaction: any = {
+            'name': `${this.teacherFound.name} ${this.teacherFound.lastName}`,
+            'cost': this.teacherFound.money,
+            'alreadyPaid': false,
+            'teacherIdentifier': this.teacherFound.id
+          };
+          this.retirementService.saveRetirement(bodyToBeSendTransaction).subscribe(async resp => {
+            resp;
+            let bodyForEmail: any = {
+              'idReference': resp.retirementId,
+              'accountDetails': this.teacherFound.money,
+              'idTeacher': this.teacherFound.id
+            };
+            await this.sendEmaiForNewRetirement(bodyForEmail);
+          });
+
+          Sw.fire({
+            'title': `Retiro realizado`,
+            'text': `Se ha realizado de manera exitosa la peticion para el retiro`,
+            'icon': `success`,
+            showCloseButton: true,
+            showCancelButton: false,
+            confirmButtonText: `Continuar`,
+            confirmButtonColor: '#17a2b8',
+            allowOutsideClick: false
+          }).then((result) => {
+            if (result.isConfirmed) {
+              this.getListOfRetirements();
+            }
+          });
+        }
+      });
+    } else {
+      Sw.fire('Error al realizar la transacción', 'Querido docente debe de contar con mas de 10.000 COP para realizar un retiro.', 'error');
+    }
+  }
+
+  sendEmaiForNewRetirement(bodyForEmail: any) {
+    this.retirementService.sentEmailForNewRetirement(bodyForEmail).subscribe(resp => {
+
     });
   }
 

@@ -1,11 +1,13 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
-import { MatTableDataSource } from '@angular/material/table';
+import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { FeedBackService } from 'src/app/services/feed-back.service';
 import { TransactionService } from '../../../services/transaction.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ModalService } from 'src/app/services/modal.service';
+import { RetirementsService } from 'src/app/services/retirements.service';
+import Swal from 'sweetalert2';
 
 
 @Component({
@@ -14,12 +16,18 @@ import { ModalService } from 'src/app/services/modal.service';
   styleUrls: ['./admin-panel.component.css']
 })
 export class AdminPanelComponent implements OnInit {
+
   displayedColumns: string[] = ['Nombre del estudiante', 'Nombre del profesor', 'Calificación', 'Comentario', 'fechaDeCreacion'];
   dataSource: MatTableDataSource<any>;
-  documentForm: FormGroup;
-
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
+
+  displayedColumnsTwo: string[] = ['FechaDeRetiro', 'NombreDelDocente', 'CantidadDelRetiro', 'IdDeReferencia', 'Estado', 'CambiarEstado'];
+  dataSourceTwo: MatTableDataSource<any>;
+  @ViewChild(MatPaginator) paginatorTWo: MatPaginator;
+  @ViewChild(MatSort) sortTwo: MatSort;
+
+  documentForm: FormGroup;
 
   public onStudents: boolean;
   public onTeachers: boolean;
@@ -30,12 +38,14 @@ export class AdminPanelComponent implements OnInit {
   public showTableFeedback: boolean;
   public bannerImage: any;
   public bannerObject: any;
+  public onRetirements: boolean;
 
   constructor(
     private transactionService: TransactionService,
     private feedBackService: FeedBackService,
     private formBuilder: FormBuilder,
-    private modalService: ModalService
+    private modalService: ModalService,
+    private retirementService: RetirementsService
   ) {
     this.onStudents = false;
     this.onTeachers = false;
@@ -83,6 +93,15 @@ export class AdminPanelComponent implements OnInit {
     }
   }
 
+  applyFilterTwo(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSourceTwo.filter = filterValue.trim().toLowerCase();
+
+    if (this.dataSourceTwo.paginator) {
+      this.dataSourceTwo.paginator.firstPage();
+    }
+  }
+
   getFeedBacks() {
     this.feedBackService.getAllFeedBacks().subscribe(resp => {
       this.dataSource = new MatTableDataSource(resp);
@@ -116,6 +135,7 @@ export class AdminPanelComponent implements OnInit {
     this.onCourses = true;
     this.onGrupalCourses = false;
     this.onMetrics = false
+    this.onRetirements = false;
   }
 
 
@@ -125,6 +145,7 @@ export class AdminPanelComponent implements OnInit {
     this.onCourses = false;
     this.onGrupalCourses = true;
     this.onMetrics = false
+    this.onRetirements = false;
   }
 
 
@@ -134,6 +155,7 @@ export class AdminPanelComponent implements OnInit {
     this.onCourses = false;
     this.onGrupalCourses = false;
     this.onMetrics = false
+    this.onRetirements = false;
   }
 
 
@@ -143,6 +165,7 @@ export class AdminPanelComponent implements OnInit {
     this.onCourses = false;
     this.onGrupalCourses = false;
     this.onMetrics = false
+    this.onRetirements = false;
   }
 
 
@@ -152,6 +175,17 @@ export class AdminPanelComponent implements OnInit {
     this.onCourses = false;
     this.onGrupalCourses = false;
     this.onMetrics = true
+    this.onRetirements = false;
+  }
+
+  showRetirements() {
+    this.onStudents = false;
+    this.onTeachers = false;
+    this.onCourses = false;
+    this.onGrupalCourses = false;
+    this.onMetrics = false
+    this.onRetirements = true;
+    this.getAllRetirements();
   }
 
   generateStudy() {
@@ -218,5 +252,51 @@ export class AdminPanelComponent implements OnInit {
       this.bannerImage = this.bannerObject.urlBanner;
     }, 2000)
   }
+
+  getAllRetirements() {
+    this.retirementService.getAllRetirments().subscribe(async resp => {
+      await this.showTableOfRetirements(resp);
+    });
+  }
+
+  showTableOfRetirements(resp: any) {
+    this.dataSourceTwo = new MatTableDataSource(resp);
+    this.dataSourceTwo.paginator = this.paginatorTWo;
+    this.dataSourceTwo.sort = this.sortTwo;
+    console.log("data source two ", this.dataSourceTwo);
+  }
+
+  retirementDone(retirementIdValue: any) {
+    console.log("valor que ha llegado del click ", retirementIdValue);
+    this.retirementService.updateRetirementState(retirementIdValue.retirementId).subscribe(async resp => {
+      resp;
+      await this.getAllRetirements();
+      await this.sendEmailNotification(retirementIdValue);
+    });
+
+    Swal.fire({
+      'title': `Cambiado de estado realizado con exito!`,
+      'text': `Se ha enviado un correo al docente notificando que el pago se ha realizado.`,
+      'icon': `success`,
+      showCloseButton: true,
+      showCancelButton: false,
+      confirmButtonText: `Continuar`,
+      confirmButtonColor: '#17a2b8',
+      allowOutsideClick: false
+    }).then((result) => {
+      if (result.isConfirmed) {
+      }
+    });
+  }
+
+ sendEmailNotification(retirementObject : any) {
+  let bodyToSendEmail: any = {
+    'idReference' : retirementObject.retirementId,
+    'idTeacher' : retirementObject.teacherIdentifier
+  }
+  this.retirementService.sentEmailForStatusChangeRetirement(bodyToSendEmail).subscribe(resp => {
+    resp;
+  });
+ }
 
 }

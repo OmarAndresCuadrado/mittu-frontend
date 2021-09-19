@@ -9,9 +9,6 @@
                     </div>
                 </div>
                 <div class="row navBarBackground text-center">
-                    <div class="col-1">
-
-                    </div>
                     <div class="col-2">
                         <button class="btn btn-info" (click)="showMetrics()">Ver métricas </button>
                     </div>
@@ -24,14 +21,18 @@
                     <div class="col-2">
                         <button class="btn btn-info" (click)="showPersonalCourses()">Ver tutorias</button>
                     </div>
-                    <div class="col-3">
+                    <div class="col-2">
                         <button class="btn btn-info" (click)="showGrupalCourses()">Ver cursos grupales </button>
+                    </div>
+                    <div class="col-2">
+                        <button class="btn btn-info" (click)="showRetirements()">Ver solicitudes de retiros </button>
                     </div>
                 </div>
 
                 <div class="row">
                     <div class="col-12 text-center" style="padding-top: 20px;">
-                        <button class="btn btn-info" (click)="idBannerToUploadImage()" data-toggle="modal" data-target="#modalImageBanner"> Agregar banner
+                        <button class="btn btn-info" (click)="idBannerToUploadImage()" data-toggle="modal"
+                            data-target="#modalImageBanner"> Agregar banner
                             y color </button>
                     </div>
                 </div>
@@ -189,6 +190,88 @@
                 </div>
             </div>
 
+        </div>
+    </div>
+
+
+    <div *ngIf="onRetirements" class="space-over space-bottom">
+        <div class="row">
+            <div class="col-12 text-center text-info">
+                <h1>Lista de retiros</h1>
+                <div *ngIf="dataSourceTwo" style="padding-bottom: 50px;">
+                    <mat-form-field>
+                        <mat-label>Buscar</mat-label>
+                        <input matInput (keyup)="applyFilterTwo($event)" placeholder="Ex. Id de referencia" #input>
+                    </mat-form-field>
+
+                    <div class="mat-elevation-z8">
+                        <table mat-table [dataSource]="dataSourceTwo" matSort>
+
+                            <ng-container matColumnDef="FechaDeRetiro">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header> Fecha de retiro </th>
+                                <td mat-cell *matCellDef="let row"> {{row.fechaDeCreacion}} </td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="NombreDelDocente">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header> Nombre del docente </th>
+                                <td mat-cell *matCellDef="let row"> {{row.name}} </td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="CantidadDelRetiro">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header> Cantidad solicitada </th>
+                                <td mat-cell *matCellDef="let row"> {{row.cost | currency }} </td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="IdDeReferencia">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header> Id de referencia </th>
+                                <td mat-cell *matCellDef="let row"> {{row.retirementId}} </td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="Estado">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header> Estado </th>
+                                <td mat-cell *matCellDef="let row">
+                                    <div *ngIf="row.alreadyPaid == false; else disableTeacher">
+                                        <h2><span class="badge badge-warning">
+                                                Pendiente </span> </h2>
+                                    </div>
+                                    <ng-template #disableTeacher>
+                                        <h2><span class="badge badge-success" style="color: white !important;">
+                                                Depositado </span> </h2>
+                                    </ng-template>
+                                </td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="CambiarEstado">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header> Cambiar estado </th>
+                                <td mat-cell *matCellDef="let row">
+
+                                    <div *ngIf="row.alreadyPaid == false; else makePayment">
+                                        <button class="btn btn-info" (click)="retirementDone(row)"> Actualizar estado
+                                        </button>
+                                    </div>
+                                    <ng-template #makePayment>
+                                        <h2><span class="badge badge-success" style="color: white !important;">
+                                                Retiro depositado </span> </h2>
+                                    </ng-template>
+
+                                </td>
+                            </ng-container>
+
+
+                            <tr mat-header-row *matHeaderRowDef="displayedColumnsTwo"></tr>
+                            <tr mat-row *matRowDef="let row; columns: displayedColumnsTwo;"></tr>
+
+                            <tr class="mat-row" *matNoDataRow>
+                                <td class="mat-cell" colspan="4">No data matching the filter
+                                    "{{input.value}}"
+                                </td>
+                            </tr>
+                        </table>
+
+                        <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
