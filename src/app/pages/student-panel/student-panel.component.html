@@ -121,6 +121,18 @@
 
             <div class="card border-info">
 
+                <div *ngIf="openTransactions" style="padding-top: 20px; padding-bottom: 20px;">
+                    <div class="row" style="padding-bottom: 30px;">
+                        <div class="col text-right">
+                            <button class="btn btn-info col-md-4" (click)="closeTransactions()"> cerrar
+                                opciones
+                                de recarga
+                            </button>
+                        </div>
+                    </div>
+                    <app-transaction></app-transaction>
+                </div>
+
                 <div *ngIf="onTutoriasDetails && dataSourceTwo.data.length <=  0">
                     <div class="card bg-info">
                         <div class="row" style="padding-bottom: 30px; padding-top: 30px;">
@@ -222,17 +234,6 @@
                 <div *ngIf="profiles">
                     <div class="container">
                         <div class="row space-over space-bottom"> </div>
-                        <div *ngIf="openTransactions" style="padding-top: 20px; padding-bottom: 20px;">
-                            <div class="row" style="padding-bottom: 30px;">
-                                <div class="col text-right">
-                                    <button class="btn btn-info col-md-4" (click)="closeTransactions()"> cerrar
-                                        opciones
-                                        de recarga
-                                    </button>
-                                </div>
-                            </div>
-                            <app-transaction></app-transaction>
-                        </div>
                     </div>
 
                     <div class="row">

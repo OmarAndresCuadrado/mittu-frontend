@@ -450,7 +450,8 @@
                                         </div>
 
                                         <div class="col-12 text-center" style="padding-top: 30px;">
-                                            <button class="btn btn-info btn-block" (click)=makeRetirement()> Realizar retiro </button>
+                                            <button class="btn btn-info btn-block" (click)=makeRetirement()> Realizar
+                                                retiro </button>
                                         </div>
                                     </div>
 
@@ -664,31 +665,6 @@
                 </div>
             </div>
 
-            <!-- <div class="modal-body">
-                <div class="row">
-                    <div class="col-12 text-center" style="padding-top: 20px; padding-bottom: 5px;">
-                        <h2 style="color: chocolate;">
-                            Tiempo disponible del alumno
-                        </h2>
-                    </div>
-                </div>
-                <div class="row" style="padding-bottom: 40px;">
-                    <div class="col-12 text-center">
-                        <div class="text-center">
-                            Minutos
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-12 text-center numbersTwo">
-                        <div class="text-center">
-                            {{this.studentMinutes}}
-                        </div>
-                    </div>
-                </div>
-            </div> -->
-
             <div class="modal-footer">
                 <div class="row">
                     <div class="col-12 text-center">
@@ -763,6 +739,53 @@
                 </div>
             </div>
         </div>
+
+    </ng-template>
+
+    <ng-template #bankModal let-modal>
+        <form autocomplete="off" [formGroup]="bankDetailsForm">
+            <div class="row">
+                <div class="col-12 text-center">
+                    <h3>Formulario de datos de transacción</h3>
+                </div>
+            </div>
+            <div class="row" style="padding-top: 20px;">
+                <div class="col-12">
+
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 text-center">
+                    <p> Por favor llene el siguiente recuadro con toda la información que considere necesaria para
+                        realizar la transacción (Ejemplo numero de nequi, daviplata o banco).</p>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-12 text-center" style="padding-top: 20px;">
+                    <textarea type="text" class="form-control" aria-label="With textarea" name="feedback"
+                        formControlName="bankInformation"
+                        placeholder="Ejemplo: Juan Andres Camacho, Numero de nequi 3103102012"></textarea>
+                    <div *ngIf="bankInformation.invalid && (bankInformation.dirty || bankInformation.touched)"
+                        class="alert alert-danger">
+                        <div *ngIf="bankInformation.errors.minlength || bankInformation.errors.maxlength ">
+                            La informacion debe tener entre 10 y 255 caracteres
+                        </div>
+                        <div *ngIf="bankInformation.errors.required">
+                            La informacion para la transferencia es requerida
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-12 text-center" style="padding-top: 20px; padding-bottom: 20px;">
+                    <div *ngIf="bankDetailsForm.valid">
+                        <button class="btn btn-info" (click)="continueTransaction(''); modal.close()"> Realizar
+                            solicitud </button>
+                    </div>
+                </div>
+            </div>
+        </form>
 
     </ng-template>
 

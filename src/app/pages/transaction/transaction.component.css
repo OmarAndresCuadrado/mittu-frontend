@@ -11,3 +11,8 @@
 .modal-body {
     height: 250px;
 }
+
+.image-size {
+    max-width: 100%;
+    height: 155px;
+  }

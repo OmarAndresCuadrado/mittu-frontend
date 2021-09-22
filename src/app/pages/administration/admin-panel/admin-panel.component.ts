@@ -75,6 +75,7 @@ export class AdminPanelComponent implements OnInit {
     });
     this.getPlataformValue();
     this.getFeedBacks();
+    this.getAllRetirements();
   }
 
   ngAfterViewInit() {

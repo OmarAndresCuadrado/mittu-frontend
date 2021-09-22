@@ -51,7 +51,7 @@ export const environment = {
   },
 
   appCredentials: {
-    name: 'angularapp',
-    pass: '12345'
+    name: 'kodeEncript3rforAppl1c4tion91',
+    pass: 'c0d3enc1pT0nSecur3'
   }
 }

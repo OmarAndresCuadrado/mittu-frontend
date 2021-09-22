@@ -55,8 +55,8 @@ export class GrupalCourseComponent implements OnInit {
   }
 
   makeInscription() {
-    console.log("validacion del dinero de inscripcion dinero estudiante", this.studentMoney , "costo del curso grupal " ,  this.grupalCourse.price);
-    console.log("validacion" , this.studentMoney == this.grupalCourse.price);
+    console.log("validacion del dinero de inscripcion dinero estudiante", this.studentMoney, "costo del curso grupal ", this.grupalCourse.price);
+    console.log("validacion", this.studentMoney == this.grupalCourse.price);
     let diplsayCourseValueString = this.grupalCourse.price.toString();
     let diplsayCourseValue = this.currencyPipe.transform(diplsayCourseValueString.replace(/\D/g, '').replace(/^0+/, ''), '', '', '1.0-0')
     if (this.studentMoney < this.grupalCourse.price) {
@@ -95,8 +95,17 @@ export class GrupalCourseComponent implements OnInit {
             "courseId": courseId,
             "studentId": studentId
           }
-          this.studentService.addNewGrupalCourse(this.grupalCourse.price, this.grupalCourse.idTeacher, this.idStudent).subscribe((resp) => {
+          this.studentService.addNewGrupalCourse(this.grupalCourse.price, this.grupalCourse.idTeacher, this.idStudent).subscribe(async resp => {
             resp;
+            let bodyGrupalCourseToSend: any = {
+              "idTeacher": this.grupalCourse.idTeacher,
+              "idStudent": this.idStudent,
+              "grupalCourseName": "probando ando papu",
+              "gruaplCourseCost": this.grupalCourse.price,
+              "moneyForTeacher": resp.moneyForTeacher,
+              "moneyForPlataform": resp.moneyForPlataform
+            };
+            await this.saveGrupalCorusePurchase(bodyGrupalCourseToSend);
           });
           this.grupalCourseService.makeInscriptionToGrupalCourse(data).subscribe(resp => {
             if (resp === null || resp === 'null') {
@@ -109,6 +118,12 @@ export class GrupalCourseComponent implements OnInit {
         }
       });
     }
+  }
+
+  saveGrupalCorusePurchase(bodyGrupalCourseToSend: any) {
+    this.grupalCourseService.saveGrupalCoursePurchase(bodyGrupalCourseToSend).subscribe(resp => {
+      resp
+    });
   }
 
 }

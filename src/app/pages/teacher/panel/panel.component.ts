@@ -20,6 +20,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import webNotification from 'simple-web-notification';
 import { async } from 'rxjs/internal/scheduler/async';
 import { RetirementsService } from 'src/app/services/retirements.service';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-panel',
@@ -99,8 +100,12 @@ export class PanelComponent implements OnInit {
   public gloablIdStudent: any;
   public teacherFoundToUpdate: teacherEntity;
   public onShowTutoriasDetails;
+  public bankDetails: any;
+  public sentTransaction: boolean;
 
-  @ViewChild('editModal') editModal: TemplateRef<any>; // Note: TemplateRef
+  @ViewChild('editModal') editModal: TemplateRef<any>;
+  @ViewChild('bankModal') bankModal: TemplateRef<any>;
+  bankDetailsForm: FormGroup;
 
   constructor(
     private authService: AuthService,
@@ -111,7 +116,8 @@ export class PanelComponent implements OnInit {
     private router: Router,
     private modalService: ModalService,
     private boostrapModalService: NgbModal,
-    private retirementService: RetirementsService
+    private retirementService: RetirementsService,
+    private formBuilder: FormBuilder
   ) {
     this.grupalCourses = [];
     this.watchStudents = false;
@@ -131,6 +137,10 @@ export class PanelComponent implements OnInit {
     this.showStopButton = true;
     this.studentMinutes = 20;
     this.onShowTutoriasDetails = true;
+  }
+
+  get bankInformation() {
+    return this.bankDetailsForm.get('bankInformation');
   }
 
   ngOnInit(): void {
@@ -184,6 +194,9 @@ export class PanelComponent implements OnInit {
     }, 3000)
 
     this.getDetailsOfTutorias();
+    this.bankDetailsForm = this.formBuilder.group({
+      bankInformation: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(255)]]
+    });
   }
 
   ngAfterViewInit() {
@@ -750,6 +763,8 @@ export class PanelComponent implements OnInit {
         allowOutsideClick: false
       }).then((result) => {
         if (result.isConfirmed) {
+          this.openBankInformation();
+          this.bankDetails = this.bankDetailsForm.value.bankInformation;
           let bodyToBeSendTransaction: any = {
             'name': `${this.teacherFound.name} ${this.teacherFound.lastName}`,
             'cost': this.teacherFound.money,
@@ -760,25 +775,10 @@ export class PanelComponent implements OnInit {
             resp;
             let bodyForEmail: any = {
               'idReference': resp.retirementId,
-              'accountDetails': this.teacherFound.money,
+              'accountDetails': this.bankDetails,
               'idTeacher': this.teacherFound.id
             };
-            await this.sendEmaiForNewRetirement(bodyForEmail);
-          });
-
-          Sw.fire({
-            'title': `Retiro realizado`,
-            'text': `Se ha realizado de manera exitosa la peticion para el retiro`,
-            'icon': `success`,
-            showCloseButton: true,
-            showCancelButton: false,
-            confirmButtonText: `Continuar`,
-            confirmButtonColor: '#17a2b8',
-            allowOutsideClick: false
-          }).then((result) => {
-            if (result.isConfirmed) {
-              this.getListOfRetirements();
-            }
+            await this.continueTransaction(bodyForEmail);
           });
         }
       });
@@ -788,8 +788,41 @@ export class PanelComponent implements OnInit {
   }
 
   sendEmaiForNewRetirement(bodyForEmail: any) {
-    this.retirementService.sentEmailForNewRetirement(bodyForEmail).subscribe(resp => {
+    this.retirementService.sentEmailForNewRetirement(bodyForEmail).subscribe( async resp => {
+      await (this.succesfulMessage());
+    });
+  }
 
+  openBankInformation() {
+    let ngbModalOptions: NgbModalOptions = {
+      backdrop: 'static',
+      keyboard: false
+    };
+    this.boostrapModalService.open(this.bankModal, ngbModalOptions);
+  }
+
+  continueTransaction(bodyForEmail: any) {
+    console.log("valor del formulario ", this.bankDetailsForm);
+    this.sentTransaction = true;
+    if (this.sentTransaction) {
+      this.sendEmaiForNewRetirement(bodyForEmail);
+    }
+  }
+
+  succesfulMessage() {
+    Sw.fire({
+      'title': `Retiro realizado`,
+      'text': `Se ha realizado de manera exitosa la peticion para el retiro`,
+      'icon': `success`,
+      showCloseButton: true,
+      showCancelButton: false,
+      confirmButtonText: `Continuar`,
+      confirmButtonColor: '#17a2b8',
+      allowOutsideClick: false
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.getListOfRetirements();
+      }
     });
   }
 

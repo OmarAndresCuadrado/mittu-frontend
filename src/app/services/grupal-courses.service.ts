@@ -53,8 +53,18 @@ export class GrupalCoursesService {
     formData.append("grupalCourseImage", picture);
     formData.append("id", id);
     return this.http.post<grupalCourseEntity>(internalEnpoint, formData).pipe
-    (
-      map((response:any) => response as grupalCourseEntity)
-    );
+      (
+        map((response: any) => response as grupalCourseEntity)
+      );
+  }
+
+  saveGrupalCoursePurchase(grupalCoursePurchaseToSave: any): Observable<any> {
+    let urlForPurchase = `${this.endpoint_grupal_course}/purchase`;
+    return this.http.post<any>(urlForPurchase, grupalCoursePurchaseToSave);
+  }
+
+  listAllGrupalCoursePurchases(): Observable<any[]> {
+    let urlForPurchase = `${this.endpoint_grupal_course}/purchase`;
+    return this.http.get<any[]>(urlForPurchase);
   }
 }
