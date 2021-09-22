@@ -23,21 +23,15 @@ export class TeacherInfoComponent implements OnChanges, OnInit {
 
   ngOnChanges(changes: SimpleChanges): void {
     this.idTeacherFor = this.idTeacherFor;
-    console.log("id del profesor ngOnInt teacher info ", this.idTeacherFor);
     this.teacherService.getTeachersById(this.idTeacherFor).subscribe(resp => {
-      console.log("respuesta ", resp);
       this.teacherFound = resp;
-      console.log("objeto del teacher ", this.teacherFound);
     });
   }
 
 
   ngOnInit(): void {
-    console.log("id del profesor ngOnInt teacher info ", this.idTeacherFor);
     this.teacherService.getTeachersById(this.idTeacherFor).subscribe(resp => {
-      console.log("respuesta ", resp);
       this.teacherFound = resp;
-      console.log("objeto del teacher ", this.teacherFound);
     });
   }
 

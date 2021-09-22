@@ -15,7 +15,7 @@ import { environment } from '../../../../environments/environment.prod';
 })
 export class TeachersComponent implements OnInit {
 
-  displayedColumns: string[] = ['nombre', 'apellido', 'correo', 'telefono', 'fecha','state', 'profile', 'cursos', 'available', 'calificacion'];
+  displayedColumns: string[] = ['nombre', 'apellido', 'correo', 'telefono', 'fecha', 'state', 'profile', 'cursos', 'available', 'calificacion'];
   dataSource: MatTableDataSource<teacherEntity>;
   public environment = environment;
   public listOfCourses: courseEntity[];
@@ -62,9 +62,8 @@ export class TeachersComponent implements OnInit {
   }
 
   enableTeacher(row: any) {
-    console.log("valor de disable ", row);
     this.teacherService.enableTeacherPlatform(row.idUser).subscribe(resp => {
-      console.log("respuesta del servicio de activar profesor ", resp);
+      resp
     })
     this.dataSource = new MatTableDataSource();
     setTimeout(() => {
@@ -74,9 +73,8 @@ export class TeachersComponent implements OnInit {
   }
 
   disableTeacher(row: any) {
-    console.log("valor de disable ", row);
     this.teacherService.disableTeacherPlatform(row.idUser).subscribe(resp => {
-      console.log("respuesta del servicio de desactivar profesor ", resp);
+      resp
     })
     this.dataSource = new MatTableDataSource();
     setTimeout(() => {
@@ -85,14 +83,13 @@ export class TeachersComponent implements OnInit {
 
   }
 
-  profileChoosed(profile:any, teacherID: any) {
-    console.log("perfil seleccionado ", profile );
+  profileChoosed(profile: any, teacherID: any) {
     let objectToSend = {
       "teacherId": teacherID,
       "profile": profile
     }
     this.teacherService.updateTeacherProfile(objectToSend).subscribe(resp => {
-      console.log("perfil actualizado");
+      resp
     })
     this.dataSource = new MatTableDataSource();
     setTimeout(() => {

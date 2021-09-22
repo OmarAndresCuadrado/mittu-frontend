@@ -131,7 +131,6 @@ export class TeacherReferencesComponent implements OnInit {
       ]
     }
     this.teacherService.getTeachersDetails().subscribe(resp => {
-      console.log("informacion del profesor ", resp);
       this.teacherDetails = resp;
       this.teacherImage = resp.picture;
       this.teacherDetails.push(testObject);

@@ -150,9 +150,7 @@ export class PanelComponent implements OnInit {
       if (this.teacherFound.picture === null || this.teacherFound.picture === "null" || this.teacherFound.picture === "") {
         this.teacherFound.picture = "default.png";
       }
-      console.log("teacher found ", this.teacherFound);
       this.conected = this.teacherFound.busy;
-      console.log("valor del coneected ", this.conected);
     });
     this.getTicherTime();
 
@@ -221,9 +219,7 @@ export class PanelComponent implements OnInit {
 
   setRetirements(resp: any) {
     this.teacherFound = resp;
-    console.log("valor de teacher foubnd ", this.teacherFound.retirements);
     this.dataSource = new MatTableDataSource(this.teacherFound.retirements);
-    console.log("Data source ", this.dataSource);
     setTimeout(() => {
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
@@ -338,7 +334,6 @@ export class PanelComponent implements OnInit {
   }
 
   notificationPopUp() {
-    console.log("pup example");
     webNotification.showNotification('', {
       body: 'mittu - Nueva solicitud de tutoría',
       icon: '../../../../assets/images/mittu.png',
@@ -570,7 +565,6 @@ export class PanelComponent implements OnInit {
   subscribeToTimerTeacherStudent(idTeacher: any, idStudent: any) {
     this.globalTeacherId = idTeacher;
     this.globalStudentId = idStudent;
-    console.log("ID DEL ESTUDIANTEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE ", this.globalStudentId);
 
     let endpointToTimmerChanel = `${this.timer_channel_subscribe}/${idTeacher}/${idStudent}`;
 
@@ -722,12 +716,10 @@ export class PanelComponent implements OnInit {
   }
 
   updateTeacherInfo(event: any) {
-    console.log("valor del event ", event)
     if (event) {
       setTimeout(() => {
         this.teacherService.getTeachersById(this.idTeacher).subscribe(resp => {
           this.teacherFound = resp;
-          console.log("informacion recuperada del backend ", resp);
         })
       }, 2000);
     }
@@ -735,9 +727,7 @@ export class PanelComponent implements OnInit {
 
   getDetailsOfTutorias() {
     this.teacherService.getTutoriasDetailsForTeacher(this.idTeacher).subscribe(resp => {
-      console.log("valor de la consulta de profesores filtrados ", resp);
       this.dataSourceTwo = new MatTableDataSource(resp);
-      console.log("new data source ", this.dataSourceTwo);
       if (this.dataSourceTwo.data.length > 0) {
         setTimeout(() => {
           this.dataSourceTwo.paginator = this.paginatorTwo;
@@ -802,7 +792,6 @@ export class PanelComponent implements OnInit {
   }
 
   continueTransaction(bodyForEmail: any) {
-    console.log("valor del formulario ", this.bankDetailsForm);
     this.sentTransaction = true;
     if (this.sentTransaction) {
       this.sendEmaiForNewRetirement(bodyForEmail);

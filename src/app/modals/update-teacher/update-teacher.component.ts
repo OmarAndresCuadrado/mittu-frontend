@@ -45,7 +45,6 @@ export class UpdateTeacherComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log("teacherObjectHeredado " , this.teacherObjectToHeredate);
     this.teacherForm = this.formBuilder.group({
       name: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(255)]],
       lastName: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(255)]],
@@ -112,8 +111,6 @@ export class UpdateTeacherComponent implements OnInit {
     }
 
     this.teacherService.updateTeacher(this.teacherObjectToHeredate.id, actualTeacher).subscribe(resp => {
-      //swet alert profesor actualizado
-      console.log("profesor actualizado " , resp);
       Sw.fire({
         title: 'Datos Actualizados con exito',
         icon: 'info',

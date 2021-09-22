@@ -124,7 +124,6 @@ export class AdminPanelComponent implements OnInit {
 
   getPlataformValue() {
     this.transactionService.getPlataformValues().subscribe(resp => {
-      console.log("valor " + resp);
       this.plaformValue = resp;
     });
   }
@@ -223,8 +222,6 @@ export class AdminPanelComponent implements OnInit {
       'finalDate': endDateToSend,
       'documentName': documentName
     }
-    console.log("BODYYY", bodyToSend);
-
 
     this.transactionService.createExcel(bodyToSend)
       .subscribe(resp => {
@@ -264,11 +261,9 @@ export class AdminPanelComponent implements OnInit {
     this.dataSourceTwo = new MatTableDataSource(resp);
     this.dataSourceTwo.paginator = this.paginatorTWo;
     this.dataSourceTwo.sort = this.sortTwo;
-    console.log("data source two ", this.dataSourceTwo);
   }
 
   retirementDone(retirementIdValue: any) {
-    console.log("valor que ha llegado del click ", retirementIdValue);
     this.retirementService.updateRetirementState(retirementIdValue.retirementId).subscribe(async resp => {
       resp;
       await this.getAllRetirements();

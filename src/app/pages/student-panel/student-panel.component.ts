@@ -77,11 +77,6 @@ export class StudentPanelComponent implements OnInit {
 
 
     this.activatedRoute.queryParams.subscribe(params => {
-      console.log("params", params);
-      console.log("RESPUESTA DE LA URL", params['lapResponseCode']);
-      console.log("RESPUESTA DE LA URL", params['lapTransactionState']);
-      console.log("RESPUESTA DE LA URL COSTO", params['TX_VALUE']);
-      console.log("RESPUESTA DE LA URL ID TRANSFERENCIA", params['referenceCode']);
       this.responseOne = params['lapResponseCode'];
       this.responseTwo = params['lapTransactionState'];
       this.costOfTransaction = params['TX_VALUE'];
@@ -186,7 +181,6 @@ export class StudentPanelComponent implements OnInit {
 
   getStudentTime() {
     this.studentService.getStudentTime(this.idStudent).subscribe((resp) => {
-      console.log("tiempo del estudiante ", resp);
       this.studentTime = resp;
     });
   }
@@ -250,9 +244,7 @@ export class StudentPanelComponent implements OnInit {
   getListOfTransactions() {
     this.transferService.getAllListOfTransfers(this.idStudent).subscribe((resp) => {
       this.dataSource = new MatTableDataSource(resp);
-      console.log("lista de transacciones ", this.listOfTransactions);
     });
-    console.log("DATA SOURCEEEE ", this.dataSource);
   }
 
   makeTransaction() {
@@ -261,29 +253,23 @@ export class StudentPanelComponent implements OnInit {
       "cost": this.costOfTransaction,
       "idStudent": this.idStudent,
       "transferCode": this.transferId
-    }
-
-    console.log("objeto que se enviaria para realizar la transaccion ", objectOfTransaction);
+    };
     this.transferService.makeTransaction(objectOfTransaction).subscribe(resp => {
-      console.log("transferencia exitosa ");
+      resp
     })
   }
 
   setMoneyTransaction() {
-    console.log("estudiante ", this.studentObject);
     let bodyOfTransaction: any = {};
     let actualMoney: number = +this.studentObject.money;
-    console.log("dinero actual del estudiante ", actualMoney);
     let transactionMoney: number = +this.costOfTransaction;
-    console.log("dinero a sumer al saldo del estudiante ", transactionMoney);
     let newMoney: number = (actualMoney + transactionMoney);
-    console.log("nuevo valor de dinero ", newMoney);
     bodyOfTransaction = {
       'money': newMoney,
       'studentId': this.idStudent
     }
     this.studentService.setMoney(bodyOfTransaction).subscribe((resp) => {
-      console.log("opreacion exitosa ", resp);
+      resp;
     });
   }
 
@@ -313,15 +299,13 @@ export class StudentPanelComponent implements OnInit {
   }
 
   getStudentImage() {
-    console.log("imagen estudiante ", this.studentImage);
     if ((this.studentObject.picture != null || this.studentObject.picture.length >= 0) && this.studentImage != "default.png") {
       this.studentImage = this.studentObject.picture;
     }
   }
 
   getStudentDetailTutorias() {
-    this.studentService.getTutoriasDetailsForStudent(this.idStudent).subscribe (resp => {
-      console.log("respuesta del servicio detall de tutoria estudiantes " , resp);
+    this.studentService.getTutoriasDetailsForStudent(this.idStudent).subscribe(resp => {
       this.dataSourceTwo = new MatTableDataSource(resp);
       if (this.dataSourceTwo.data.length > 0) {
         setTimeout(() => {

@@ -39,7 +39,6 @@ export class TransactionService {
 
   getPlataformValues(): Observable<any> {
     let internalUrl = `${this.endpoint_transfers}/admin`;
-    console.log("URL " + internalUrl);
     return this.http.get<any[]>(internalUrl);
   }
 

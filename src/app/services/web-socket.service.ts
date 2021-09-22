@@ -102,7 +102,6 @@ export class WebSocketService {
   }
 
   getStateOfTeacher() {
-    console.log("value of connect from socket", this.teacher_state);
     return this.teacher_state;
   }
 
@@ -133,7 +132,6 @@ export class WebSocketService {
       let state_teacher = JSON.parse(e.body);
       this.teacher_state = state_teacher;
     });
-    console.log("state on web socket ", this.teacher_state);
   }
 
   suscribeToTopicPrivateChat(idTeacher: any, idStudent: any) {

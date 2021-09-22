@@ -41,7 +41,6 @@ export class GrupalCourseComponent implements OnInit {
   getStudentMoneyMethod() {
     this.studentService.getStudentMoney(this.idStudent).subscribe(resp => {
       this.studentMoney = resp;
-      console.log("dinero actual del estudiante ", this.studentMoney);
     });
   }
 
@@ -55,8 +54,6 @@ export class GrupalCourseComponent implements OnInit {
   }
 
   makeInscription() {
-    console.log("validacion del dinero de inscripcion dinero estudiante", this.studentMoney, "costo del curso grupal ", this.grupalCourse.price);
-    console.log("validacion", this.studentMoney == this.grupalCourse.price);
     let diplsayCourseValueString = this.grupalCourse.price.toString();
     let diplsayCourseValue = this.currencyPipe.transform(diplsayCourseValueString.replace(/\D/g, '').replace(/^0+/, ''), '', '', '1.0-0')
     if (this.studentMoney < this.grupalCourse.price) {

@@ -155,10 +155,8 @@ export class HomeLogedComponent implements OnInit {
   getStudentMoneyMethod() {
     this.studentService.getStudentMoney(this.idStudent).subscribe(resp => {
       if (resp >= +5000) {
-        console.log("can have tutoria");
         this.isTutoriaAvailable = true;
       } else {
-        console.log("cant have tutoria");
         this.isTutoriaAvailable = false;
       }
     })
@@ -523,11 +521,9 @@ export class HomeLogedComponent implements OnInit {
   }
 
   openTeacherInformation(teacherId: any) {
-    console.log("id que he seleccionado ", teacherId);
     this.showTeacherInfo = true;
     this.modalService.openModal();
     this.idTeacherSelected = teacherId;
-    console.log("valor del modal ", this.modalService.modal);
   }
 
   openFeedBack() {
@@ -561,7 +557,7 @@ export class HomeLogedComponent implements OnInit {
         "feedBack": this.feedback
       }
       this.feedBackService.createFeedBack(objectToSendFinal).subscribe(resp => {
-        console.log("feedback creado ");
+        resp;
       });
     }, 2000);
 
@@ -583,10 +579,8 @@ export class HomeLogedComponent implements OnInit {
         "teacherId": this.idTeacher
       }
 
-      console.log("info to send ", object);
-
       this.feedBackService.updateTeacherCalification(object).subscribe(resp => {
-        console.log("update calification works");
+        resp;
       })
       this.modalService.closeModal();
     }, 3000);
