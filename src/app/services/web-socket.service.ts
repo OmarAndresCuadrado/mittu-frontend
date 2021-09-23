@@ -2,8 +2,6 @@ import { Injectable } from '@angular/core';
 import { Client } from '@stomp/stompjs';
 import * as SockJS from 'sockjs-client';
 import { environment } from '../../environments/environment.prod';
-import Sw, { SweetAlertIcon } from 'sweetalert2';
-import { IfStmt, THIS_EXPR, ThrowStmt } from '@angular/compiler/src/output/output_ast';
 import { Mensaje } from '../interfaces/Mensaje';
 import { TeacherService } from './teacher.service';
 
@@ -16,7 +14,6 @@ export class WebSocketService {
   private autenticationState: boolean = false;
   private endpoint_socket: string = environment.webSocket.host;
   private idTeacher: any;
-  private idStudent: any;
   private client: Client;
   private response: any;
   private responseTopicPrivateChat: any
@@ -32,8 +29,6 @@ export class WebSocketService {
   public mensajes: Mensaje[] = [];
   public conectado: boolean = false;
   public escribiendo: string = '';
-  private socket_teacher_notification_chanel: any = '/topic/notification/chanel/teacher'
-  private timer_channel_send = '/app/teacher/student/timer';
   private timer_channel_subscribe = '/topic/teacher/student/timer';
   public url_meeet_for_session: any = '';
 
@@ -48,18 +43,15 @@ export class WebSocketService {
     this.client.webSocketFactory = () => {
       return new SockJS(this.endpoint_socket)
     }
-    this.getIdTeacher(); // esto se ira
+    this.getIdTeacher();
     this.client.onConnect = (frame) => {
-
       this.suscribeToTopicTeacherSocket();
       this.suscribeToTopicTeacherState();
       this.suscribeToTopicPrivateChatVerification(this.idTeacher);
       this.suscribeToTopicPrivateChat('', '');
       this.subcribeToTopicPrivateChatStudentTeacher('', '');
       this.subcribeToPrivateChanelChatTeacher(this.idTeacher);
-      this.suscribeToTimerChanel('', '');
-      // this.subscrieToNotificationTeacherChanel('');
- 
+      this.suscribeToTimerChanel('', ''); 
     }
 
     this.client.onDisconnect = (frame) => {

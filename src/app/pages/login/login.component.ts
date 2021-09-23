@@ -76,34 +76,14 @@ export class LoginComponent implements OnInit {
       return;
     }
 
-    this.authService.login(this.loginForm).subscribe((resp) => {
+    this.authService.login(this.loginForm).subscribe(async resp => {
 
-      setTimeout(() => {
-        let user = this.authService.user;
-        this.authService.saveUser(resp.access_token);
-        this.authService.saveToken(resp.access_token);
-        this.idStudent = sessionStorage.getItem('studentId');
-        this.idTeacher = sessionStorage.getItem('teacherId');
-        this.idAdmin = sessionStorage.getItem('adminId');
-
-
-      
-          if (this.idStudent != 'null' ) {
-          this.router.navigate(['/home-loged']);
-
-        }  else if (this.idTeacher != 'null' ) {
-          this.router.navigate(['/teacher-panel']);
-
-        } else if (this.idAdmin == 1) {
-          this.router.navigate(['/admin-panel']);
-        
-
-      }}, 2000);
+      await this.getDetailsForLogin(resp);
 
       setTimeout(() => {
         this.client = this.socketService.socketInitialConnection();
         this.socketService.connectToSocket();
-      }, 3000);
+      }, 2000);
 
       setTimeout(() => {
         let mensajeInicial = { mensaje: 'SESION_START' };
@@ -142,6 +122,24 @@ export class LoginComponent implements OnInit {
 
   studentRegister() {
     this.router.navigate(['/register-student']);
+  }
+
+  getDetailsForLogin(resp: any) {
+    let user = this.authService.user;
+    this.authService.saveUser(resp.access_token);
+    this.authService.saveToken(resp.access_token);
+    this.idStudent = sessionStorage.getItem('studentId');
+    this.idTeacher = sessionStorage.getItem('teacherId');
+    this.idAdmin = sessionStorage.getItem('adminId');
+    if (this.idStudent != 'null') {
+      this.router.navigate(['/home-loged']);
+
+    } else if (this.idTeacher != 'null') {
+      this.router.navigate(['/teacher-panel']);
+
+    } else if (this.idAdmin == 1) {
+      this.router.navigate(['/admin-panel']);
+    }
   }
 
 }

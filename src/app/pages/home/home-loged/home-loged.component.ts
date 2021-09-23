@@ -115,7 +115,6 @@ export class HomeLogedComponent implements OnInit {
     this.showPartOne = true;
     this.showPartTwo = false;
     this.showPartThree = false;
-    this.breakLopp = true;
     this.counterTwo = 0;
     this.showTeacherInfo = false;
     this.isTutoriaAvailable = false;
@@ -129,12 +128,10 @@ export class HomeLogedComponent implements OnInit {
 
   //buscar una mejor forma para observar los cambios
   ngOnInit(): void {
-    this.transferService.getBannerInformation(1).subscribe(resp => {
-      this.bannerTransfer = resp;
-    })
-    setTimeout(() => {
-      this.bannerColor = `${this.bannerTransfer.colorBanner}`;
-    }, 2000);
+    let roleUser = JSON.parse(sessionStorage.getItem('user'));
+    this.transferService.getBannerInformation(1).subscribe(async resp => {
+      await this.showBanner(resp);
+    });
     this.idStudent = sessionStorage.getItem('studentId');
     this.filteredOptions = this.autoComplete.valueChanges
       .pipe(
@@ -148,8 +145,16 @@ export class HomeLogedComponent implements OnInit {
         flatMap(value => value ? this._filterGrupalCourse(value) : [])
       );
 
-    this.getStudentMoneyMethod();
+    if (roleUser != null || roleUser != undefined) {
+      if (roleUser.roles[0] != "ROLE_TEACHER") {
+        this.getStudentMoneyMethod();
+      }
+    }
+  }
 
+  showBanner(resp: any) {
+    this.bannerTransfer = resp;
+    this.bannerColor = `${this.bannerTransfer.colorBanner}`;
   }
 
   getStudentMoneyMethod() {
@@ -515,7 +520,12 @@ export class HomeLogedComponent implements OnInit {
   //
 
   startTimer() {
+    this.counter = 0;
+    this.counterTwo = 0;
+    this.minutes = 0;
+    this.seconds = 0;
     this.showPartOne = true;
+    this.breakLopp = true;
     this.startTimmer();
     this.startTimmerSeconds();
   }
@@ -530,6 +540,25 @@ export class HomeLogedComponent implements OnInit {
     this.showPartOne = false;
     this.showPartTwo = false;
     this.showPartThree = true;
+  }
+
+  defaultEvents() {
+    this.showPartOne = true;
+    this.showPartTwo = false;
+    this.showStartButton = true;
+    this.counter = 0;
+    this.counterTwo = 0;
+    this.minutes = 0;
+    this.seconds = 0;
+    this.showPartThree = false;
+    this.isCheckedOne = false;
+    this.isCheckedTwo = false;
+    this.isCheckedThree = false;
+    this.isCheckedFour = false;
+    this.isCheckedFive = false;
+    this.finalCalification = 0;
+    this.breakLopp = false;
+    this.feedback = "";
   }
 
 
@@ -594,6 +623,10 @@ export class HomeLogedComponent implements OnInit {
       confirmButtonText: 'Continuar',
       allowOutsideClick: false
     })
+
+    setTimeout(() => {
+      this.defaultEvents();
+    }, 6000);
   }
 
   startOne() {

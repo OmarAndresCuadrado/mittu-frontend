@@ -71,10 +71,8 @@ export class StudentPanelComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
     this.userData = JSON.parse(sessionStorage.getItem('user'));
     this.usernameEmail = this.userData.username;
-
 
     this.activatedRoute.queryParams.subscribe(params => {
       this.responseOne = params['lapResponseCode'];

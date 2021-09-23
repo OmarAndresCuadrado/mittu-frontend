@@ -57,7 +57,6 @@ export class StudentService {
   getStudentMoney(studentId: any): any {
     let internalUrl = `${this.endpoint_student}/getMoney/${studentId}`;
     return this.http.get<any>(internalUrl);
-
   }
 
   uploadStudentPicture(picture: File, id: any): Observable<studentEntity> {

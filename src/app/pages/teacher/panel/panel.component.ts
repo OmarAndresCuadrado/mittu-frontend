@@ -129,7 +129,6 @@ export class PanelComponent implements OnInit {
     this.showPartOne = true;
     this.showPartTwo = false;
     this.counter = 0;
-    this.breakLopp = true;
     this.counterTwo = 0;
     this.minutess = 0;
     this.secondss = 0;
@@ -177,19 +176,19 @@ export class PanelComponent implements OnInit {
         onChat: false
       }
       this.webSocketService.sendEventToAgent(`${this.publis_topic_endpoint_private_teacher_chanel}/${this.idTeacher}`, objetoToPrivateChanel);
-    }, 2000)
+    }, 7000)
 
     setTimeout(() => {
       this.socketClient = this.webSocketService.socketInitialConnection();
-    }, 2000);
+    }, 7000);
 
     setTimeout(() => {
       this.subscrieToNotificationTeacherChanel(this.idTeacher);
-    }, 3000)
+    }, 7000)
 
     setTimeout(() => {
       this.sendInitialMessageToPrivateNotificationChannel();
-    }, 3000)
+    }, 7000)
 
     this.getDetailsOfTutorias();
     this.bankDetailsForm = this.formBuilder.group({
@@ -322,6 +321,7 @@ export class PanelComponent implements OnInit {
       allowOutsideClick: false
     }).then((result) => {
       if (result.isConfirmed) {
+        this.breakLopp = false;
         this.sendPositiveAnswerToChannel();
         setTimeout(() => {
           this.goToMeetUrl();
@@ -650,6 +650,11 @@ export class PanelComponent implements OnInit {
     }, 2000);
     this.showPartOne = true;
     this.showStartButton = false;
+    this.breakLopp = true;
+    this.minutess = 0;
+    this.secondss = 0;
+    this.counter = 0;
+    this.counterTwo = 0
     this.startTimmer();
     this.startTimmerSeconds();
 
@@ -662,6 +667,17 @@ export class PanelComponent implements OnInit {
     setTimeout(() => {
       this.webSocketService.sendEventToAgent(`${this.timer_channel_send}/${idTeacher}/${idStudent}`, body)
     }, 2000);
+  }
+
+  defaultEvents() {
+    this.showPartOne = true;
+    this.showPartTwo = false;
+    this.showStartButton = true;
+    this.showStart = true;
+    this.minutess = 0;
+    this.secondss = 0;
+    this.counter = 0;
+    this.counterTwo = 0
   }
 
   openTimerModal() {
@@ -745,7 +761,7 @@ export class PanelComponent implements OnInit {
         'icon': `info`,
         showCloseButton: true,
         showCancelButton: true,
-        showConfirmButton: this.showStart,
+        showConfirmButton: true,
         confirmButtonText: `Realizar retiro`,
         cancelButtonText: `Cancelar retiro`,
         confirmButtonColor: '#17a2b8',
@@ -778,7 +794,7 @@ export class PanelComponent implements OnInit {
   }
 
   sendEmaiForNewRetirement(bodyForEmail: any) {
-    this.retirementService.sentEmailForNewRetirement(bodyForEmail).subscribe( async resp => {
+    this.retirementService.sentEmailForNewRetirement(bodyForEmail).subscribe(async resp => {
       await (this.succesfulMessage());
     });
   }
