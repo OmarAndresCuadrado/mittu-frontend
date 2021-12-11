@@ -10,4 +10,10 @@ export class grupalCourseEntity {
   description?: any;
   urlMeet?: string;
   price?: number;
+  totalClases: number;
+  clasesDone: number;
+  subscribedStudents: number;
+  alreadyPaid: boolean;
+  initialDateCourse: string;
+  findalDateCourse: string;
 }

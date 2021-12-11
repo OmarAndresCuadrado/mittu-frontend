@@ -9,6 +9,8 @@ import { environment } from 'src/environments/environment';
 export class RetirementsService {
 
   public endpoint_retirements = environment.retirements.host;
+  public setAcountInformation: File;
+  public setSupportInformation: File;
 
   constructor(private http: HttpClient) { }
 
@@ -29,13 +31,30 @@ export class RetirementsService {
   }
 
   sentEmailForNewRetirement(bodyOfRetirementEmail: any) {
+    let formData = new FormData();
+    formData.append("accountInformation", this.setAcountInformation);
+    formData.append("idReference",bodyOfRetirementEmail.idReference);
+    formData.append("idTeacher",bodyOfRetirementEmail.idTeacher);
     let endpoint_transaction = `${this.endpoint_retirements}/new/send/email`;
-    return this.http.post(endpoint_transaction, bodyOfRetirementEmail);
+    return this.http.post(endpoint_transaction, formData );
+  }
+
+  sentEmailForSupportTransaction(bodyOfRetirementEmail: any) {
+    let formData = new FormData();
+    formData.append("paymentSupport", this.setSupportInformation);
+    formData.append("idReference",bodyOfRetirementEmail.idReference);
+    formData.append("idTeacher",bodyOfRetirementEmail.idTeacher);
+    let endpoint_transaction = `${this.endpoint_retirements}/state/send/email`;
+    return this.http.post(endpoint_transaction, formData );
   }
   
-  sentEmailForStatusChangeRetirement(bodyOfRetirementEmail: any) {
-    let endpoint_transaction = `${this.endpoint_retirements}/state/send/email`;
-    return this.http.post(endpoint_transaction, bodyOfRetirementEmail);
+
+  setInformation(accountInformationInput: File) {
+    this.setAcountInformation = accountInformationInput;
+  }
+
+  setSupportInformationMethod(supportInformationInput: File) {
+    this.setSupportInformation = supportInformationInput;
   }
 
 }

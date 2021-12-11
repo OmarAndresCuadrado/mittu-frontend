@@ -2,8 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { WebSocketService } from '../../../services/web-socket.service';
 import { Client } from '@stomp/stompjs';
 import { environment } from '../../../../environments/environment.prod';
-import { interval } from 'rxjs';
-import Sw, { SweetAlertIcon } from 'sweetalert2';
 import { Router } from '@angular/router';
 import { FormControl } from '@angular/forms';
 import { Observable } from 'rxjs';

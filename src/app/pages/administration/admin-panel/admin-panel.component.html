@@ -1,4 +1,7 @@
 <div class="all">
+    <div *ngIf="showSpinner === true">
+        <app-spinner></app-spinner>
+    </div>
     <app-logged-nvbar></app-logged-nvbar>
     <div class="card border-info">
         <div class="space-over space-bottom">
@@ -246,7 +249,8 @@
                                 <td mat-cell *matCellDef="let row">
 
                                     <div *ngIf="row.alreadyPaid == false; else makePayment">
-                                        <button class="btn btn-info" (click)="retirementDone(row)"> Actualizar estado
+                                        <button class="btn btn-info" (click)="addSupportTransaction(row)"> Actualizar
+                                            estado
                                         </button>
                                     </div>
                                     <ng-template #makePayment>
@@ -311,5 +315,64 @@
         <app-grupal-course-general></app-grupal-course-general>
     </div>
 </div>
+
+<ng-template #transactionSupportModal let-modal>
+    <div class="row" style="padding-top: 30px;">
+        <div class="col-12 text-center">
+            <h3>Adjuntar archivo o imagen con el soporte del pago realizado</h3>
+        </div>
+    </div>
+    <div class="row" style="padding-top: 20px;">
+        <div class="col-12">
+
+        </div>
+    </div>
+
+
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="input-group">
+                    <div class="custom-file">
+                        <input (change)="addTransactionSupport($event)" type="file" class="custom-file-input"
+                            id="inputGroupFile04">
+                        <label class="custom-file-label" for="inputGroupFile04"></label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div *ngIf="selectedSupportInformation" style="padding-top: 30px;">
+            <div class="row">
+                <div class="col-12 text-center">
+                    <div class="icon-available-all-render-style">
+                        <i class="fa fa-check-square icon-available"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="row text-center" style="padding-top: 30px;">
+            <div class="col-6">
+                <button [disabled]="!selectedSupportInformation" type="submit" class="btn btn-info btn-block"
+                    data-dismiss="modal" (click)="closeModal();  modal.close(); retirementDone();">Aceptar</button>
+            </div>
+
+            <div class="col-6">
+                <button type="button" class="btn btn-outline-info btn-block" data-dismiss="modal"
+                    (click)="closeModal();  modal.close()">Cerrar</button>
+            </div>
+        </div>
+
+        <div class="row" style="padding-top: 20px; padding-bottom: 20px;">
+            <div class="col-12">
+
+            </div>
+        </div>
+
+    </div>
+</ng-template>
 
 <app-upload-banner-image [bannerIdToHeredate]="1" (bannerEmmiterUpload)="refreshPicture()"> </app-upload-banner-image>

@@ -10,5 +10,7 @@ export class studentEntity {
     money: number = 0;
     fechaDeCreacion: Date;
     picture: string;
+    deparament: string;
+    city: string;
 
 }

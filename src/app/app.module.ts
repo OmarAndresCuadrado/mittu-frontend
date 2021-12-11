@@ -63,6 +63,7 @@ import { UploadStudentImageComponent } from './modals/upload-student-image/uploa
 import { UploadBannerImageComponent } from './modals/upload-banner-image/upload-banner-image.component';
 import { CurrencyPipe } from '@angular/common';
 import { UpdateTeacherComponent } from './modals/update-teacher/update-teacher.component';
+import { SpinnerComponent } from './general/spinner/spinner.component';
 
 
 @NgModule({
@@ -112,7 +113,8 @@ import { UpdateTeacherComponent } from './modals/update-teacher/update-teacher.c
     ModalDetailComponent,
     UploadStudentImageComponent,
     UploadBannerImageComponent,
-    UpdateTeacherComponent
+    UpdateTeacherComponent,
+    SpinnerComponent
   ],
   imports: [
     BrowserModule,

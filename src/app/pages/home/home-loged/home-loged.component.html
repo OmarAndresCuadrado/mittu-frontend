@@ -147,6 +147,12 @@
               <p class="card-text">{{grupalCourse.price | currency}}</p>
               <p class="card-text"><b> Horario</b> </p>
               <p class="card-text">{{grupalCourse.classTime}} </p>
+              <p class="card-text"><b> Fecha de inicio </b> </p>
+              <p class="card-text">{{grupalCourse.initialDateCourse}} </p>
+              <p class="card-text"><b> Fecha de finalización </b> </p>
+              <p class="card-text">{{grupalCourse.findalDateCourse}} </p>
+              <p class="card-text"><b> Cantidad de clases a impartir </b> </p>
+              <p class="card-text">{{grupalCourse.totalClases}} </p>
               <div class="text-center space-over">
                 <button class="btn btn-info col-md-8" (click)=goToDetailGroup(grupalCourse) data-toggle="modal"
                   data-target="#modalGroup">

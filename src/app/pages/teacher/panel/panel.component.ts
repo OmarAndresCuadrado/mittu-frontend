@@ -102,6 +102,8 @@ export class PanelComponent implements OnInit {
   public onShowTutoriasDetails;
   public bankDetails: any;
   public sentTransaction: boolean;
+  public selectedInformation: File;
+  public showSpinner = false;
 
   @ViewChild('editModal') editModal: TemplateRef<any>;
   @ViewChild('bankModal') bankModal: TemplateRef<any>;
@@ -136,6 +138,7 @@ export class PanelComponent implements OnInit {
     this.showStopButton = true;
     this.studentMinutes = 20;
     this.onShowTutoriasDetails = true;
+    this.showSpinner = false;
   }
 
   get bankInformation() {
@@ -418,8 +421,9 @@ export class PanelComponent implements OnInit {
   }
 
   getAllGrupalCourses() {
+    let filterCoursesByTeacherId: any;
     this.grupalCourseService.getAllGrupalCourses().subscribe((grupalCourses) => {
-      const filterCoursesByTeacherId = grupalCourses.filter(object => (object.idTeacher === +this.idTeacher));
+      filterCoursesByTeacherId = grupalCourses.filter(object => (object.idTeacher === +this.idTeacher));
       this.grupalCourses = filterCoursesByTeacherId;
       let cantidadDeEstudiantes = 0;
       let cantidadDeEstuiantesTotal = 0;
@@ -428,6 +432,16 @@ export class PanelComponent implements OnInit {
       });
       this.totalStudents = cantidadDeEstuiantesTotal;
     });
+
+    setTimeout(() => {
+      filterCoursesByTeacherId.forEach(element => {
+        if ((element.totalClases == element.clasesDone) && (!element.alreadyPaid)) {
+          this.grupalCourseService.setNewMoneyAndAlreadyPaidCourse(element.idTeacher, element.id).subscribe(resp => {
+            resp;
+          });
+        }
+      });
+    }, 3000);
   }
 
   watchStudentsMethod() {
@@ -754,6 +768,7 @@ export class PanelComponent implements OnInit {
   }
 
   makeRetirement() {
+    this.selectedInformation = null;
     if (this.teacherFound.money >= 10000) {
       Sw.fire({
         'title': `Solicitud retiro en proceso`,
@@ -770,22 +785,6 @@ export class PanelComponent implements OnInit {
       }).then((result) => {
         if (result.isConfirmed) {
           this.openBankInformation();
-          this.bankDetails = this.bankDetailsForm.value.bankInformation;
-          let bodyToBeSendTransaction: any = {
-            'name': `${this.teacherFound.name} ${this.teacherFound.lastName}`,
-            'cost': this.teacherFound.money,
-            'alreadyPaid': false,
-            'teacherIdentifier': this.teacherFound.id
-          };
-          this.retirementService.saveRetirement(bodyToBeSendTransaction).subscribe(async resp => {
-            resp;
-            let bodyForEmail: any = {
-              'idReference': resp.retirementId,
-              'accountDetails': this.bankDetails,
-              'idTeacher': this.teacherFound.id
-            };
-            await this.continueTransaction(bodyForEmail);
-          });
         }
       });
     } else {
@@ -809,14 +808,16 @@ export class PanelComponent implements OnInit {
 
   continueTransaction(bodyForEmail: any) {
     this.sentTransaction = true;
+    this.showSpinner = true;
     if (this.sentTransaction) {
       this.sendEmaiForNewRetirement(bodyForEmail);
     }
   }
 
   succesfulMessage() {
+    this.getListOfRetirements();
     Sw.fire({
-      'title': `Retiro realizado`,
+      'title': `Solicitud de retiro realizado`,
       'text': `Se ha realizado de manera exitosa la peticion para el retiro`,
       'icon': `success`,
       showCloseButton: true,
@@ -826,8 +827,48 @@ export class PanelComponent implements OnInit {
       allowOutsideClick: false
     }).then((result) => {
       if (result.isConfirmed) {
-        this.getListOfRetirements();
+        this.showSpinner = false;
       }
+    });
+  }
+
+  addInformationAccount(event) {
+    this.selectedInformation = event.target.files[0];
+
+    if ((this.selectedInformation.type.indexOf('image') < 0 && this.selectedInformation.type.indexOf('application/pdf') == -1)
+      || (this.selectedInformation.type.indexOf('image') == -1 && this.selectedInformation.type.indexOf('application/pdf') < 0)
+    ) {
+      Swal.fire('Error', 'El formato del archivo no corresponde a una imagen o pdf', 'error');
+      this.selectedInformation = null;
+    }
+
+    if (!this.selectedInformation) {
+      Swal.fire('Error', 'Se debe seleccionar un archivo pdf o imagen.', 'error');
+    } else {
+      this.retirementService.setInformation(this.selectedInformation);
+      Swal.fire('Subida exitosa', 'La Informacion se ha cargado con exito', 'success');
+    }
+
+  }
+
+  closeModal() {
+    this.modalService.closeModal();
+  }
+
+  makeTranstaction() {
+    let bodyToBeSendTransaction: any = {
+      'name': `${this.teacherFound.name} ${this.teacherFound.lastName}`,
+      'cost': this.teacherFound.money,
+      'alreadyPaid': false,
+      'teacherIdentifier': this.teacherFound.id
+    };
+    this.retirementService.saveRetirement(bodyToBeSendTransaction).subscribe(async resp => {
+      resp;
+      let bodyForEmail: any = {
+        'idReference': resp.retirementId,
+        'idTeacher': this.teacherFound.id
+      };
+      await this.continueTransaction(bodyForEmail);
     });
   }
 

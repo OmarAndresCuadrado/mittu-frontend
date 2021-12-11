@@ -1,5 +1,8 @@
 <div class="background-image-gradient">
     <div class="all">
+        <div *ngIf="showSpinner === true">
+            <app-spinner></app-spinner>
+        </div>
         <div class="row">
             <div class="col-12 text-center mittu-title">
                 mittu
@@ -157,36 +160,54 @@
                                 <div class="col-6 text-center">
                                     <div class="form-group">
                                         <div class="input-container">
-                                            <i class="fa fa-phone icon"></i>
-                                            <input type="text" class="form-control" id="phone" formControlName="phone">
+                                            <i class="fa fa-building icon"></i>
+                                            <select class="form-select form-select-lg"
+                                                aria-label=".form-select-lg example" formControlName="deparament">
+                                                <option selected>Seleccionar departamento</option>
+                                                <option *ngFor="let deparament of listOfDeparaments"
+                                                    value="{{deparament}}"
+                                                    (click)="getCitiesFromADeparaments(deparament)"
+                                                    (click)="setDeparament(deparament)">
+                                                    {{deparament}} </option>
+                                            </select>
                                         </div>
-                                        <div *ngIf="phone.invalid && (phone.dirty || phone.touched)"
-                                            class="alert alert-danger">
-                                            <div *ngIf="phone.errors.minlength || phone.errors.maxlength ">
-                                                El telefono debe de tener entre 6 y 10 numeros
-                                            </div>
-                                            <div *ngIf="phone.errors.required">
-                                                El telefono es requerido
-                                            </div>
-                                        </div>
-
                                     </div>
                                 </div>
+
                                 <div class="col-6 text-center">
                                     <div class="form-group">
                                         <div class="input-container">
                                             <i class="fa fa-building icon"></i>
-                                            <input type="text" class="form-control" id="city" formControlName="city"
-                                                placeholder="ciudad">
+                                            <select class="form-select form-select-lg"
+                                                aria-label=".form-select-lg example" formControlName="city">
+                                                <option selected>Seleccionar ciudad</option>
+                                                <option *ngFor="let city of citiesFromDeparament" value="{{city}}"
+                                                    (click)="setCity(city)">
+                                                    {{city}}</option>
+                                            </select>
                                         </div>
-                                        <div *ngIf="city.invalid && (city.dirty || city.touched)"
-                                            class="alert alert-danger">
-                                            <div *ngIf="city.errors.minlength || city.errors.maxlength ">
-                                                La ciudad debe de tener entre 3 y 40 caracteres
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="col-6 text-center">
+                                        <div class="form-group">
+                                            <div class="input-container">
+                                                <i class="fa fa-phone icon"></i>
+                                                <input type="text" class="form-control" id="phone" formControlName="phone">
                                             </div>
-                                            <div *ngIf="city.errors.required">
-                                                La ciudad es requerida
+                                            <div *ngIf="phone.invalid && (phone.dirty || phone.touched)"
+                                                class="alert alert-danger">
+                                                <div *ngIf="phone.errors.minlength || phone.errors.maxlength ">
+                                                    El telefono debe de tener entre 6 y 10 numeros
+                                                </div>
+                                                <div *ngIf="phone.errors.required">
+                                                    El telefono es requerido
+                                                </div>
                                             </div>
+    
                                         </div>
                                     </div>
                                 </div>
@@ -209,6 +230,7 @@
                                     </div>
                                 </div>
                             </div>
+
                             <div class="row">
                                 <div class="col-12 text-center">
                                     <button

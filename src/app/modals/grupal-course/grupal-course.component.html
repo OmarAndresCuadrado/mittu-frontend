@@ -50,6 +50,37 @@
                 </div>
 
                 <div class="row space-over space-bottom">
+                    <div class="col-4">
+                        Cantidad de clases a impartir
+                    </div>
+
+                    <div class="col-6">
+                        {{grupalCourse.totalClases}}
+                    </div>
+                </div>
+
+                <div class="row space-over space-bottom">
+                    <div class="col-4">
+                       Fecha de inicio
+                    </div>
+
+                    <div class="col-6">
+                        {{grupalCourse.initialDateCourse}}
+                    </div>
+                </div>
+
+                <div class="row space-over space-bottom">
+                    <div class="col-4">
+                       Fecha final
+                    </div>
+
+                    <div class="col-6">
+                        {{grupalCourse.findalDateCourse}}
+                    </div>
+                </div>
+
+
+                <div class="row space-over space-bottom">
                     <div *ngIf="authService.hasRole('ROLE_STUDENT')" class="col-12 text-center">
                         <button type="button" class="btn btn-outline-info col-6" (click)="makeInscription()" >Inscribirme al grupo</button>
                     </div>

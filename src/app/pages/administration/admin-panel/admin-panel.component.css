@@ -73,3 +73,17 @@
     padding-right: 300px;
   }
   
+  .icon-available-all-render-style {
+    background: #28a745;
+    color: white;
+  }
+
+  .icon-available {
+    padding: 8px;
+    border-radius: 30%;
+    background: #28a745;
+    color: white;
+    text-align: center;
+    font-size: 215px;
+    cursor: pointer;
+  }

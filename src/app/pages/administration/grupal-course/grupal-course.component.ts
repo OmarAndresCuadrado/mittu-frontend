@@ -13,7 +13,7 @@ import { environment } from '../../../../environments/environment.prod';
   styleUrls: ['./grupal-course.component.css']
 })
 export class GrupalCourseGeneralComponent implements OnInit {
-  displayedColumns: string[] = ['picture', 'name', 'description', 'classTime', 'urlMeet', 'price', 'ver'];
+  displayedColumns: string[] = ['picture', 'name', 'description', 'classTime', 'urlMeet', 'price', 'totalClases', 'clasesDone', 'studentSubscribed', 'alreadyPaid', 'moneyToBePaid', 'ver'];
   dataSource: MatTableDataSource<grupalCourseEntity>;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;

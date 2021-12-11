@@ -21,6 +21,7 @@ export class GrupalCourseComponent implements OnInit {
   public isTutoriaAvailable: boolean;
   public idStudent: any;
   public studentMoney: any;
+  public isAlreadyRegister: boolean;
 
   constructor(
     public modalService: ModalService,
@@ -92,25 +93,14 @@ export class GrupalCourseComponent implements OnInit {
             "courseId": courseId,
             "studentId": studentId
           }
-          this.studentService.addNewGrupalCourse(this.grupalCourse.price, this.grupalCourse.idTeacher, this.idStudent).subscribe(async resp => {
-            resp;
-            let bodyGrupalCourseToSend: any = {
-              "idTeacher": this.grupalCourse.idTeacher,
-              "idStudent": this.idStudent,
-              "grupalCourseName": "probando ando papu",
-              "gruaplCourseCost": this.grupalCourse.price,
-              "moneyForTeacher": resp.moneyForTeacher,
-              "moneyForPlataform": resp.moneyForPlataform
-            };
-            await this.saveGrupalCorusePurchase(bodyGrupalCourseToSend);
-          });
-          this.grupalCourseService.makeInscriptionToGrupalCourse(data).subscribe(resp => {
-            if (resp === null || resp === 'null') {
+
+          this.grupalCourseService.makeInscriptionToGrupalCourse(data).subscribe(async resp => {
+            if (resp) {
               Sw.fire('Inscripcion realizada', `Te has inscrito al curso ${this.grupalCourse.name}, ahora puedes ver tu nuevo curso inscrito en tu perfil de usuario`, 'success')
-              // this.modalService.closeModal();
+              await this.addNewCourseAndRegisterOnTheExcel();
+            } else {
+              Sw.fire('Inscripción invalida', `Ya te encuentras inscrito al curso grupal ${this.grupalCourse.name}`, 'warning')
             }
-          }, (err) => {
-            Sw.fire('Inscripción invalida', `Ya te encuentras inscrito al curso grupal ${this.grupalCourse.name}`, 'warning')
           });
         }
       });
@@ -121,6 +111,22 @@ export class GrupalCourseComponent implements OnInit {
     this.grupalCourseService.saveGrupalCoursePurchase(bodyGrupalCourseToSend).subscribe(resp => {
       resp
     });
+  }
+
+  addNewCourseAndRegisterOnTheExcel() {
+    this.studentService.addNewGrupalCourse(this.grupalCourse.price, this.grupalCourse.idTeacher, this.idStudent, this.grupalCourse.id).subscribe(async resp => {
+      resp;
+      let bodyGrupalCourseToSend: any = {
+        "idTeacher": this.grupalCourse.idTeacher,
+        "idStudent": this.idStudent,
+        "grupalCourseName": this.grupalCourse.name,
+        "gruaplCourseCost": this.grupalCourse.price,
+        "moneyForTeacher": resp.moneyForTeacher,
+        "moneyForPlataform": resp.moneyForPlataform
+      };
+      await this.saveGrupalCorusePurchase(bodyGrupalCourseToSend);
+    });
+
   }
 
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
@@ -8,6 +8,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ModalService } from 'src/app/services/modal.service';
 import { RetirementsService } from 'src/app/services/retirements.service';
 import Swal from 'sweetalert2';
+import { NgbModal, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
 
 
 @Component({
@@ -16,6 +17,8 @@ import Swal from 'sweetalert2';
   styleUrls: ['./admin-panel.component.css']
 })
 export class AdminPanelComponent implements OnInit {
+
+  @ViewChild('transactionSupportModal') transactionSupportModal: TemplateRef<any>;
 
   displayedColumns: string[] = ['Nombre del estudiante', 'Nombre del profesor', 'Calificación', 'Comentario', 'fechaDeCreacion'];
   dataSource: MatTableDataSource<any>;
@@ -26,6 +29,7 @@ export class AdminPanelComponent implements OnInit {
   dataSourceTwo: MatTableDataSource<any>;
   @ViewChild(MatPaginator) paginatorTWo: MatPaginator;
   @ViewChild(MatSort) sortTwo: MatSort;
+
 
   documentForm: FormGroup;
 
@@ -39,13 +43,17 @@ export class AdminPanelComponent implements OnInit {
   public bannerImage: any;
   public bannerObject: any;
   public onRetirements: boolean;
+  public showSpinner: boolean;
+  public selectedSupportInformation: File;
+  public rowSelected: any;
 
   constructor(
     private transactionService: TransactionService,
     private feedBackService: FeedBackService,
     private formBuilder: FormBuilder,
     private modalService: ModalService,
-    private retirementService: RetirementsService
+    private retirementService: RetirementsService,
+    private boostrapModalService: NgbModal
   ) {
     this.onStudents = false;
     this.onTeachers = false;
@@ -53,6 +61,7 @@ export class AdminPanelComponent implements OnInit {
     this.onGrupalCourses = false;
     this.onMetrics = true;
     this.showTableFeedback = false;
+    this.showSpinner = false;
   }
 
   get documentName() {
@@ -263,13 +272,37 @@ export class AdminPanelComponent implements OnInit {
     this.dataSourceTwo.sort = this.sortTwo;
   }
 
-  retirementDone(retirementIdValue: any) {
-    this.retirementService.updateRetirementState(retirementIdValue.retirementId).subscribe(async resp => {
-      resp;
-      await this.getAllRetirements();
-      await this.sendEmailNotification(retirementIdValue);
+  addSupportTransaction(retirementIdValue: any) {
+    this.selectedSupportInformation = null;
+    let ngbModalOptions: NgbModalOptions = {
+      backdrop: 'static',
+      keyboard: false,
+      centered: true
+    };
+    this.boostrapModalService.open(this.transactionSupportModal, ngbModalOptions);
+    this.rowSelected = retirementIdValue;
+  }
+
+  retirementDone() {
+    this.retirementService.updateRetirementState( this.rowSelected.retirementId).subscribe(async resp => {
+      this.showSpinner = true;
+      await this.sendEmailNotification( this.rowSelected);
     });
 
+  }
+
+  sendEmailNotification(retirementObject: any) {
+    let bodyToSendEmail: any = {
+      'idReference': retirementObject.retirementId,
+      'idTeacher': retirementObject.teacherIdentifier
+    }
+    this.retirementService.sentEmailForSupportTransaction(bodyToSendEmail).subscribe(async resp => {
+      await this.getAllRetirements();
+      await this.showNotification();
+    });
+  }
+
+  showNotification() {
     Swal.fire({
       'title': `Cambiado de estado realizado con exito!`,
       'text': `Se ha enviado un correo al docente notificando que el pago se ha realizado.`,
@@ -281,18 +314,31 @@ export class AdminPanelComponent implements OnInit {
       allowOutsideClick: false
     }).then((result) => {
       if (result.isConfirmed) {
+        this.showSpinner = false;
       }
     });
   }
 
- sendEmailNotification(retirementObject : any) {
-  let bodyToSendEmail: any = {
-    'idReference' : retirementObject.retirementId,
-    'idTeacher' : retirementObject.teacherIdentifier
-  }
-  this.retirementService.sentEmailForStatusChangeRetirement(bodyToSendEmail).subscribe(resp => {
-    resp;
-  });
- }
+  addTransactionSupport(event) {
+    this.selectedSupportInformation = event.target.files[0];
 
+    if ((this.selectedSupportInformation.type.indexOf('image') < 0 && this.selectedSupportInformation.type.indexOf('application/pdf') == -1)
+      || (this.selectedSupportInformation.type.indexOf('image') == -1 && this.selectedSupportInformation.type.indexOf('application/pdf') < 0)
+    ) {
+      Swal.fire('Error', 'El formato del archivo no corresponde a una imagen o pdf', 'error');
+      this.selectedSupportInformation = null;
+    }
+
+    if (!this.selectedSupportInformation) {
+      Swal.fire('Error', 'Se debe seleccionar un archivo pdf o imagen.', 'error');
+    } else {
+     this.retirementService.setSupportInformationMethod(this.selectedSupportInformation);
+     Swal.fire('Subida exitosa', 'La Informacion se ha cargado con exito', 'success');
+    }
+
+  }
+
+  closeModal() {
+    this.modalService.closeModal();
+  }
 }

@@ -1,13 +1,10 @@
 <div class="all">
-    <!-- <app-logged-nvbar></app-logged-nvbar> -->
-
     <div class="row panel buttons-space">
         <div class="col-9">
             <div class="col-12 text-left mittu-title" style="padding-left: 100px;" (click)="backToHome()">
                 mittu
             </div>
         </div>
-
         <div class="col-3">
             <div class="row">
                 <div class="col text-center">
@@ -30,6 +27,9 @@
         </div>
     </div>
 
+    <div *ngIf="showSpinner === true">
+        <app-spinner></app-spinner>
+    </div>
 
     <div class="row">
 
@@ -375,7 +375,33 @@
                                                     <p class="card-text">{{grupalCourse.price | currency}} </p>
                                                     <p class="card-text"><b> Horario</b> </p>
                                                     <p class="card-text">{{grupalCourse.classTime}} </p>
-                                                    <p class="card-text"><b> Url de Google meet</b> </p>
+                                                    <p class="card-text"><b> Fecha de inicio </b> </p>
+                                                    <p class="card-text">{{grupalCourse.initialDateCourse}} </p>
+                                                    <p class="card-text"><b> Fecha de finalización </b> </p>
+                                                    <p class="card-text">{{grupalCourse.findalDateCourse}} </p>
+                                                    <p class="card-text"><b> Cantidad de clases a impartir </b> </p>
+                                                    <p class="card-text">{{grupalCourse.totalClases}} </p>
+
+                                                    <p class="card-text"><b> Cantidad de clases realizadas </b> </p>
+                                                    <p class="card-text">{{grupalCourse.clasesDone}} </p>
+
+                                                    <p class="card-text"><b> Cantidad de estudiantes inscritos </b> </p>
+                                                    <p class="card-text">{{grupalCourse.studentSubscribed}} </p>
+
+                                                    <p class="card-text"><b> Estado de pago </b> </p>
+
+                                                    <div
+                                                        *ngIf="grupalCourse.alreadyPaid === false; else alreadyPaidCodintion">
+                                                        <h2> <span class="badge badge-warning"> Pendiente </span> </h2>
+                                                    </div>
+
+                                                    <ng-template #alreadyPaidCodintion>
+                                                        <h2> <span class="badge badge-success"> Realizado </span> </h2>
+                                                    </ng-template>
+
+                                                    <p class="card-text"><b> Cantidad de dinero recolectado </b> </p>
+                                                    <p class="card-text">{{grupalCourse.moneyToBePaid | currency}} </p>
+                                                    <p class="card-text"><b> Url de la reunion</b> </p>
                                                     <a href="{{grupalCourse.urlMeet}}"
                                                         target="_blank">{{grupalCourse.urlMeet}}</a>
                                                     <div class="row" style="padding-top: 20px; padding-bottom: 10px">
@@ -745,50 +771,64 @@
     </ng-template>
 
     <ng-template #bankModal let-modal>
-        <form autocomplete="off" [formGroup]="bankDetailsForm">
+
+        <div class="row" style="padding-top: 30px;">
+            <div class="col-12 text-center">
+                <h3>Adjuntar archivo o imagen con la información de la cuenta</h3>
+            </div>
+        </div>
+        <div class="row" style="padding-top: 20px;">
+            <div class="col-12">
+
+            </div>
+        </div>
+
+
+        <div class="container">
             <div class="row">
-                <div class="col-12 text-center">
-                    <h3>Formulario de datos de transacción</h3>
+                <div class="col-12">
+                    <div class="input-group">
+                        <div class="custom-file">
+                            <input (change)="addInformationAccount($event)" type="file" class="custom-file-input"
+                                id="inputGroupFile04">
+                            <label class="custom-file-label" for="inputGroupFile04"></label>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="row" style="padding-top: 20px;">
+
+
+            <div *ngIf="selectedInformation" style="padding-top: 30px;">
+                <div class="row">
+                    <div class="col-12 text-center">
+                        <div class="icon-available-all-render-style">
+                            <i class="fa fa-check-square icon-available"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="row text-center" style="padding-top: 30px;">
+                <div class="col-6">
+                    <button [disabled]="!selectedInformation" type="submit" class="btn btn-info btn-block"
+                        data-dismiss="modal"
+                        (click)="closeModal();  modal.close(); makeTranstaction();">Aceptar</button>
+                </div>
+
+                <div class="col-6">
+                    <button type="button" class="btn btn-outline-info btn-block" data-dismiss="modal"
+                        (click)="closeModal();  modal.close()">Cerrar</button>
+                </div>
+            </div>
+
+            <div class="row" style="padding-top: 20px; padding-bottom: 20px;">
                 <div class="col-12">
 
                 </div>
             </div>
-            <div class="row">
-                <div class="col-12 text-center">
-                    <p> Por favor llene el siguiente recuadro con toda la información que considere necesaria para
-                        realizar la transacción (Ejemplo numero de nequi, daviplata o banco).</p>
-                </div>
-            </div>
-            <div class="form-group row">
-                <div class="col-12 text-center" style="padding-top: 20px;">
-                    <textarea type="text" class="form-control" aria-label="With textarea" name="feedback"
-                        formControlName="bankInformation"
-                        placeholder="Ejemplo: Juan Andres Camacho, Numero de nequi 3103102012"></textarea>
-                    <div *ngIf="bankInformation.invalid && (bankInformation.dirty || bankInformation.touched)"
-                        class="alert alert-danger">
-                        <div *ngIf="bankInformation.errors.minlength || bankInformation.errors.maxlength ">
-                            La informacion debe tener entre 10 y 255 caracteres
-                        </div>
-                        <div *ngIf="bankInformation.errors.required">
-                            La informacion para la transferencia es requerida
-                        </div>
-                    </div>
-                </div>
-            </div>
 
-            <div class="row">
-                <div class="col-12 text-center" style="padding-top: 20px; padding-bottom: 20px;">
-                    <div *ngIf="bankDetailsForm.valid">
-                        <button class="btn btn-info" (click)="continueTransaction(''); modal.close()"> Realizar
-                            solicitud </button>
-                    </div>
-                </div>
-            </div>
-        </form>
-
+        </div>
     </ng-template>
 
 </div>

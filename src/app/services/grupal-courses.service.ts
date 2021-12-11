@@ -67,4 +67,9 @@ export class GrupalCoursesService {
     let urlForPurchase = `${this.endpoint_grupal_course}/purchase`;
     return this.http.get<any[]>(urlForPurchase);
   }
+
+  setNewMoneyAndAlreadyPaidCourse(idTeacher: any, idGrupalCourse: any): Observable<any> {
+    let internalEndpoint = `${this.endpoint_grupal_course}/set/new/money/teacher/${idTeacher}/${idGrupalCourse}`;
+    return this.http.get<any>(internalEndpoint);
+  }
 }

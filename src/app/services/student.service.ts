@@ -70,8 +70,8 @@ export class StudentService {
       );
   }
 
-  addNewGrupalCourse(courseCost: any, teacherId: number, studentId: number,): Observable<any> {
-    return this.http.get<any>(`${this.endpoint_student}/teacher/set/grupalCourse/${courseCost}/${teacherId}/${studentId}`)
+  addNewGrupalCourse(courseCost: any, teacherId: number, studentId: number, grupalCourseId: number): Observable<any> {
+    return this.http.get<any>(`${this.endpoint_student}/teacher/set/grupalCourse/${courseCost}/${teacherId}/${studentId}/${grupalCourseId}`)
   }
 
   getTutoriasDetailsForStudent(studentId: number) {
